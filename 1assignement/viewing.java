@@ -6,8 +6,8 @@ import javax.media.j3d.BranchGroup;
 public class Viewing{
   int sizex;
   int sizez;
-  SimpleUniverse universe = new SimpleUniverse();
-  BranchGroup group = new BranchGroup();
+  SimpleUniverse universe =;
+  BranchGroup group;
 
 
 
@@ -24,7 +24,22 @@ public class Viewing{
 
   public void drawParticles(Particle[] particles){
     for(int i=0;i<particles.length;i++){
+      Sphere sphere = new Sphere(0.05f);
+      TransformGroup tg = new TransformGroup();
+      Transform3D transform = new Transform3D();
 
+Vector3f vector = new Vector3f( x, .0f, .0f);
+
+transform.setTranslation(vector);
+
+tg.setTransform(transform);
+
+tg.addChild(sphere);
+
+group.addChild(tg);
+
+
+      this.group.addChild(newColorCube)
     }
 
 
