@@ -1,4 +1,4 @@
-class Particle{
+public class Particle{
 
   private double m;//not equal to 0!!!
   private double[3] pos;//X,Y,Z
@@ -50,5 +50,7 @@ public void calculatePos(){
   this.previouspos=x;
 
 }
+
+
 
 }

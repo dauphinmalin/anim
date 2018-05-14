@@ -1,8 +1,14 @@
-#include <iostream>
+public class Viewing{
 
-#include <GLFW\glfw3.h>
 
-int main(){
 
-  GLFWwindow* window = glfwCreateWindow(640, 480, "My Title", NULL, NULL);
+
+
+  public void Viewing(int sizex,int sizey){}
+
+  public void drawParticles(Particle[] particles){
+    
+  }
+
+
 }
