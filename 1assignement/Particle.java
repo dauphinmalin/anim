@@ -6,18 +6,21 @@ public class Particle{
   private double[] vel;
   private double[] f;//force on X,force Y,force Z
   private double dt;
+  private double radius;//radius to display the particle
 
 
-public Particle(double m,double[] pos,double[] vel,double[] f,double dt){
+public Particle(double m,double[] pos,double[] vel,double[] f,double dt,double radius){
   if(m>0){
   this.m=m;
-
+    this.previouspos=new double[3];
     this.pos=pos;
     for(int i=0;i<pos.length;i++){
     this.previouspos[i]=pos[i]-vel[i]*dt;
     }
     this.vel=vel;
     this.f=f;
+    this.radius=radius;
+    this.dt=dt;
 
 }
 //else throw "masse equal to 0!!"
@@ -35,6 +38,10 @@ public double getZ(){
   return this.pos[2];
 }
 
+public double getRadius(){
+  return this.radius;
+}
+
 public void setF(double fx,double fy,double fz){
   this.f[0]=fx;
   this.f[1]=fy;
@@ -43,13 +50,19 @@ public void setF(double fx,double fy,double fz){
 }
 
 public void calculatePos(){
-  double[] x={0,0,0};
-  x=this.pos;
-  for(i=0;i<3;i++){
-    this.pos[i]=2*this.pos[i]-this.previouspos[i]+this.dt*this.dt*this.f[i]/this.m;//Verlet for x,y,z
+  double inter;
+  for(int i=0;i<3;i++){
+    inter=2*this.pos[i]-this.previouspos[i]+this.dt*this.dt*this.f[i]/this.m;//Verlet for x,y,z
+    this.previouspos[i]=this.pos[i];
+    this.pos[i]=inter;
+
+
+
+
+
 
   }
-  this.previouspos=x;
+
 
 }
 

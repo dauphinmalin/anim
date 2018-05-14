@@ -1,53 +1,67 @@
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import java.lang.Math;
+
+
+class Drawing extends JPanel{
+
+  Particle[] particles;
+  public Drawing(Particle[] particles){
+    this.particles=particles;
+  }
+    public void paintComponent(Graphics g) {
+       super.paintComponent(g);
+       for(int i=0;i<particles.length;i++){
+
+      ;
+      g.setColor(Color.blue);
+      g.fillOval((int)Math.round(100*this.particles[i].getX()),(int)Math.round(100*this.particles[i].getZ()),(int)Math.round(100*this.particles[i].getRadius()),(int)Math.round(100*this.particles[i].getRadius()));
+
+    }
+  }
+  public void move(Particle[] particles){
+    this.particles=particles;
+    repaint();
+  }
+
+}
 
 public class Viewing{
-  int sizex;
-  int sizez;
-  SimpleUniverse universe;
-  BranchGroup group;
+  private int sizex;
+  private int sizez;
+  private JFrame frame;
+  private Drawing panel;
 
 
 
 
 
-
-
-  public void Viewing(int sizex,int sizez){
+  public Viewing(int sizex,int sizez,Particle[] particles,String name){
     this.sizex=sizex;
     this.sizez=sizez;
-    this.universe = new SimpleUniverse();
-    this.group = new BranchGroup();
+    this.frame=new JFrame(name);
 
-    this.group.addChild(new ColorCube(0.3));
-
-   this.universe.getViewingPlatform().setNominalViewingTransform();
-
-   this.universe.addBranchGraph(group);
-
+    this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);   // Handle the CLOSE button
+    this.frame.pack();              // Either pack() the components; or setSize()
+    this.frame.setVisible(true);    // "super" JFrame show
+    this.frame.setSize(sizex,sizez);
+    this.panel= new Drawing(particles);
+    this.panel.setPreferredSize(new Dimension(this.sizex,this.sizez));
+    this.frame.setContentPane(this.panel);
+    //this.frame.setLayout(new GridLayout(2, 2));
   }
 
   public void drawParticles(Particle[] particles){
-    for(int i=0;i<particles.length;i++){
-      Sphere sphere = new Sphere(0.05f);
-      TransformGroup tg = new TransformGroup();
-      Transform3D transform = new Transform3D();
+      //Drawing panel = new Drawing(particles);
+    //  panel.setPreferredSize(new Dimension(this.sizex,this.sizez));
+      this.panel.move(particles);
 
-Vector3f vector = new Vector3f( x, .0f, .0f);
+      ///this.frame.setContentPane(panel);
+      //this.frame.validate();
+      //this.frame.repaint();
 
-transform.setTranslation(vector);
-
-tg.setTransform(transform);
-
-tg.addChild(sphere);
-
-group.addChild(tg);
-
-
-      this.group.addChild(newColorCube)
-    }
-
+      SwingUtilities.updateComponentTreeUI(this.frame);
 
   }
 
