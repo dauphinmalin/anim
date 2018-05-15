@@ -1,6 +1,6 @@
 
 
-class Task2{
+class Task1{
 	public static void main (String args[])throws InterruptedException {
 
 
@@ -14,10 +14,11 @@ class Task2{
 
 		double[] f = {0,0,9.8*m};
 		Particle p = new Particle(m, pos, vel, f, dt,0.2);
+
 		Particle[] particles = {p};
 
 		//Init for the viewer
-		Viewing viewer = new Viewing(950,650,particles,"Task1");
+		Viewing viewer = new Viewing(1000,1000,particles,"Task1");
 
 		int k=0;
 		long time=System.nanoTime();
@@ -29,10 +30,10 @@ class Task2{
 
 			for(int i=0;i<particles.length;i++){
 				particles[i].calculatePos();
-			Thread.sleep((int)(1000*dt));
+
 
 			}
-
+			Thread.sleep((int)(1000*dt));
 		}
 
 	}
