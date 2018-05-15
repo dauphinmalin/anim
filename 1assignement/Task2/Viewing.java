@@ -44,7 +44,7 @@ public class Viewing{
     this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     this.frame.pack();
     this.frame.setVisible(true);
-    this.frame.setSize(sizex,sizez);
+    this.frame.setSize(sizex,sizez+22);
     this.panel= new Drawing(particles);
     this.panel.setPreferredSize(new Dimension(this.sizex,this.sizez));
     this.frame.setContentPane(this.panel);

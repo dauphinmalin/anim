@@ -21,19 +21,19 @@ class Task3{
 
 		int k=0;
 		long time=System.nanoTime();
-		// while(true){
+		while(true){
 
 
-		// 	viewer.drawParticles(particles);
+			viewer.drawParticles(particles);
 
 
-		// 	for(int i=0;i<particles.length;i++){
-		// 		particles[i].calculatePos();
-		// 	Thread.sleep((int)(1000*dt));
+			for(int i=0;i<particles.length;i++){
+				particles[i].calculatePos();
+			Thread.sleep((int)(1000*dt));
 
-		// 	}
+			}
 
-		// }
+		}
 
 	}
 

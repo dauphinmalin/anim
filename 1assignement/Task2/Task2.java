@@ -10,7 +10,7 @@ class Task2{
 		double m = 1;
 		double dt = 0.001;
 		double[] pos ={2,5,2};//between 0 and 10 ratio 1/100, position size of the window
-		double[] vel = {1,1,1};
+		double[] vel = {1,1,-1};
 
 		double[] f = {0,0,9.8*m};
 		Particle p = new Particle(m, pos, vel, f, dt,0.2);

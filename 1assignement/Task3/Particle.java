@@ -64,13 +64,13 @@ public void calculatePos(){
     
 
   } 
-
-
+  if(inter[2] >)
   //Position-based
   this.pos[0] = inter[0] + (inter[2]-this.previouspos[2])*(900-20)/(500-30);
   this.previouspos[0] = this.pos[0];
   this.pos[1] = inter[1];
   this.pos[2] = inter[2];
+
 
 
 }

@@ -14,7 +14,7 @@ class Drawing extends JPanel{
        super.paintComponent(g);
        for(int i=0;i<particles.length;i++){
       g.setColor(Color.blue);
-      g.fillOval((int)Math.round(100*this.particles[i].getX()),(int)Math.round(100*this.particles[i].getZ()),(int)Math.round(100*this.particles[i].getRadius()),(int)Math.round(100*this.particles[i].getRadius()));
+      g.fillOval((int)Math.round(100*this.particles[i].getX())-,(int)Math.round(100*this.particles[i].getZ()),(int)Math.round(100*this.particles[i].getRadius()),(int)Math.round(100*this.particles[i].getRadius()));
       g.drawLine(20,30,900,500);
 
     }
@@ -44,7 +44,7 @@ public class Viewing{
     this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     this.frame.pack();
     this.frame.setVisible(true);
-    this.frame.setSize(sizex,sizez);
+    this.frame.setSize(sizex,sizez+22);
     this.panel= new Drawing(particles);
     this.panel.setPreferredSize(new Dimension(this.sizex,this.sizez));
     this.frame.setContentPane(this.panel);
