@@ -14,7 +14,6 @@ class Task1{
 
 		double[] f = {0,0,9.8*m};
 		Particle p = new Particle(m, pos, vel, f, dt,0.2);
-
 		Particle[] particles = {p};
 
 		//Init for the viewer

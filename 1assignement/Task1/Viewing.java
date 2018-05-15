@@ -13,8 +13,6 @@ class Drawing extends JPanel{
     public void paintComponent(Graphics g) {
        super.paintComponent(g);
        for(int i=0;i<particles.length;i++){
-
-      ;
       g.setColor(Color.blue);
       g.fillOval((int)Math.round(100*this.particles[i].getX()),(int)Math.round(100*this.particles[i].getZ()),(int)Math.round(100*this.particles[i].getRadius()),(int)Math.round(100*this.particles[i].getRadius()));
 
@@ -42,24 +40,20 @@ public class Viewing{
     this.sizez=sizez;
     this.frame=new JFrame(name);
 
-    this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);   // Handle the CLOSE button
-    this.frame.pack();              // Either pack() the components; or setSize()
-    this.frame.setVisible(true);    // "super" JFrame show
+    this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    this.frame.pack();
+    this.frame.setVisible(true);
     this.frame.setSize(sizex,sizez);
     this.panel= new Drawing(particles);
     this.panel.setPreferredSize(new Dimension(this.sizex,this.sizez));
     this.frame.setContentPane(this.panel);
-    //this.frame.setLayout(new GridLayout(2, 2));
+
   }
 
   public void drawParticles(Particle[] particles){
-      //Drawing panel = new Drawing(particles);
-    //  panel.setPreferredSize(new Dimension(this.sizex,this.sizez));
+
       this.panel.move(particles);
 
-      ///this.frame.setContentPane(panel);
-      //this.frame.validate();
-      //this.frame.repaint();
 
       SwingUtilities.updateComponentTreeUI(this.frame);
 
