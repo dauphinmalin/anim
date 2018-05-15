@@ -52,30 +52,25 @@ public void setF(double fx,double fy,double fz){
 }
 
 public void calculatePos(){
-  double inter;
+  
+  double[] inter = new double[3];
   System.out.println(this.pos[2]);
+
   for(int i=0;i<3;i++){
-    inter=2*this.pos[i]-this.previouspos[i]+this.dt*this.dt*this.f[i]/this.m;//Verlet for x,y,z
-    if(inter>(this.posMAX[i]-this.radius)){
-      double vel=-this.cr*(this.pos[i]-this.previouspos[i]);
-      this.previouspos[i]=this.pos[i]-vel;
-      this.pos[i]=this.posMAX[i]-this.radius;
-    }
-    else if(inter<this.radius){
-      double vel=-this.cr*(this.pos[i]-this.previouspos[i]);
-      this.previouspos[i]=this.pos[i]-vel;
-      this.pos[i]=this.radius;
-    }
-    else{
-    this.previouspos[i]=this.pos[i];
-    this.pos[i]=inter;
-    }
+    //Verlet for x,y,z
+    inter[i] = 2*this.pos[i]-this.previouspos[i]+this.dt*this.dt*this.f[i]/this.m;
+
+    this.previouspos[i] = this.pos[i];
+    
+
+  } 
 
 
-
-
-
-  }
+  //Position-based
+  this.pos[0] = inter[0] + (inter[2]-this.previouspos[2])*(900-20)/(500-30);
+  this.previouspos[0] = this.pos[0];
+  this.pos[1] = inter[1];
+  this.pos[2] = inter[2];
 
 
 }
