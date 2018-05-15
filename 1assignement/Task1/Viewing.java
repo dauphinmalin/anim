@@ -13,8 +13,9 @@ class Drawing extends JPanel{
     public void paintComponent(Graphics g) {
        super.paintComponent(g);
        for(int i=0;i<particles.length;i++){
+      int radius=(int)Math.round(100*this.particles[i].getRadius());
       g.setColor(Color.blue);
-      g.fillOval((int)Math.round(100*this.particles[i].getX()),(int)Math.round(100*this.particles[i].getZ()),(int)Math.round(100*this.particles[i].getRadius()),(int)Math.round(100*this.particles[i].getRadius()));
+      g.fillOval((int)Math.round(100*this.particles[i].getX())-radius,(int)Math.round(100*this.particles[i].getZ())-radius,2*radius,2*radius);
 
     }
   }
@@ -47,7 +48,7 @@ public class Viewing{
     this.panel= new Drawing(particles);
     this.panel.setPreferredSize(new Dimension(this.sizex,this.sizez));
     this.frame.setContentPane(this.panel);
-
+    SwingUtilities.updateComponentTreeUI(this.frame);
   }
 
   public void drawParticles(Particle[] particles){
@@ -55,7 +56,6 @@ public class Viewing{
       this.panel.move(particles);
 
 
-      SwingUtilities.updateComponentTreeUI(this.frame);
 
   }
 
