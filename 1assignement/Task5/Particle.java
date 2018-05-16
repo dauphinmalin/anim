@@ -29,7 +29,7 @@ public Particle(double m,double[] pos,double[] vel,double[] f,double dt,double r
     this.vel=vel;
     this.f=f;
     this.radius=radius;
-    
+
 
 }
 //else throw "masse equal to 0!!"
@@ -105,7 +105,7 @@ public void setPreviousPos(double px,double py,double pz){
 //   double inter;
 //   for(int i=0;i<3;i++){
 //     inter=2*this.pos[i]-this.previouspos[i]+this.dt*this.dt*this.f[i]/this.m;//Verlet for x,y,z
-    
+
 
 //     if(inter>(this.posMAX[i]-this.radius)){
 //       this.vel[i]=-this.cr*(inter-this.pos[i]);
@@ -133,7 +133,7 @@ public void calculatePos(){
 
 public void borderResponse(){
 
-  for(int i=0;i<3;i++){    
+  for(int i=0;i<3;i++){
 
     if(this.nextpos[i]>(this.posMAX[i]-this.radius)){
       this.vel[i]=-this.cr*(this.nextpos[i]-this.pos[i]);
@@ -163,13 +163,13 @@ public void calculateForce(Particle[] particles){
         double distance = Math.sqrt(x*x+z*z);
         if(distance!=0){
           double force = this.gcst*this.m*particles[i].getM()/(distance*distance*distance);
+
           this.f[0] += force*x;
           this.f[2] += force*z;
         }
-        else 
-          break;
       }
-    }
+
+    }System.out.println(this.f[0]);
 }
 
 
