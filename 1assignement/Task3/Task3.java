@@ -50,9 +50,8 @@ class Task3{
 			for(int i=0;i<particles.length;i++){
 				particles[i].calculatePos(viewer.getT(), viewer.getD());
 				// particles[i].calculatePosF();
-			Thread.sleep((int)(1000*dt));
-
 			}
+			Thread.sleep((int)(1000*dt));
 
 		}
 
