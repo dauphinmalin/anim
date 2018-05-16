@@ -29,8 +29,6 @@ class Task1{
 
 			for(int i=0;i<particles.length;i++){
 				particles[i].calculatePos();
-
-
 			}
 			Thread.sleep((int)(1000*dt));
 		}
