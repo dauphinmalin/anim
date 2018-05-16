@@ -291,9 +291,7 @@ public ArrayList<Integer[]> checkCollision(){
       Integer[] tab=iterator.next();
       if(tab[0]==-1){iterator.remove();}
       else{
-      System.out.println("new couple");
       for(int i=0;i<tab.length;i++){
-        System.out.println(tab[i]);
       }
       }
 
