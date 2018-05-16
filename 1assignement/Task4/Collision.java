@@ -9,24 +9,45 @@ class Cluster{
   public double xMax;
   public double zMax;
 
-public Cluster(int[] elements,double xmin,double xmax,double zmin,double zmax){
-  this.elements=elements;
-  this.xMin=xmin;
-  this.xMax=xmax;
-  this.zMin=zmin;
-  this.zMax=zmax;
-  }
-public void Show(){
-  System.out.println("cluster :");
-  for(int i=0;i<elements.length;i++){
-   System.out.println(elements[i]);
 
+  public Cluster(int[] elements,double xmin,double xmax,double zmin,double zmax){
+    this.elements=elements;
+    this.xMin=xmin;
+    this.xMax=xmax;
+    this.zMin=zmin;
+    this.zMax=zmax;
   }
-  //System.out.println("xmin : "+this.xMin+"   xmax : "+this.xMax);
 
+
+  public void Show(){
+    System.out.println("cluster :");
+    for(int i=0;i<elements.length;i++){
+      System.out.println(elements[i]);
+
+    }
+  }
+
+
+  public boolean Col(Cluster c){
+    double xmin=this.xMin+c.xMin-c.xMax;
+    double xmax=this.xMax;
+    double zmin=this.zMin+c.zMin-c.zMax;
+    double zmax=this.zMax;
+    if(xmin<=c.xMin && c.xMin<=xmax){
+      if(zmin<=c.zMin && c.zMin<=zmax){
+        return true;
+
+      }
+      else{
+        return false;
+      }
+    }
+    else{
+      return false;
+    }
+  }
 }
 
-}
 
 class Tree{
   Cluster cluster;
@@ -36,22 +57,20 @@ class Tree{
   private static Particle[] particles=null;
 
 
+  public Tree(Cluster cluster){
+    this.cluster=cluster;
+    this.left=null;
+    this.right=null;
+    this.checked=false;
+  }
 
 
-
-public Tree(Cluster cluster){
-  this.cluster=cluster;
-  this.left=null;
-  this.right=null;
-}
+  public void setParticles(Particle[] particles){
+    this.particles=particles;
+  }
 
 
-
-public void setParticles(Particle[] particles){
-  this.particles=particles;
-}
-
-public Cluster[] Clustering(int[] tab){
+  public Cluster[] Clustering(int[] tab){
     ArrayList<Integer> a=new ArrayList<Integer>();
     ArrayList<Integer> b=new ArrayList<Integer>();
     ArrayList<Integer> a1=new ArrayList<Integer>();
@@ -77,7 +96,7 @@ public Cluster[] Clustering(int[] tab){
       a.add(tab[i]);
       medx1=this.particles[tab[i]].getX()+medx1;
       medz1=this.particles[tab[i]].getZ()+medz1;
-      }
+    }
     medx1=medx1/i;
     medz1=medz1/i;
     while(i<tab.length){
@@ -85,26 +104,20 @@ public Cluster[] Clustering(int[] tab){
       medx2=this.particles[tab[i]].getX()+medx2;
       medz2=this.particles[tab[i]].getZ()+medz2;
       i++;
-      }
-
-      medx2=medx2/(i-tab.length/2);
-      medz2=medz2/(i-tab.length/2);
-
-
+    }
+    medx2=medx2/(i-tab.length/2);
+    medz2=medz2/(i-tab.length/2);
     while(!a.equals(a1) && !b.equals(b1)){
-
-
       a1.clear();
       b1.clear();
       for (int j : a) {
         a1.add(j);
-    }
-    for (int j : b) {
-      b1.add(j);
-  }
+      }
+      for (int j : b) {
+        b1.add(j);
+      }
       a.clear();
       b.clear();
-
       prevMedx1=medx1;
       prevMedz1=medz1;
       prevMedx2=medx2;
@@ -123,11 +136,9 @@ public Cluster[] Clustering(int[] tab){
       medz2=0;
       int k1=0;
       int k2=0;
-
       for(i=0;i<tab.length;i++){
         double x=this.particles[tab[i]].getX();
         double z= this.particles[tab[i]].getZ();
-
         double radius=this.particles[tab[i]].getRadius();
         if(Math.abs(prevMedx1-x)+Math.abs(prevMedz1-z)< Math.abs(prevMedx2-x)+Math.abs(prevMedz2-z)){
           a.add(tab[i]);
@@ -138,9 +149,6 @@ public Cluster[] Clustering(int[] tab){
           if(x+radius>axmax){axmax=x+radius;}
           if(z-radius<azmin){azmin=z-radius;}
           if(z+radius>azmax){azmax=z+radius;}
-
-
-
         }
         else{
           b.add(tab[i]);
@@ -149,7 +157,6 @@ public Cluster[] Clustering(int[] tab){
           k2+=1;
           if(x-radius<bxmin){bxmin=x-radius;}
           if(x+radius>bxmax){bxmax=x+radius;}
-        //  System.out.println("bxmax : " + bxmax);
           if(z-radius<bzmin){bzmin=z-radius;}
           if (z+radius>bzmax){bzmax=z+radius;}
         }
@@ -163,92 +170,82 @@ public Cluster[] Clustering(int[] tab){
     Iterator<Integer> iteratora = a.iterator();
     for (i = 0; i < left.length; i++)
     {
-        left[i] = iteratora.next().intValue();
+      left[i] = iteratora.next().intValue();
     }
     int[] right = new int[b.size()];
     Iterator<Integer> iteratorb = b.iterator();
     for (i = 0; i < right.length; i++)
     {
-        right[i] = iteratorb.next().intValue();
+      right[i] = iteratorb.next().intValue();
     }
     Cluster cleft=new Cluster(left,axmin,axmax,azmin,azmax);
     Cluster cright=new Cluster(right,bxmin,bxmax,bzmin,bzmax);
     Cluster[] result={cleft,cright};
 
     return  result;
-}
-
-
-
-public void RecursionCluster(){
-  //this.cluster.Show();
-  if (this.cluster.elements.length>1){
-  Cluster[] result=this.Clustering(this.cluster.elements);
-  this.left=new Tree(result[0]);
-  this.right=new Tree(result[1]);
-  this.left.RecursionCluster();
-  this.right.RecursionCluster();
   }
 
-}
+
+  public void RecursionCluster(){
+    if (this.cluster.elements.length>1){
+      Cluster[] result=this.Clustering(this.cluster.elements);
+      this.left=new Tree(result[0]);
+      this.right=new Tree(result[1]);
+      this.left.RecursionCluster();
+      this.right.RecursionCluster();
+    }
+  }
 
 
-public ArrayList<Integer[]> RecursionCheck(Tree children){
-  //System.out.println("check");
-  boolean col=false;
-//  System.out.println("xmin : "+children.cluster.xMin+"   xmax : "+children.cluster.xMax);
-    double xmin=children.cluster.xMin+this.cluster.xMin-this.cluster.xMax;
-    double xmax=children.cluster.xMax;
-    double zmin=children.cluster.zMin+this.cluster.zMin-this.cluster.zMax;
-    double zmax=children.cluster.zMax;
-    if(xmin<=this.cluster.xMin && this.cluster.xMin<=xmax){
-      if(zmin<=this.cluster.zMin && this.cluster.zMin<=zmax){
-        col=true;
-
+  public ArrayList<Integer[]> RecursionChecklower(Tree bigger){
+    boolean col=this.cluster.Col(bigger.cluster);
+    ArrayList<Integer[]> list=new ArrayList<Integer[]>();
+    if(col){
+      if(this.cluster.elements.length>1){
+        list.addAll(bigger.RecursionChecklower(this.left));
+        list.addAll(bigger.RecursionChecklower(this.right));
       }
-    }
-
-  ArrayList<Integer[]> list=new ArrayList<Integer[]>();
-  if(this.cluster.elements.length>1){
-    if(!this.checked){
-    this.checked=true;
-    list.addAll(this.left.RecursionCheck(this.right));
-  }
-  if(col==true){
-
-
-    if(children.cluster.elements.length>1){
-    list.addAll(this.left.RecursionCheck(children));
-    list.addAll(this.right.RecursionCheck(children));
-    }
-    else{
-      list.addAll(this.left.RecursionCheck(children));
-      list.addAll(this.right.RecursionCheck(children));
-    }
-    }
-
-    }
-  else{
-    if(col==true){
-      if(children.cluster.elements.length>1){
-        list.addAll(children.RecursionCheck(this));
-        //list.addAll(this.RecursionCheck(children));
+      else if(bigger.cluster.elements.length>1){
+        list.addAll(this.RecursionChecklower(bigger.left));
+        list.addAll(this.RecursionChecklower(bigger.right));
       }
       else{
-      Integer[] tab={this.cluster.elements[0],children.cluster.elements[0]};
-      list.add(tab);
+        Integer[] tab={this.cluster.elements[0],bigger.cluster.elements[0]};
+        list.add(tab);
+      }
     }
-
-    }
-    else{Integer[] tab={-1,-1};
-    list.add(tab);}
-
-  }
-
-      return list;
+    return list;
   }
 
 
+  public ArrayList<Integer[]> RecursionCheck(){
+    ArrayList<Integer[]> list=new ArrayList<Integer[]>();
+    if(!this.checked){
+      this.checked=true;
+      boolean col=false;
+      if(this.cluster.elements.length>1){
+        list.addAll(this.left.RecursionCheck());
+        list.addAll(this.right.RecursionCheck());
+        col=this.left.cluster.Col(this.right.cluster);
+        if (col){
+          if(this.right.cluster.elements.length>1){
+            list.addAll(this.left.RecursionChecklower(this.right.left));
+            list.addAll(this.left.RecursionChecklower(this.right.right));
+          }
+          else if(this.left.cluster.elements.length>1){
+            list.addAll(this.right.RecursionChecklower(this.left.left));
+            list.addAll(this.right.RecursionChecklower(this.left.right));
+          }
+          else{
+            Integer[] tab={this.left.cluster.elements[0],this.right.cluster.elements[0]};
+            list.add(tab);
+
+          }
+        }
+      }
+    }
+    return list;
+  }
 }
 
 
@@ -261,52 +258,41 @@ public class Collision{
   double sizez;
 
 
-public Collision(Particle[] particles,double sizex,double sizez){
-  this.particles=particles;
-  this.sizex=sizex;
-  this.sizez=sizez;
-  int[] tab=new int[particles.length];
-  for(int i=0;i<particles.length;i++){
-    tab[i]=i;
+  public Collision(Particle[] particles,double sizex,double sizez){
+    this.particles=particles;
+    this.sizex=sizex;
+    this.sizez=sizez;
+    int[] tab=new int[particles.length];
+    for(int i=0;i<particles.length;i++){
+      tab[i]=i;
+    }
   }
 
-}
-
-
-
-public ArrayList<Integer[]> checkCollision(){
-  int[] inside=new int[this.particles.length];
-  for(int i=0;i<this.particles.length;i++){
-    inside[i]=i;
-  }
-  //Tree.setParticles(this.particles);
-  Cluster cluster=new Cluster(inside,0,0,this.sizex,this.sizez);
-  this.collisionTree= new Tree(cluster);
-  this.collisionTree.setParticles(this.particles);
-  this.collisionTree.RecursionCluster();
-  if(this.collisionTree.cluster.elements.length>1){
-    ArrayList<Integer[]> list=this.collisionTree.left.RecursionCheck(this.collisionTree.right);
-    Iterator<Integer[]> iterator = list.iterator();
-		while (iterator.hasNext()) {
-      Integer[] tab=iterator.next();
-      if(tab[0]==-1){iterator.remove();}
-      else{
-      for(int i=0;i<tab.length;i++){
+  
+  public ArrayList<Integer[]> checkCollision(){
+    int[] inside=new int[this.particles.length];
+    for(int i=0;i<this.particles.length;i++){
+      inside[i]=i;
+    }
+    Cluster cluster=new Cluster(inside,0,0,this.sizex,this.sizez);
+    this.collisionTree= new Tree(cluster);
+    this.collisionTree.setParticles(this.particles);
+    this.collisionTree.RecursionCluster();
+    if(this.collisionTree.cluster.elements.length>1){
+      ArrayList<Integer[]> list=this.collisionTree.RecursionCheck();
+      Iterator<Integer[]> iterator = list.iterator();
+      while (iterator.hasNext()) {
+        Integer[] tab=iterator.next();
+        if(tab[0]==-1){iterator.remove();}
+        else{
+          for(int i=0;i<tab.length;i++){
+          }
+        }
       }
-      }
-
-		}
-
-    return list;
+      return list;
+    }
+    else{
+      return null;
+    }
   }
-  else{
-    return null;
-
-  }
-
-
-
-
-
-}
 }

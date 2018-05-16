@@ -34,17 +34,6 @@ class Task4{
 		//Collision
 		Collision collision = new Collision(particles, 9.5, 6.5);
 
-		//get a tab from checkCollision;
-		// int[][] tab = collision.checkCollision();
-		// int[][] tab = {{0,1},{0,2},{0,3},{0,4},{0,5},{0,6},{0,7},{0,8},{0,9},
-		// 				{1,2},{1,3},{1,4},{1,5},{1,6},{1,7},{1,8},{1,9},
-		// 				{2,3},{2,4},{2,5},{2,6},{2,7},{2,8},{2,9},
-		// 				{3,4},{3,5},{3,6},{3,7},{3,8},{3,9},
-		// 				{4,5},{4,6},{4,7},{4,8},{4,9},
-		// 				{5,6},{5,7},{5,8},{5,9},
-		// 				{6,7},{6,8},{6,9},
-		// 				{7,8},{7,9},
-		// 				{8,9}};
 
 		ArrayList<Integer[]> list = collision.checkCollision();
 		Iterator<Integer[]> iterator;
@@ -63,16 +52,11 @@ class Task4{
 		//Init for the viewer
 		Viewing viewer = new Viewing(950,650,particles,"Task4");
 
-		
+
 		while(true){
 
 
 			viewer.drawParticles(particles);
-
-			//get a tab from checkCollision;
-			// tab = collision.checkCollision();
-
-			
 			for(int i=0;i<particles.length;i++){
 				particles[i].calculatePos();
 				particles[i].borderResponse();
@@ -83,14 +67,6 @@ class Task4{
 				collisionResponse(iterator.next(), particles);
 
 			}
-
-
-			//collision response
-			// for (int i=0; i<tab.length; i++){
-
-			// 	collisionResponse(tab[i]);
-
-			// }
 
 			Thread.sleep((int)(1000*dt));
 
