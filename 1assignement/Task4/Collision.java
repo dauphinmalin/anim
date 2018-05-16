@@ -9,45 +9,44 @@ class Cluster{
   public double xMax;
   public double zMax;
 
-Public Cluster(int[] elements,xmin,zmin,xmax,zmax){
+public Cluster(int[] elements,double xmin,double xmax,double zmin,double zmax){
   this.elements=elements;
   this.xMin=xmin;
   this.xMax=xmax;
   this.zMin=zmin;
   this.zMax=zmax;
+  }
+public void Show(){
+  System.out.println("cluster :");
+  for(int i=0;i<elements.length;i++){
+   System.out.println(elements[i]);
+
+  }
+  //System.out.println("xmin : "+this.xMin+"   xmax : "+this.xMax);
+
 }
 
 }
 
 class Tree{
   Cluster cluster;
-  private Tree right;
-  private Tree left;
-  static Particle[] particles=null;
+  Tree right;
+  Tree left;
+  private static Particle[] particles=null;
+
+
 
 
 
 public Tree(Cluster cluster){
   this.cluster=cluster;
-  this.x=x;
-  this.z=z;
   this.left=null;
   this.right=null;
 }
 
-public int[] getInside(){
-  return this.inside;
-}
 
-public double getX(){
-  return this.x;
-}
 
-public double getZ(){
-  return this.z;
-}
-
-public setParticles(Particle[] particles){
+public void setParticles(Particle[] particles){
   this.particles=particles;
 }
 
@@ -65,22 +64,19 @@ public Cluster[] Clustering(int[] tab){
     double prevMedz1=0;
     double prevMedx2=0;
     double prevMedz2=0;
-    double axmin=1000000000000000000000;
-    double bxmin=1000000000000000000000;
-    double azmin=1000000000000000000000;
-    double bzmin=1000000000000000000000;
-    double axmax=0;
-    double azmax=0;
-    double azmax=0;
-    double bzmax=0;
+    double bxmin=100000000000000.0;
+    double azmin=100000000000000.0;
+    double axmin=100000000000000.0;
+    double bzmin=100000000000000.0;
+    double axmax=-11111.000;
+    double azmax=-11111.000;
+    double bxmax=-11111.000;
+    double bzmax=-11111.000;
     for(i=0;i<tab.length/2;i++){
       a.add(tab[i]);
       medx1=this.particles[tab[i]].getX()+medx1;
       medz1=this.particles[tab[i]].getZ()+medz1;
-      if
-
-
-    }
+      }
     medx1=medx1/i;
     medz1=medz1/i;
     while(i<tab.length){
@@ -89,12 +85,13 @@ public Cluster[] Clustering(int[] tab){
       medz2=this.particles[tab[i]].getZ()+medz2;
       i++;
       }
-      medx2=medx2/(i-tab.length/2-tab.length%2);
-      medz2=medz2/(i-tab.length/2-tab.length%2);
+
+      medx2=medx2/(i-tab.length/2);
+      medz2=medz2/(i-tab.length/2);
 
 
     while(!a.equals(a1) && !b.equals(b1)){
-      System.out.println("loop");
+
 
       a1.clear();
       b1.clear();
@@ -111,18 +108,14 @@ public Cluster[] Clustering(int[] tab){
       prevMedz1=medz1;
       prevMedx2=medx2;
       prevMedz2=medz2;
-      axmin=1000000000000000;
-      bxmin=1000000000000000;
-      azmin=1000000000000000;
-      bzmin=1000000000000000;
-      axmax=0;
-      azmax=0;
-      azmax=0;
-      bzmax=0;
-
-
-      System.out.println("prevmedx1: "+prevMedx1+"     prevmedz1: "+prevMedz1);
-      System.out.println("prevmedx2: "+prevMedx2+"     prevmedz2: "+prevMedz2);
+      axmin=1000000000000.0;
+      bxmin=1000000000000.0;
+      azmin=1000000000000.0;
+      bzmin=1000000000000.0;
+      axmax=-1111111111;
+      azmax=-1111111111;
+      azmax=-1111111111;
+      bzmax=-1111111111;
       medx1=0;
       medz1=0;
       medx2=0;
@@ -133,15 +126,17 @@ public Cluster[] Clustering(int[] tab){
       for(i=0;i<tab.length;i++){
         double x=this.particles[tab[i]].getX();
         double z= this.particles[tab[i]].getZ();
-        if(Math.abs(prevMedx1-x)+Math.abs(prevMedz1-z)<Math.abs(prevMedx2-x)+Math.abs(prevMedz2-z)){
+
+        double radius=this.particles[tab[i]].getRadius();
+        if(Math.abs(prevMedx1-x)+Math.abs(prevMedz1-z)< Math.abs(prevMedx2-x)+Math.abs(prevMedz2-z)){
           a.add(tab[i]);
           medx1+=x;
           medz1+=z;
           k1+=1;
-          if{x<axmin}{axmin=x;}
-          else if {x>axmax}{axmax=x}
-          if{x<azmin}{azmin=z;}
-          else if {z>azmax}{azmax=z}
+          if(x-radius<axmin){axmin=x-radius;}
+          if(x+radius>axmax){axmax=x+radius;}
+          if(z-radius<azmin){azmin=z-radius;}
+          if(z+radius>azmax){azmax=z+radius;}
 
 
 
@@ -151,10 +146,11 @@ public Cluster[] Clustering(int[] tab){
           medx2+=x;
           medz2+=z;
           k2+=1;
-          if{x<bxmin}{bxmin=x;}
-          else if {x>bxmax}{bxmax=x}
-          if{x<bzmin}{bzmin=z;}
-          else if {z>bzmax}{bzmax=z}
+          if(x-radius<bxmin){bxmin=x-radius;}
+          if(x+radius>bxmax){bxmax=x+radius;}
+        //  System.out.println("bxmax : " + bxmax);
+          if(z-radius<bzmin){bzmin=z-radius;}
+          if (z+radius>bzmax){bzmax=z+radius;}
         }
       }
       medx1=medx1/k1;
@@ -174,10 +170,9 @@ public Cluster[] Clustering(int[] tab){
     {
         right[i] = iteratorb.next().intValue();
     }
-
     Cluster cleft=new Cluster(left,axmin,axmax,azmin,azmax);
-    Cluster cleft=new Cluster(left,bxmin,bxmax,bzmin,bzmax);
-    Cluster[] result={left,right};
+    Cluster cright=new Cluster(right,bxmin,bxmax,bzmin,bzmax);
+    Cluster[] result={cleft,cright};
 
 
 
@@ -186,52 +181,128 @@ public Cluster[] Clustering(int[] tab){
 
 
 
-public void Recursion(){
+public void RecursionCluster(){
+  //this.cluster.Show();
   if (this.cluster.elements.length>1){
+  Cluster[] result=this.Clustering(this.cluster.elements);
+  this.left=new Tree(result[0]);
+  this.right=new Tree(result[1]);
+  this.left.RecursionCluster();
+  this.right.RecursionCluster();
+  }
+
+}
 
 
-  Cluster[] result=this.cluster(this.inside);
-  this.left=new Tree(Cluster[0]);
-  this.right=new Tree(Cluster[1]);
-  this.left.Recursion();
-  this.right.Recursion();
+public ArrayList<Integer[]> RecursionCheck(Tree children){
+  //System.out.println("check");
+  boolean col=false;
+//  System.out.println("xmin : "+children.cluster.xMin+"   xmax : "+children.cluster.xMax);
+    double xmin=children.cluster.xMin+this.cluster.xMin-this.cluster.xMax;
+    double xmax=children.cluster.xMax;
+    double zmin=children.cluster.zMin+this.cluster.zMin-this.cluster.zMax;
+    double zmax=children.cluster.zMax;
+    if(xmin<=this.cluster.xMin && this.cluster.xMin<=xmax){
+      if(zmin<=this.cluster.zMin && this.cluster.zMin<=zmax){
+        col=true;
+
+      }
+    }
+
+
+    if(col==true){
+      //System.out.println("true");
+    }
+  ArrayList<Integer[]> list=new ArrayList<Integer[]>();
+  if(this.cluster.elements.length>1){
+    list.addAll(this.left.RecursionCheck(this.right));
+  if(col==true){
+
+
+    if(children.cluster.elements.length>1){
+    list.addAll(children.right.RecursionCheck(children.left));
+    list.addAll(children.RecursionCheck(this.left));
+    list.addAll(children.RecursionCheck(this.right));
+    }
+    else{
+      list.addAll(this.left.RecursionCheck(children));
+      list.addAll(this.right.RecursionCheck(children));
+    }
+    }
+
+    }
+  else{
+    if(col==true){
+      if(children.cluster.elements.length>1){
+        list.addAll(this.RecursionCheck(children.left));
+        list.addAll(this.RecursionCheck(children.right));
+      }
+      else{
+      Integer[] tab={this.cluster.elements[0],children.cluster.elements[0]};
+      list.add(tab);
+    }
+
+    }
+    else{Integer[] tab={-1,-1};
+    list.add(tab);}
+
+  }
+
+      return list;
   }
 
 
-
-
-
-
-
-
-
 }
-}
+
+
+
 
 public class Collision{
   Particle[] particles;
   Tree collisionTree;
+  double sizex;
+  double sizez;
 
 
 public Collision(Particle[] particles,double sizex,double sizez){
   this.particles=particles;
+  this.sizex=sizex;
+  this.sizez=sizez;
   int[] tab=new int[particles.length];
   for(int i=0;i<particles.length;i++){
     tab[i]=i;
   }
-  this.collisionTree=new Tree(tab,sizex,sizez);
+
 }
 
 
 
-public void checkColision(){
+public int[][] checkCollision(){
   int[] inside=new int[this.particles.length];
   for(int i=0;i<this.particles.length;i++){
     inside[i]=i;
   }
+  //Tree.setParticles(this.particles);
   Cluster cluster=new Cluster(inside,0,0,this.sizex,this.sizez);
-  Tree tree= new Tree(cluster);
-  tree.Collision();
+  this.collisionTree= new Tree(cluster);
+  this.collisionTree.setParticles(this.particles);
+  this.collisionTree.RecursionCluster();
+  if(this.collisionTree.cluster.elements.length>1){
+    ArrayList<Integer[]> list=this.collisionTree.left.RecursionCheck(this.collisionTree.right);
+    Iterator<Integer[]> Iterator = list.iterator();
+		while (Iterator.hasNext()) {
+      Integer[] tab=Iterator.next();
+      System.out.println("new couple");
+      for(int i=0;i<tab.length;i++){
+        System.out.println(tab[i]);
+      }
 
+		}
+  }
+
+
+
+  int[][] tab={{0}};
+return tab;
 }
 }
