@@ -31,7 +31,7 @@ class Task5{
 
 			// double[] po = {3.0,0.0,3.0};
 			particles[i]=new Particle(m,po1, vel1, f, dt,radius);
-			particles[0]=new Particle(10e11,po, vel0, f, dt,radius);
+			particles[0]=new Particle(100,po, vel0, f, dt,radius);
 
 
 		}
