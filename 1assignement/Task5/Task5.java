@@ -30,8 +30,8 @@ class Task5{
 
 
 			// double[] po = {3.0,0.0,3.0};
-			particles[i]=new Particle(10,po1, vel1, f, dt,radius);
-			particles[0]=new Particle(10,po, vel0, f, dt,radius);
+			particles[i]=new Particle(m,po1, vel1, f, dt,radius);
+			particles[0]=new Particle(1000,po, vel0, f, dt,radius);
 
 
 		}

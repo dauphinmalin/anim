@@ -159,9 +159,13 @@ public void calculateForce(Particle[] particles){
         double x = particles[i].getX() - this.pos[0];
         double z = particles[i].getZ() - this.pos[2];
         double distance = Math.sqrt(x*x+z*z);
-        double force = this.gcst*this.m*particles[i].getM()/(distance*distance*distance);
-        this.f[0] += force*x;
-        this.f[2] += force*z;
+        if(distance!=0){
+          double force = this.gcst*this.m*particles[i].getM()/(distance*distance*distance);
+          this.f[0] += force*x;
+          this.f[2] += force*z;
+        }
+        else 
+          break;
       }
     }
 }
