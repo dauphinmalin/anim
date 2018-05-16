@@ -1,3 +1,10 @@
+private class Tree{
+  x1;
+  z1;
+  int[] inside;
+}
+
+
 public class Particle{
 
   private double m;//not equal to 0!!!
@@ -53,16 +60,17 @@ public void setF(double fx,double fy,double fz){
 
 public void calculatePos(){
   double inter;
+  System.out.println(this.pos[2]);
   for(int i=0;i<3;i++){
     inter=2*this.pos[i]-this.previouspos[i]+this.dt*this.dt*this.f[i]/this.m;//Verlet for x,y,z
     if(inter>(this.posMAX[i]-this.radius)){
-      double vel=-this.cr*(inter-this.pos[i]);
-      this.previouspos[i]=this.posMAX[i]-this.radius-vel;
+      double vel=-this.cr*(this.pos[i]-this.previouspos[i]);
+      this.previouspos[i]=this.pos[i]-vel;
       this.pos[i]=this.posMAX[i]-this.radius;
     }
     else if(inter<this.radius){
-      double vel=-this.cr*(inter-this.pos[i]);
-      this.previouspos[i]=this.radius-vel;
+      double vel=-this.cr*(this.pos[i]-this.previouspos[i]);
+      this.previouspos[i]=this.pos[i]-vel;
       this.pos[i]=this.radius;
     }
     else{
@@ -78,6 +86,8 @@ public void calculatePos(){
 
 
 }
+
+
 
 
 

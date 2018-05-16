@@ -49,6 +49,7 @@ public class Viewing{
     this.panel.setPreferredSize(new Dimension(this.sizex,this.sizez));
     this.frame.setContentPane(this.panel);
     SwingUtilities.updateComponentTreeUI(this.frame);
+
   }
 
   public void drawParticles(Particle[] particles){
