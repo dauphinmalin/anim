@@ -32,6 +32,7 @@ class Tree{
   Cluster cluster;
   Tree right;
   Tree left;
+  boolean checked;
   private static Particle[] particles=null;
 
 
@@ -174,8 +175,6 @@ public Cluster[] Clustering(int[] tab){
     Cluster cright=new Cluster(right,bxmin,bxmax,bzmin,bzmax);
     Cluster[] result={cleft,cright};
 
-
-
     return  result;
 }
 
@@ -209,20 +208,18 @@ public ArrayList<Integer[]> RecursionCheck(Tree children){
       }
     }
 
-
-    if(col==true){
-      //System.out.println("true");
-    }
   ArrayList<Integer[]> list=new ArrayList<Integer[]>();
   if(this.cluster.elements.length>1){
+    if(!this.checked){
+    this.checked=true;
     list.addAll(this.left.RecursionCheck(this.right));
+  }
   if(col==true){
 
 
     if(children.cluster.elements.length>1){
-    list.addAll(children.right.RecursionCheck(children.left));
-    list.addAll(children.RecursionCheck(this.left));
-    list.addAll(children.RecursionCheck(this.right));
+    list.addAll(this.left.RecursionCheck(children));
+    list.addAll(this.right.RecursionCheck(children));
     }
     else{
       list.addAll(this.left.RecursionCheck(children));
@@ -234,8 +231,8 @@ public ArrayList<Integer[]> RecursionCheck(Tree children){
   else{
     if(col==true){
       if(children.cluster.elements.length>1){
-        list.addAll(this.RecursionCheck(children.left));
-        list.addAll(this.RecursionCheck(children.right));
+        list.addAll(children.RecursionCheck(this));
+        //list.addAll(this.RecursionCheck(children));
       }
       else{
       Integer[] tab={this.cluster.elements[0],children.cluster.elements[0]};
@@ -277,7 +274,7 @@ public Collision(Particle[] particles,double sizex,double sizez){
 
 
 
-public int[][] checkCollision(){
+public ArrayList<Integer[]> checkCollision(){
   int[] inside=new int[this.particles.length];
   for(int i=0;i<this.particles.length;i++){
     inside[i]=i;
@@ -298,11 +295,12 @@ public int[][] checkCollision(){
       }
 
 		}
+    return list;
   }
+  else{
+    return null;
 
 
-
-  int[][] tab={{0}};
-return tab;
+}
 }
 }
