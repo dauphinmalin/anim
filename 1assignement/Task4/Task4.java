@@ -12,9 +12,11 @@ class Task4{
 		double m = 1;
 		double dt = 0.001;
 		double radius=0.2;
+		int[] collisiontab=new int[n];
 
 		for(int i=0;i<n;i++){
-			double[] pos ={radius+(9.5-radius)*rand.nextDouble(),0,radius+(6.5-radius)*rand.nextDouble()};
+			collisiontab[i]=i;
+			double[] pos ={radius+(1-9.5*radius)*rand.nextDouble(),0,radius+(1-6.5*radius)*rand.nextDouble()};
 			double[] f = {0,0,0};
 			double[] vel = {2*rand.nextDouble(),0,2*rand.nextDouble()};
 
@@ -24,6 +26,7 @@ class Task4{
 
 		}
 
+
 		//between 0 and 10 ratio 1/100, position size of the window
 
 
@@ -31,7 +34,16 @@ class Task4{
 		//Init for the viewer
 		Viewing viewer = new Viewing(950,650,particles,"Task4");
 
-		int k=0;
+		Collision check = new Collision(particles,9.5,6.5);
+		int[][] cluster=check.Cluster(collisiontab);
+		System.out.println("left");
+		for(int i=0;i<cluster[0].length;i++){
+			System.out.println(cluster[0][i]);
+		}
+		System.out.println("right");
+		for(int i=0;i<cluster[1].length;i++){
+			System.out.println(cluster[1][i]);
+		}
 
 		// while(true){
 		//
