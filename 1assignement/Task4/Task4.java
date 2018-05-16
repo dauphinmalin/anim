@@ -26,10 +26,7 @@ class Task4{
 			particles[i]=new Particle(m,pos, vel, f, dt,radius);
 			// particles[0]=new Particle(m,po, vel, f, dt,radius);
 
-
 		}
-		Collision col= new Collision(particles,9.5,6.5);
-		ArrayList<Integer[]> tabi=col.checkCollision();
 
 
 		//between 0 and 10 ratio 1/100, position size of the window
@@ -50,12 +47,23 @@ class Task4{
 		// 				{8,9}};
 
 		ArrayList<Integer[]> list = collision.checkCollision();
+		Iterator<Integer[]> iterator;
+
+		for(int i=0;i<particles.length;i++){
+			particles[i].calculatePos();
+			particles[i].borderResponse();
+		}
+		// list = collision.checkCollision();
+		iterator = list.iterator();
+		while (iterator.hasNext()) {
+			collisionResponse(iterator.next(), particles);
+		}
+
 
 		//Init for the viewer
 		Viewing viewer = new Viewing(950,650,particles,"Task4");
 
-		Iterator<Integer[]> iterator;
-
+		
 		while(true){
 
 
@@ -64,19 +72,15 @@ class Task4{
 			//get a tab from checkCollision;
 			// tab = collision.checkCollision();
 
-
+			
 			for(int i=0;i<particles.length;i++){
 				particles[i].calculatePos();
 				particles[i].borderResponse();
 			}
-
+			list = collision.checkCollision();
 			iterator = list.iterator();
 			while (iterator.hasNext()) {
 				collisionResponse(iterator.next(), particles);
-
-
-			for(int j=0; j<tab.length;j++){
-				collisionResponse(tab[j], particles);
 
 			}
 
