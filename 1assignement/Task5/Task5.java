@@ -1,17 +1,20 @@
 import java.util.Random;
 
-class Task4{
+class Task5{
 	public static void main (String args[])throws InterruptedException {
 
 
 		//Init for the particle
 
 		Random rand = new Random();
-		int n=10;
+		int n=2;
+		// Arraylist<Particle> particles = new Arraylist<Particle>();
 		Particle[] particles = new Particle[n];
-		double m = 1;
-		double dt = 0.001;
-		double radius=0.2;
+		// double m = 1;
+		double[] vel0 = {0,0,0};
+		double[] po = {4.5,0,3.5};
+		double dt = 0.1;
+		// double radius=0.2;
 		int[] collisiontab=new int[n];
 
 		for(int i=0;i<n;i++){
@@ -20,15 +23,18 @@ class Task4{
 			double[] pos ={9.5*rand.nextDouble(),0,6.5*rand.nextDouble()};
 			double[] f = {0,0,0};
 			double[] vel = {4*rand.nextDouble(),0,4*rand.nextDouble()};
+			double m = 1*rand.nextDouble();
+			double radius=m;
+
 
 			// double[] po = {3.0,0.0,3.0};
-			particles[i]=new Particle(m,pos, vel, f, dt,radius);
-			// particles[0]=new Particle(m,po, vel, f, dt,radius);
+			particles[i]=new Particle(10,pos, vel0, f, dt,radius);
+			particles[0]=new Particle(10,po, vel0, f, dt,radius);
 
 
 		}
 
-
+		// particles.remove(1);
 		//between 0 and 10 ratio 1/100, position size of the window
 
 		//Collision
@@ -36,19 +42,21 @@ class Task4{
 
 		//get a tab from checkCollision;
 		// int[][] tab = collision.checkCollision();
-		int[][] tab = {{0,1},{0,2},{0,3},{0,4},{0,5},{0,6},{0,7},{0,8},{0,9},
-						{1,2},{1,3},{1,4},{1,5},{1,6},{1,7},{1,8},{1,9},
-						{2,3},{2,4},{2,5},{2,6},{2,7},{2,8},{2,9},
-						{3,4},{3,5},{3,6},{3,7},{3,8},{3,9},
-						{4,5},{4,6},{4,7},{4,8},{4,9},
-						{5,6},{5,7},{5,8},{5,9},
-						{6,7},{6,8},{6,9},
-						{7,8},{7,9},
-						{8,9}};
+		// int[][] tab = {{0,1},{0,2},{0,3},{0,4},{0,5},{0,6},{0,7},{0,8},{0,9},
+		// 				{1,2},{1,3},{1,4},{1,5},{1,6},{1,7},{1,8},{1,9},
+		// 				{2,3},{2,4},{2,5},{2,6},{2,7},{2,8},{2,9},
+		// 				{3,4},{3,5},{3,6},{3,7},{3,8},{3,9},
+		// 				{4,5},{4,6},{4,7},{4,8},{4,9},
+		// 				{5,6},{5,7},{5,8},{5,9},
+		// 				{6,7},{6,8},{6,9},
+		// 				{7,8},{7,9},
+		// 				{8,9}};
+
+		int[][] tab = {{0,1}};
 
 
 		//Init for the viewer
-		Viewing viewer = new Viewing(950,650,particles,"Task4");
+		Viewing viewer = new Viewing(950,650,particles,"Task5");
 
 
 
@@ -62,26 +70,17 @@ class Task4{
 
 
 			for(int i=0;i<particles.length;i++){
+				particles[i].calculateForce(particles);
 				particles[i].calculatePos();
 				particles[i].borderResponse();
 			}
 			
+			//collision response
 			for(int j=0; j<tab.length;j++){
 				collisionResponse(tab[j], particles);
 			}
 			
-
-			//collision response
-			// for (int i=0; i<tab.length; i++){
-
-			// 	collisionResponse(tab[i]);
-
-			// }
-
-			Thread.sleep((int)(1000*dt));
-		
-			
-		
+			Thread.sleep((int)(1000*dt));		
 		}
 
 	}
