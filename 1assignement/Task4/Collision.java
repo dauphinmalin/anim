@@ -32,6 +32,7 @@ class Tree{
   Cluster cluster;
   Tree right;
   Tree left;
+  boolean checked;
   private static Particle[] particles=null;
 
 
@@ -174,8 +175,6 @@ public Cluster[] Clustering(int[] tab){
     Cluster cright=new Cluster(right,bxmin,bxmax,bzmin,bzmax);
     Cluster[] result={cleft,cright};
 
-
-
     return  result;
 }
 
@@ -209,20 +208,18 @@ public ArrayList<Integer[]> RecursionCheck(Tree children){
       }
     }
 
-
-    if(col==true){
-      //System.out.println("true");
-    }
   ArrayList<Integer[]> list=new ArrayList<Integer[]>();
   if(this.cluster.elements.length>1){
+    if(!this.checked){
+    this.checked=true;
     list.addAll(this.left.RecursionCheck(this.right));
+  }
   if(col==true){
 
 
     if(children.cluster.elements.length>1){
-    list.addAll(children.right.RecursionCheck(children.left));
-    list.addAll(children.RecursionCheck(this.left));
-    list.addAll(children.RecursionCheck(this.right));
+    list.addAll(this.left.RecursionCheck(children));
+    list.addAll(this.right.RecursionCheck(children));
     }
     else{
       list.addAll(this.left.RecursionCheck(children));
@@ -234,8 +231,8 @@ public ArrayList<Integer[]> RecursionCheck(Tree children){
   else{
     if(col==true){
       if(children.cluster.elements.length>1){
-        list.addAll(this.RecursionCheck(children.left));
-        list.addAll(this.RecursionCheck(children.right));
+        list.addAll(children.RecursionCheck(this));
+        //list.addAll(this.RecursionCheck(children));
       }
       else{
       Integer[] tab={this.cluster.elements[0],children.cluster.elements[0]};
@@ -289,22 +286,29 @@ public ArrayList<Integer[]> checkCollision(){
   this.collisionTree.RecursionCluster();
   if(this.collisionTree.cluster.elements.length>1){
     ArrayList<Integer[]> list=this.collisionTree.left.RecursionCheck(this.collisionTree.right);
-    Iterator<Integer[]> Iterator = list.iterator();
-		while (Iterator.hasNext()) {
-      Integer[] tab=Iterator.next();
+    Iterator<Integer[]> iterator = list.iterator();
+		while (iterator.hasNext()) {
+      Integer[] tab=iterator.next();
+      if(tab[0]==-1){iterator.remove();}
+      else{
       System.out.println("new couple");
       for(int i=0;i<tab.length;i++){
         System.out.println(tab[i]);
       }
+      }
 
 		}
 
-    // Integer[][] x = new Integer[list.size()][2];
-    // x = list.toArray(x);
     return list;
   }
   else{
     return null;
+
   }
+
+
+
+
+
 }
 }
