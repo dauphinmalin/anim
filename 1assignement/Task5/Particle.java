@@ -12,6 +12,7 @@ public class Particle{
   private double radius;//radius to display the particle
   private static double[] posMAX={9.5,0,6.5};
   private static double cr=1;
+  private static double gcst = 6.67e-1;
 
 
 public Particle(double m,double[] pos,double[] vel,double[] f,double dt,double radius){
@@ -64,6 +65,10 @@ public double getRadius(){
 
 public double[] getVel(){
   return this.vel;
+}
+
+public double getM(){
+  return this.m;
 }
 
 public void setVel(double[] vel){
@@ -146,6 +151,19 @@ public void borderResponse(){
     this.vel[i]=this.cr*(this.pos[i]-this.previouspos[i]);
     }
   }
+}
+
+public void calculateForce(Particle[] particles){
+    for(int i=0;i<particles.length;i++){
+      if(particles[i] != this){
+        double x = particles[i].getX() - this.pos[0];
+        double z = particles[i].getZ() - this.pos[2];
+        double distance = Math.sqrt(x*x+z*z);
+        double force = this.gcst*this.m*particles[i].getM()/(distance*distance*distance);
+        this.f[0] += force*x;
+        this.f[2] += force*z;
+      }
+    }
 }
 
 
