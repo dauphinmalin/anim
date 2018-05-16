@@ -286,12 +286,15 @@ public ArrayList<Integer[]> checkCollision(){
   this.collisionTree.RecursionCluster();
   if(this.collisionTree.cluster.elements.length>1){
     ArrayList<Integer[]> list=this.collisionTree.left.RecursionCheck(this.collisionTree.right);
-    Iterator<Integer[]> Iterator = list.iterator();
-		while (Iterator.hasNext()) {
-      Integer[] tab=Iterator.next();
+    Iterator<Integer[]> iterator = list.iterator();
+		while (iterator.hasNext()) {
+      Integer[] tab=iterator.next();
+      if(tab[0]==-1){iterator.remove();}
+      else{
       System.out.println("new couple");
       for(int i=0;i<tab.length;i++){
         System.out.println(tab[i]);
+      }
       }
 
 		}
