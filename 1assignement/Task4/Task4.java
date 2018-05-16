@@ -14,9 +14,10 @@ class Task4{
 		double radius=0.2;
 
 		for(int i=0;i<n;i++){
-			double[] pos ={(6.5-radius)*rand.nextDouble(),0,(9.5-radius)*rand.nextDouble()};
+			double[] pos ={(9.5-radius)*rand.nextDouble(),0,(6.5-radius)*rand.nextDouble()};
 			double[] f = {0,0,0};
 			double[] vel = {2*rand.nextDouble(),0,2*rand.nextDouble()};
+
 
 			particles[i]=new Particle(m,pos, vel, f, dt,radius);
 
