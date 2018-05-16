@@ -1,39 +1,50 @@
+import java.util.Random;
 
-
-class Task2{
+class Task4{
 	public static void main (String args[])throws InterruptedException {
 
 
 		//Init for the particle
 
-
+		Random rand = new Random();
+		int n=10;
+		Particle[] particles = new Particle[n];
 		double m = 1;
 		double dt = 0.001;
-		double[] pos ={2,5,2};//between 0 and 10 ratio 1/100, position size of the window
-		double[] vel = {1,1,-1};
+		double radius=0.2;
 
-		double[] f = {0,0,9.8*m};
-		Particle p = new Particle(m, pos, vel, f, dt,0.2);
-		Particle[] particles = {p};
+		for(int i=0;i<n;i++){
+			double[] pos ={(6.5-radius)*rand.nextDouble(),0,(9.5-radius)*rand.nextDouble()};
+			double[] f = {0,0,0};
+			double[] vel = {2*rand.nextDouble(),0,2*rand.nextDouble()};
+
+			particles[i]=new Particle(m,pos, vel, f, dt,radius);
+
+
+		}
+
+		//between 0 and 10 ratio 1/100, position size of the window
+
+
 
 		//Init for the viewer
 		Viewing viewer = new Viewing(950,650,particles,"Task4");
 
 		int k=0;
-		long time=System.nanoTime();
-		while(true){
 
-
-			viewer.drawParticles(particles);
-
-
-			for(int i=0;i<particles.length;i++){
-				particles[i].calculatePos();
-			Thread.sleep((int)(1000*dt));
-
-			}
-
-		}
+		// while(true){
+		//
+		//
+		// 	viewer.drawParticles(particles);
+		//
+		//
+		// 	for(int i=0;i<particles.length;i++){
+		// 		particles[i].calculatePos();
+		// 	Thread.sleep((int)(1000*dt));
+		//
+		// 	}
+		//
+		// }
 
 	}
 

@@ -1,8 +1,3 @@
-private class Tree{
-  x1;
-  z1;
-  int[] inside;
-}
 
 
 public class Particle{
