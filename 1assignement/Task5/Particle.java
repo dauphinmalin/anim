@@ -154,6 +154,8 @@ public void borderResponse(){
 }
 
 public void calculateForce(Particle[] particles){
+  this.f[0]=0;
+  this.f[2]=0;
     for(int i=0;i<particles.length;i++){
       if(particles[i] != this){
         double x = particles[i].getX() - this.pos[0];

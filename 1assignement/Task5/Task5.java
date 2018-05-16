@@ -25,8 +25,8 @@ class Task5{
 			double[] pos ={9.5*rand.nextDouble(),0,6.5*rand.nextDouble()};
 			double[] f = {0,0,0};
 			double[] vel = {4*rand.nextDouble(),0,4*rand.nextDouble()};
-			double m = 1*rand.nextDouble();
-			double radius=m;
+			double m = 100*rand.nextDouble();
+			double radius=0.2;
 
 
 			// double[] po = {3.0,0.0,3.0};
