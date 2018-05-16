@@ -12,7 +12,9 @@ class Task5{
 		Particle[] particles = new Particle[n];
 		// double m = 1;
 		double[] vel0 = {0,0,0};
+		double[] vel1 = {0,0,5};
 		double[] po = {4.5,0,3.5};
+		double[] po1 = {2,0,3.5};
 		double dt = 0.1;
 		// double radius=0.2;
 		int[] collisiontab=new int[n];
@@ -28,7 +30,7 @@ class Task5{
 
 
 			// double[] po = {3.0,0.0,3.0};
-			particles[i]=new Particle(10,pos, vel0, f, dt,radius);
+			particles[i]=new Particle(10,po1, vel1, f, dt,radius);
 			particles[0]=new Particle(10,po, vel0, f, dt,radius);
 
 

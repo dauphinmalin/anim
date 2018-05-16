@@ -1,4 +1,5 @@
-import java.util.Random;
+import java.util.*;
+
 
 class Task4{
 	public static void main (String args[])throws InterruptedException {
@@ -32,25 +33,26 @@ class Task4{
 		//between 0 and 10 ratio 1/100, position size of the window
 
 		//Collision
-		// Collision collision = new Collision(particles, 9.5, 6.5);
+		Collision collision = new Collision(particles, 9.5, 6.5);
 
 		//get a tab from checkCollision;
 		// int[][] tab = collision.checkCollision();
-		int[][] tab = {{0,1},{0,2},{0,3},{0,4},{0,5},{0,6},{0,7},{0,8},{0,9},
-						{1,2},{1,3},{1,4},{1,5},{1,6},{1,7},{1,8},{1,9},
-						{2,3},{2,4},{2,5},{2,6},{2,7},{2,8},{2,9},
-						{3,4},{3,5},{3,6},{3,7},{3,8},{3,9},
-						{4,5},{4,6},{4,7},{4,8},{4,9},
-						{5,6},{5,7},{5,8},{5,9},
-						{6,7},{6,8},{6,9},
-						{7,8},{7,9},
-						{8,9}};
+		// int[][] tab = {{0,1},{0,2},{0,3},{0,4},{0,5},{0,6},{0,7},{0,8},{0,9},
+		// 				{1,2},{1,3},{1,4},{1,5},{1,6},{1,7},{1,8},{1,9},
+		// 				{2,3},{2,4},{2,5},{2,6},{2,7},{2,8},{2,9},
+		// 				{3,4},{3,5},{3,6},{3,7},{3,8},{3,9},
+		// 				{4,5},{4,6},{4,7},{4,8},{4,9},
+		// 				{5,6},{5,7},{5,8},{5,9},
+		// 				{6,7},{6,8},{6,9},
+		// 				{7,8},{7,9},
+		// 				{8,9}};
 
+		ArrayList<Integer[]> list = collision.checkCollision();
 
 		//Init for the viewer
 		Viewing viewer = new Viewing(950,650,particles,"Task4");
 
-
+		Iterator<Integer[]> iterator;
 
 		while(true){
 		
@@ -65,9 +67,9 @@ class Task4{
 				particles[i].calculatePos();
 				particles[i].borderResponse();
 			}
-			
-			for(int j=0; j<tab.length;j++){
-				collisionResponse(tab[j], particles);
+			iterator = list.iterator();
+			while (iterator.hasNext()) {
+				collisionResponse(iterator.next(), particles);
 			}
 			
 
@@ -87,7 +89,7 @@ class Task4{
 	}
 
 
-	public static void collisionResponse(int[] collArray, Particle[] particles){
+	public static void collisionResponse(Integer[] collArray, Particle[] particles){
 
 		if(collArray.length==2){
 

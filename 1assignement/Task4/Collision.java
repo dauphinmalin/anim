@@ -277,7 +277,7 @@ public Collision(Particle[] particles,double sizex,double sizez){
 
 
 
-public int[][] checkCollision(){
+public ArrayList<Integer[]> checkCollision(){
   int[] inside=new int[this.particles.length];
   for(int i=0;i<this.particles.length;i++){
     inside[i]=i;
@@ -298,11 +298,13 @@ public int[][] checkCollision(){
       }
 
 		}
+
+    // Integer[][] x = new Integer[list.size()][2];
+    // x = list.toArray(x);
+    return list;
   }
-
-
-
-  int[][] tab={{0}};
-return tab;
+  else{
+    return null;
+  }
 }
 }
