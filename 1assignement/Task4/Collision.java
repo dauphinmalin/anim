@@ -296,12 +296,17 @@ public ArrayList<Integer[]> checkCollision(){
       }
 
 		}
+
     return list;
   }
   else{
     return null;
 
+  }
 
-}
+
+
+
+
 }
 }
