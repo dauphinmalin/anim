@@ -12,9 +12,11 @@ class Task4{
 		double m = 1;
 		double dt = 0.001;
 		double radius=0.2;
+		int[] collisiontab=new int[n];
 
 		for(int i=0;i<n;i++){
-			double[] pos ={radius+(9.5-radius)*rand.nextDouble(),0,radius+(6.5-radius)*rand.nextDouble()};
+			collisiontab[i]=i;
+			double[] pos ={radius+(1-9.5*radius)*rand.nextDouble(),0,radius+(1-6.5*radius)*rand.nextDouble()};
 			double[] f = {0,0,0};
 			double[] vel = {20*rand.nextDouble(),0,20*rand.nextDouble()};
 
@@ -23,6 +25,7 @@ class Task4{
 
 
 		}
+
 
 		//between 0 and 10 ratio 1/100, position size of the window
 
