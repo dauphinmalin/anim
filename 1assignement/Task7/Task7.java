@@ -7,7 +7,7 @@ class Task7{
 		//Init for the particle
 
 		Random rand = new Random();
-		int n=2;
+		int n=7;
 		Particle[] particles = new Particle[n];
 		double m = 1;
 		double dt = 0.001;
@@ -15,12 +15,18 @@ class Task7{
 		double[] pos ={1,0,3};
 		double[] f = {0,0,0};
 		double[] vel = {0,0,0};
-		particles[0]=new Particle(m,pos, vel, f, dt,radius);
-
-		pos[0] =5;
-		pos[2]=0.5;
-		vel[0]=1;
-		particles[1]=new Particle(m,pos, vel, f, dt,radius);
+		int k=0;
+		for(k=0;k<n-3;k++){
+			pos[0] =3.5+k*0.4;
+		particles[k]=new Particle(m,pos, vel, f, dt,radius);
+		}
+		pos[0] =6.5+k*0.4;
+		vel[0]=-2;
+		particles[k]=new Particle(m,pos, vel, f, dt,radius);
+		pos[0] =6.5+(k+1)*0.4;
+		particles[k+1]=new Particle(m,pos, vel, f, dt,radius);
+		pos[0] =6.5+(k+3)*0.4;
+		particles[k+2]=new Particle(m,pos, vel, f, dt,radius);
 
 		//between 0 and 10 ratio 1/100, position size of the window
 
