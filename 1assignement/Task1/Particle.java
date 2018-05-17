@@ -52,14 +52,10 @@ public void setF(double fx,double fy,double fz){
 public void calculatePos(){
   double inter;
   for(int i=0;i<3;i++){
-    inter=2*this.pos[i]-this.previouspos[i]+this.dt*this.dt*this.f[i]/this.m;//Verlet for x,y,z
+    //Verlet for x,y,z
+    inter=2*this.pos[i]-this.previouspos[i]+this.dt*this.dt*this.f[i]/this.m;
     this.previouspos[i]=this.pos[i];
     this.pos[i]=inter;
-
-
-
-
-
 
   }
 

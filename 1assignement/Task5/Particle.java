@@ -11,7 +11,7 @@ public class Particle{
   private double dt;
   private double radius;//radius to display the particle
   private static double[] posMAX={9.5,0,6.5};
-  private static double cr=1;
+  private static double cr=0.7;
   private static double gcst = 6.67e-1;
 
 
@@ -169,7 +169,7 @@ public void calculateForce(Particle[] particles){
         }
       }
 
-    }System.out.println(this.f[0]);
+    }
 }
 
 

@@ -10,7 +10,7 @@ class Task4{
 		int n=10;
 		Particle[] particles = new Particle[n];
 		double m = 1;
-		double dt = 0.001;
+		double dt = 0.01;
 		double radius=0.2;
 		int[] collisiontab=new int[n];
 
@@ -70,8 +70,6 @@ class Task4{
 			}
 
 			Thread.sleep((int)(1000*dt));
-
-
 
 		}
 

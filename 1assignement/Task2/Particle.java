@@ -69,16 +69,8 @@ public void calculatePos(){
     this.previouspos[i]=this.pos[i];
     this.pos[i]=inter;
     }
-
-
-
-
-
   }
-
-
 }
-
 
 
 }
