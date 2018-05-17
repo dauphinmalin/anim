@@ -21,13 +21,13 @@ public Particle(double m,double[] pos,double[] vel,double[] f,double dt,double r
     this.dt=dt;
     this.previouspos=new double[3];
     this.nextpos=new double[3];
-    this.pos=pos;
+    this.pos=pos.clone();
     for(int i=0;i<pos.length;i++){
     this.previouspos[i]=pos[i]-vel[i]*dt;
     this.nextpos[i] = 2*pos[i]-pos[i]-vel[i]*dt+dt*dt*f[i]/m;
     }
-    this.vel=vel;
-    this.f=f;
+    this.vel=vel.clone();
+    this.f=f.clone();
     this.radius=radius;
 
 

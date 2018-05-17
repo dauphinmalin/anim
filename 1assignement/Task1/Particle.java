@@ -13,12 +13,12 @@ public Particle(double m,double[] pos,double[] vel,double[] f,double dt,double r
   if(m>0){
   this.m=m;
     this.previouspos=new double[3];
-    this.pos=pos;
+    this.pos=pos.clone();
     for(int i=0;i<pos.length;i++){
     this.previouspos[i]=pos[i]-vel[i]*dt;
     }
-    this.vel=vel;
-    this.f=f;
+    this.vel=vel.clone();
+    this.f=f.clone();
     this.radius=radius;
     this.dt=dt;
 
