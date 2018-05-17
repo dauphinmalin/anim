@@ -9,9 +9,9 @@ class Task4{
 		Random rand = new Random();
 		int n=10;
 		Particle[] particles = new Particle[n];
-		double m = 1;
+		// double m = 1;
 		double dt = 0.01;
-		double radius=0.2;
+		// double radius=0.2;
 		int[] collisiontab=new int[n];
 
 
@@ -24,6 +24,8 @@ class Task4{
 
 
 			// double[] po = {3.0,0.0,3.0};
+			double m = 1*rand.nextDouble();
+			double radius=0.4*m;
 			particles[i]=new Particle(m,pos, vel, f, dt,radius);
 			// particles[0]=new Particle(m,po, vel, f, dt,radius);
 
@@ -89,9 +91,16 @@ class Task4{
 			double twoRadius = particles[collArray[0]].getRadius() + particles[collArray[1]].getRadius();
 			if(distance < twoRadius){
 				//velocity
-				double[] vel = particles[collArray[0]].getVel();
-				particles[collArray[0]].setVel(particles[collArray[1]].getVel());
-				particles[collArray[1]].setVel(vel);
+				double mdm = Math.sqrt(particles[collArray[1]].getM()/particles[collArray[0]].getM());
+				double[] vela = particles[collArray[1]].getVel();
+				double[] velb = particles[collArray[0]].getVel();
+				for(int i=0; i<3; i++){
+					vela[i] *= mdm;
+					velb[i] /= mdm;
+
+				}
+				particles[collArray[0]].setVel(vela);
+				particles[collArray[1]].setVel(velb);
 
 				//push particles away from each other
 				particles[collArray[0]].setX(particles[collArray[0]].getX() + deltaX*(twoRadius-distance)*0.5/distance);

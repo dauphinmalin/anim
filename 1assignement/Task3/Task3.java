@@ -5,8 +5,6 @@ class Task3{
 
 
 		//Init for the particle
-
-
 		double m = 1;
 		double dt = 0.001;
 		double[] pos ={1.0,0,47.0/110+0.3};//between 0 and 10 ratio 1/100, position size of the window

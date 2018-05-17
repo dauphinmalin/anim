@@ -66,6 +66,10 @@ public class Particle{
     return this.vel;
   }
 
+  public double getM(){
+    return this.m;
+  }
+
   public void setVel(double[] vel){
     this.vel = vel;
   }

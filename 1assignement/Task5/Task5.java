@@ -27,7 +27,7 @@ class Task5{
 			
 			double[] vel = {0.4*rand.nextDouble(),0,0.4*rand.nextDouble()};
 
-			double m = 10*rand.nextDouble();
+			double m = 1*rand.nextDouble();
 
 
 
@@ -37,7 +37,7 @@ class Task5{
 
 
 		}
-		particles[9]=new Particle(1000,po, vel0, f, dt,0.09);
+		particles[9]=new Particle(10,po, vel0, f, dt,0.2);
 
 
 		//Collision
@@ -84,7 +84,7 @@ class Task5{
 
 
 	public static void collisionResponse(Integer[] collArray, Particle[] particles){
-		double cr = 1;
+		double cr = 0.5;
 
 		if(collArray.length==2){
 
@@ -97,18 +97,30 @@ class Task5{
 			double twoRadius = particles[collArray[0]].getRadius() + particles[collArray[1]].getRadius();
 			if(distance < twoRadius){
 				//method to calculate the velocity
-				double w = particles[collArray[0]].getM()/(particles[collArray[0]].getM()+particles[collArray[1]].getM());
-				//velocity
-				double[] vel = particles[collArray[0]].getVel();
-				for(int i=0;i<3;i++){
-					vel[i] *= w*cr; 
+				// double w = particles[collArray[0]].getM()/(particles[collArray[0]].getM()+particles[collArray[1]].getM());
+				// //velocity
+				// double[] vel = particles[collArray[0]].getVel();
+				// for(int i=0;i<3;i++){
+				// 	vel[i] *= w*cr; 
+				// }
+				// double[] vel1 = particles[collArray[1]].getVel();
+				// for(int i=0;i<3;i++){
+				// 	vel1[i] *= (1-w)*cr; 
+				// }
+				// particles[collArray[0]].setVel(vel1);
+				// particles[collArray[1]].setVel(vel);
+
+				//new method
+				double mdm = Math.sqrt(particles[collArray[1]].getM()/particles[collArray[0]].getM());
+				double[] vela = particles[collArray[1]].getVel();
+				double[] velb = particles[collArray[0]].getVel();
+				for(int i=0; i<3; i++){
+					vela[i] *= mdm;
+					velb[i] /= mdm;
+
 				}
-				double[] vel1 = particles[collArray[1]].getVel();
-				for(int i=0;i<3;i++){
-					vel1[i] *= (1-w)*cr; 
-				}
-				particles[collArray[0]].setVel(vel1);
-				particles[collArray[1]].setVel(vel);
+				particles[collArray[0]].setVel(vela);
+				particles[collArray[1]].setVel(velb);
 
 				//method2
 				// double[] vela ={0,0,0.0};
@@ -119,13 +131,6 @@ class Task5{
 				// }
 				// particles[collArray[0]].setVel(vela);
 				// particles[collArray[1]].setVel(velb);
-
-				// //push particles away from each other
-				// particles[collArray[0]].setX(particles[collArray[0]].getX() + deltaX*(twoRadius-distance)*0.5/distance);
-				// particles[collArray[0]].setZ(particles[collArray[0]].getZ() + deltaZ*(twoRadius-distance)*0.5/distance);
-				// particles[collArray[1]].setX(particles[collArray[1]].getX() - deltaX*(twoRadius-distance)*0.5/distance);
-				// particles[collArray[1]].setZ(particles[collArray[1]].getZ() - deltaZ*(twoRadius-distance)*0.5/distance);
-
 
 				//method3
 				// double f1 = (cr*(deltaX*particles[collArray[0]].getVel()[0]+deltaZ*particles[collArray[0]].getVel()[2]))/(distance*distance);
@@ -141,6 +146,17 @@ class Task5{
 
 			 //    particles[collArray[0]].setVel(vela);
 			 //    particles[collArray[1]].setVel(velb);
+
+
+				//push particles away from each other
+				particles[collArray[0]].setX(particles[collArray[0]].getX() + deltaX*(twoRadius-distance)*0.5/distance);
+				particles[collArray[0]].setZ(particles[collArray[0]].getZ() + deltaZ*(twoRadius-distance)*0.5/distance);
+				particles[collArray[1]].setX(particles[collArray[1]].getX() - deltaX*(twoRadius-distance)*0.5/distance);
+				particles[collArray[1]].setZ(particles[collArray[1]].getZ() - deltaZ*(twoRadius-distance)*0.5/distance);
+
+
+				
+
 
 	
 
