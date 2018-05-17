@@ -6,48 +6,55 @@ class Task5{
 		//Init for the particle
 
 		Random rand = new Random();
-		int n=3;
+		int n=10;
 		// Arraylist<Particle> particles = new Arraylist<Particle>();
 		Particle[] particles = new Particle[n];
 		// double m = 1;
 		double[] vel0 = {0,0,0};
 		double[] f = {0,0,0};
-		double[] vel1 = {0,0,5};
-		double[] po = {4.5,0,3.5};
-		double radius=0.09;
+		double[] po = {450,0,350};
+		double radius=9;
 		double dt = 0.01;
-		double G=6.67e-1;
+		double G=6.67e-3;
 		// double radius=0.2;
 		int[] collisiontab=new int[n];
-		double M=1000;
+		double M=10000000;
 
 		for(int i=0;i<n;i++){
-			// double[] pos ={radius+(1-9.5*radius)*rand.nextDouble(),0,radius+(1-6.5*radius)*rand.nextDouble()};
-			double m=(0.1-0.05)*rand.nextDouble();
-			double sign=-1+2*rand.nextInt(1);
-			double R=(1+(2.5-1)*rand.nextDouble());
-			double x=4.5+R*sign;
-			sign=-1+2*rand.nextInt(1);
-			double[] pos ={x,0,3.5};
-
+			double m=(1)*rand.nextDouble();
+			int q=rand.nextInt(2);
+			double sign=-1+2*rand.nextInt(2);
+			double R=(i+1)*30;
 			double v=Math.sqrt(G*M/(R));
+			if(q==1){		
+			double z=350+R*sign;
+			double[] pos ={450,0,z};
+			double[] vel = {-v*sign,0,0};
+			particles[i]=new Particle(m,pos, vel, f, dt,radius);
+
+			}
+			// double[] pos ={radius+(1-9.5*radius)*rand.nextDouble(),0,radius+(1-6.5*radius)*rand.nextDouble()};
+			else{
+			double x=450+R*sign;
+			double[] pos ={x,0,350};
 			double[] vel = {0,0,v*sign};
+						particles[i]=new Particle(m,pos, vel, f, dt,radius);
+					}
 
 
 
 
 
 			// double[] po = {3.0,0.0,3.0};
-			particles[i]=new Particle(m,pos, vel, f, dt,radius);
 			// particles[0]=new Particle(10,po, vel0, f, dt,radius);
 
 
 		}
-		particles[n-1]=new Particle(M,po, vel0, f, dt,0.2);
+		particles[n-1]=new Particle(M,po, vel0, f, dt,20);
 
 
 		//Collision
-		Collision collision = new Collision(particles, 9.5, 6.5);
+		Collision collision = new Collision(particles, 950, 650);
 		ArrayList<Integer[]> list = collision.checkCollision();
 		Iterator<Integer[]> iterator;
 
