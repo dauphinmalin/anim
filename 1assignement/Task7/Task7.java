@@ -12,21 +12,43 @@ class Task7{
 		double m = 1;
 		double dt = 0.001;
 		double radius=0.2;
-		double[] pos ={1,0,3};
-		double[] f = {0,0,0};
+		double[] pos ={3.55,0,4};
+		double[] rpos ={3.55,0,0.65};
+		double[] f = {0,0,9.8*m};
 		double[] vel = {0,0,0};
 		int k=0;
-		for(k=0;k<n-3;k++){
-			pos[0] =3.5+k*0.4;
-		particles[k]=new Particle(m,pos, vel, f, dt,radius);
+		// for(k=0;k<n-3;k++){
+		// 	pos[0] =3.5+k*0.4;
+		// 	rpos[0] =3.5+k*0.4;
+		// particles[k]=new Particle(m,pos, vel, f, dt,radius,rpos);
+		// }
+		// pos[0] =6.5+k*0.4;
+		// rpos[0] =3.5+k*0.4;
+		// vel[0]=-2;
+		// particles[k]=new Particle(m,pos, vel, f, dt,radius,rpos);
+		// pos[0] =6.5+(k+1)*0.4;
+		// rpos[0] =3.5+(k+1)*0.4;
+		// particles[k+1]=new Particle(m,pos, vel, f, dt,radius,rpos);
+		// pos[0] =6.5+(k+3)*0.4;
+		// rpos[0] =3.5+(k+2)*0.4;
+		// particles[k+2]=new Particle(m,pos, vel, f, dt,radius,rpos);
+		// double[] pos1 = {4.5,0,3};
+		// particles[0]=new Particle(m,pos1, vel, f, dt,radius);
+
+		for(k=0;k<n-1;k++){
+			particles[k]=new Particle(m,pos, vel, f, dt,radius,rpos);
+			particles[k].setLimit(particles[k].getRPos()[0]-3.35,particles[k].getRPos()[0]+3.35,particles[k].getRPos()[0]);
+			pos[0] += 0.4;
+			rpos[0] += 0.4;
+			// System.out.println(rpos[0]+" "+rpos[1]+"  "+rpos[2]);
 		}
-		pos[0] =6.5+k*0.4;
-		vel[0]=-2;
-		particles[k]=new Particle(m,pos, vel, f, dt,radius);
-		pos[0] =6.5+(k+1)*0.4;
-		particles[k+1]=new Particle(m,pos, vel, f, dt,radius);
-		pos[0] =6.5+(k+3)*0.4;
-		particles[k+2]=new Particle(m,pos, vel, f, dt,radius);
+		double[] posl = {9.3,0,0.65};
+		System.out.println(posl[2]);
+		particles[k]=new Particle(m,posl, vel, f, dt,radius,rpos);
+		particles[k].setLimit(particles[k].getRPos()[0]-3.35,particles[k].getRPos()[0]+3.35,particles[k].getRPos()[0]);
+
+		System.out.println(particles[5].getZ());
+
 
 		//between 0 and 10 ratio 1/100, position size of the window
 
@@ -49,23 +71,23 @@ class Task7{
 
 
 		//Init for the viewer
-		Viewing viewer = new Viewing(950,650,particles,"Task4");
+		Viewing viewer = new Viewing(950,650,particles,"Task7");
 
 
 		while(true){
 
 
 			viewer.drawParticles(particles);
-			for(int i=0;i<particles.length;i++){
-				particles[i].calculatePos();
-				particles[i].borderResponse();
-			}
-			list = collision.checkCollision();
-			iterator = list.iterator();
-			while (iterator.hasNext()) {
-				collisionResponse(iterator.next(), particles);
+			// for(int i=0;i<particles.length;i++){
+			// 	particles[i].calculatePos();
+			// 	particles[i].borderResponse();
+			// }
+			// list = collision.checkCollision();
+			// iterator = list.iterator();
+			// while (iterator.hasNext()) {
+			// 	collisionResponse(iterator.next(), particles);
 
-			}
+			// }
 
 			Thread.sleep((int)(1000*dt));
 
