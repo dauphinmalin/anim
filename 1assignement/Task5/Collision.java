@@ -20,9 +20,9 @@ class Cluster{
 
 
   public void Show(){
-    System.out.println("cluster :");
+
     for(int i=0;i<elements.length;i++){
-      System.out.println(elements[i]);
+
 
     }
   }
@@ -71,6 +71,7 @@ class Tree{
 
 
   public Cluster[] Clustering(int[] tab){
+
     ArrayList<Integer> a=new ArrayList<Integer>();
     ArrayList<Integer> b=new ArrayList<Integer>();
     ArrayList<Integer> a1=new ArrayList<Integer>();
@@ -105,9 +106,11 @@ class Tree{
       medz2=this.particles[tab[i]].getZ()+medz2;
       i++;
     }
+
     medx2=medx2/(i-tab.length/2);
     medz2=medz2/(i-tab.length/2);
     while(!a.equals(a1) && !b.equals(b1)){
+
       a1.clear();
       b1.clear();
       for (int j : a) {
@@ -130,17 +133,40 @@ class Tree{
       azmax=-1111111111;
       azmax=-1111111111;
       bzmax=-1111111111;
+      i=0;
+      int k1=0;
+      int k2=0;
+      if(medx1==medx2 && medz1==medz2){
+        i=1;
+        a.add(tab[0]);
+        medx1=0;
+        medz1=0;
+        medx1+=this.particles[tab[0]].getX();;
+        medz1+=this.particles[tab[0]].getZ();;
+        k1+=1;
+        double radius=this.particles[tab[0]].getRadius();
+        if(this.particles[tab[0]].getX()+radius>axmax){axmax=this.particles[tab[0]].getX()+radius;}
+        if(this.particles[tab[0]].getX()-radius<axmin){axmin=this.particles[tab[0]].getX()-radius;}
+        if(this.particles[tab[0]].getZ()-radius<azmin){azmin=this.particles[tab[0]].getZ()-radius;}
+        if(this.particles[tab[0]].getZ()+radius>azmax){azmax=this.particles[tab[0]].getZ()+radius;}
+
+        medx2=0;
+        medz2=0;
+
+      }
+      else{
       medx1=0;
       medz1=0;
       medx2=0;
       medz2=0;
-      int k1=0;
-      int k2=0;
-      for(i=0;i<tab.length;i++){
+    }
+
+
+      for(i=i;i<tab.length;i++){
         double x=this.particles[tab[i]].getX();
         double z= this.particles[tab[i]].getZ();
         double radius=this.particles[tab[i]].getRadius();
-        if(Math.abs(prevMedx1-x)+Math.abs(prevMedz1-z)< Math.abs(prevMedx2-x)+Math.abs(prevMedz2-z)){
+        if(Math.pow(prevMedx1-x,2)+Math.pow(prevMedz1-z,2)< Math.pow(prevMedx2-x,2)+Math.pow(prevMedz2-z,2)){
           a.add(tab[i]);
           medx1+=x;
           medz1+=z;

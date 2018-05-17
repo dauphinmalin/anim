@@ -16,12 +16,12 @@ public Particle(double m,double[] pos,double[] vel,double[] f,double dt,double r
   if(m>0){
   this.m=m;
     this.previouspos=new double[3];
-    this.pos=pos;
+    this.pos=pos.clone();
     for(int i=0;i<pos.length;i++){
     this.previouspos[i]=pos[i]-vel[i]*dt;
     }
-    this.vel=vel;
-    this.f=f;
+    this.vel=vel.clone();
+    this.f=f.clone();
     this.radius=radius;
     this.dt=dt;
 
@@ -67,15 +67,15 @@ public void setLimit(double px0,double py0,double pz0,double px1,double py1,doub
 }
 
 public void calculatePos(double t, double d){
-  
+
   double[] inter = {0,0,0};
   for(int i=0;i<3;i++){
     //Verlet for x,y,z
     inter[i] = 2*this.pos[i]-this.previouspos[i]+this.dt*this.dt*this.f[i]/this.m;
 
-    // this.previouspos[i] = this.pos[i]; 
+    // this.previouspos[i] = this.pos[i];
 
-  } 
+  }
 
 
   if(inter[0]>(this.posMAX[0])){
@@ -119,7 +119,7 @@ public void calculatePos(double t, double d){
 }
 
 public void calculatePosF(){
-  
+
   double[] inter = {0,0,0};
   for(int i=0;i<3;i++){
     inter[i]=2*this.pos[i]-this.previouspos[i]+this.dt*this.dt*this.f[i]/this.m;//Verlet for x,y,z
