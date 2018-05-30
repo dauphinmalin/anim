@@ -7,7 +7,7 @@ class Task7{
 		//Init for the particle
 
 		Random rand = new Random();
-		int n=7;
+		int n=	7;
 		Particle[] particles = new Particle[n];
 		double m = 1;
 		double dt = 0.001;
@@ -47,7 +47,7 @@ class Task7{
 		particles[k]=new Particle(m,posl, vel, f, dt,radius,rpos);
 		particles[k].setLimit(particles[k].getRPos()[0]-3.35,particles[k].getRPos()[0]+3.35,particles[k].getRPos()[0]);
 
-		System.out.println(particles[5].getZ());
+		System.out.println(particles[k].getZ());
 
 
 		//between 0 and 10 ratio 1/100, position size of the window
@@ -56,17 +56,21 @@ class Task7{
 		Collision collision = new Collision(particles, 9.5, 6.5);
 
 
-		ArrayList<Integer[]> list = collision.checkCollision();
 		Iterator<Integer[]> iterator;
 
 		for(int i=0;i<particles.length;i++){
 			particles[i].calculatePos();
 			particles[i].borderResponse();
 		}
+		ArrayList<Integer[]> list = collision.checkCollision();
+
 		// list = collision.checkCollision();
 		iterator = list.iterator();
+	
 		while (iterator.hasNext()) {
-			collisionResponse(iterator.next(), particles);
+			Integer[] tabii=iterator.next();
+			System.out.println(tabii[0]+". "+tabii[1]);
+			collisionResponse(tabii, particles);
 		}
 
 
@@ -75,19 +79,24 @@ class Task7{
 
 
 		while(true){
+				
+
 
 
 			viewer.drawParticles(particles);
-			// for(int i=0;i<particles.length;i++){
-			// 	particles[i].calculatePos();
-			// 	particles[i].borderResponse();
-			// }
-			// list = collision.checkCollision();
-			// iterator = list.iterator();
-			// while (iterator.hasNext()) {
-			// 	collisionResponse(iterator.next(), particles);
+			// System.out.println(particles[5].getZ());
+			for(int i=0;i<particles.length;i++){
+				particles[i].calculatePos();
+				particles[i].borderResponse();
+			}
+			list = collision.checkCollision();
+			iterator = list.iterator();
+			while (iterator.hasNext()) {
+				Integer[] tabii=iterator.next();
+			
+			collisionResponse(tabii, particles);
 
-			// }
+			}
 
 			Thread.sleep((int)(1000*dt));
 
@@ -120,6 +129,12 @@ class Task7{
 				particles[collArray[0]].setZ(particles[collArray[0]].getZ() + deltaZ*(twoRadius-distance)*0.5/distance);
 				particles[collArray[1]].setX(particles[collArray[1]].getX() - deltaX*(twoRadius-distance)*0.5/distance);
 				particles[collArray[1]].setZ(particles[collArray[1]].getZ() - deltaZ*(twoRadius-distance)*0.5/distance);
+
+				//To remove the oscillation
+				// particles[collArray[0]].setX(particles[collArray[0]].getRPos()[0]);
+				// particles[collArray[0]].setZ(4);
+				// particles[collArray[1]].setX(particles[collArray[1]].getRPos()[0]);
+				// particles[collArray[1]].setZ(4);
 
 				//previous position
 				particles[collArray[0]].setPreviousPos(particles[collArray[0]].getX()-particles[collArray[0]].getVel()[0],0,particles[collArray[0]].getZ()-particles[collArray[0]].getVel()[2]);

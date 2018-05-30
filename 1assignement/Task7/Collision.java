@@ -297,6 +297,7 @@ public class Collision{
 
   public ArrayList<Integer[]> checkCollision(){
     int[] inside=new int[this.particles.length];
+    ArrayList<Integer[]> list=new ArrayList<Integer[]>() ;
     for(int i=0;i<this.particles.length;i++){
       inside[i]=i;
     }
@@ -305,7 +306,7 @@ public class Collision{
     this.collisionTree.setParticles(this.particles);
     this.collisionTree.RecursionCluster();
     if(this.collisionTree.cluster.elements.length>1){
-      ArrayList<Integer[]> list=this.collisionTree.RecursionCheck();
+      list.addAll(this.collisionTree.RecursionCheck());
       Iterator<Integer[]> iterator = list.iterator();
       while (iterator.hasNext()) {
         Integer[] tab=iterator.next();
@@ -318,7 +319,7 @@ public class Collision{
       return list;
     }
     else{
-      return null;
+      return list;
     }
   }
 }

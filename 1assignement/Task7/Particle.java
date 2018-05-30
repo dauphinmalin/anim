@@ -121,6 +121,14 @@ public class Particle{
   }
 
   public void borderResponse(){
+    double w = Math.sqrt(Math.pow(this.nextpos[0]-this.rpos[0],2)+Math.pow(this.nextpos[2]-this.rpos[2],2));
+    for(int i=0; i<3; i++){
+      this.vel[i]=this.nextpos[i]-this.pos[i];
+      this.previouspos[i]=this.pos[i];
+      this.pos[i]=this.rpos[i]+this.r*(this.nextpos[i]-this.rpos[i])/w;
+      
+    }
+  }
 
     // for(int i=0;i<3;i++){
 
@@ -146,74 +154,81 @@ public class Particle{
     // }
 
 
-      if(this.nextpos[2]>(this.posDown[2])){
-        this.pos[0] = this.nextpos[0];
-        this.pos[1] = this.nextpos[1];
-        this.pos[2] = this.rpos[2]+Math.sqrt(Math.pow(this.r,2)-Math.pow(this.nextpos[0]-this.rpos[0],2));
-        for(int i=0;i<3;i++){
-          this.vel[i]=this.cr*(this.pos[i]-this.previouspos[i]);
-          this.previouspos[i]=this.pos[i];
+  //     if((this.nextpos[2]>(this.posDown[2]))){
+  //       for(int i=0;i<3;i++){
+  //         this.previouspos[i]=this.pos[i];
+  //       }
+  //       System.out.print("ax "+ this.nextpos[0] +"az "+ this.nextpos[2]);
+  //       System.out.print("posx "+ this.pos[0] +"posz "+ this.pos[2]);
+  //       this.pos[0] = this.nextpos[0];
+  //       this.pos[1] = this.nextpos[1];
+  //       this.pos[2] = this.rpos[2]+Math.sqrt(Math.pow(this.r,2)-Math.pow(this.nextpos[0]-this.rpos[0],2));
+  //       for(int i=0;i<3;i++){
+  //         this.vel[i]=this.cr*(this.nextpos[i]-this.previouspos[i]);
           
-        }
-      }
-      // else if(this.nextpos[2]>(this.posMAX[2]-this.radius)){
-      //   for(int i=0;i<3;i++){
-      //     this.vel[i]=-this.cr*(this.nextpos[i]-this.pos[i]);
-      //     this.previouspos[i]=this.posMAX[i]-this.radius-this.vel[i];
-      //     this.pos[i]=this.posMAX[i]-this.radius;
-      //   }
-      // }
-      else if(this.nextpos[2]<=this.posMIN[0]){
-        for(int i=0;i<3;i++){
-          if(this.pos[0]<=this.rpos[0]){
-            this.vel[i]=0;
-            this.previouspos[i]=this.posMIN[i];
-            this.pos[i]=this.posMIN[i];
-          }
-          else{
-            this.vel[i]=0;
-            this.previouspos[i]=this.posMAX[i];
-            this.pos[i]=this.posMAX[i];
-          }
+  //       }
+  //     }
+  //     else if((this.nextpos[2]<this.posMIN[2])){
+  //       System.out.print("b. "+ this.pos[0] );
+  //       for(int i=0;i<3;i++){
+  //         if(this.pos[0]<=this.rpos[0]){
+  //           this.vel[i]=0;
+  //           this.previouspos[i]=this.posMIN[i];
+  //           this.pos[i]=this.posMIN[i];
+  //         }
+  //         else{
+  //           this.vel[i]=0;
+  //           this.previouspos[i]=this.posMAX[i];
+  //           this.pos[i]=this.posMAX[i];
+  //         }
           
-        }
-      }
-      // else if(this.nextpos[2]<this.radius){
-      //   for(int i=0;i<3;i++){
-      //     this.vel[i]=-this.cr*(this.nextpos[i]-this.pos[i]);
-      //     this.previouspos[i]=this.radius-this.vel[i];
-      //     this.pos[i]=this.radius;
-      //   }
-      // }
-      else{
-        for(int i=0;i<3;i++){
-          this.previouspos[i]=this.pos[i];
-        }
-        if(this.pos[0]<=this.rpos[0]){
-          this.pos[0]=this.rpos[0]-Math.sqrt(Math.pow(this.r,2)-Math.pow(this.nextpos[2]-this.rpos[2],2));
-          this.pos[1]=this.nextpos[1];
-          this.pos[2]=this.nextpos[2];
-        }
-        else{
-          this.pos[0]=this.rpos[0]+Math.sqrt(Math.pow(this.r,2)-Math.pow(this.nextpos[2]-this.rpos[2],2));
-          this.pos[1]=this.nextpos[1];
-          this.pos[2]=this.nextpos[2];
-        }
-        for(int i=0;i<3;i++){
-          this.vel[i]=this.cr*(this.pos[i]-this.previouspos[i]);
-          // this.previouspos[i]=this.pos[i];
-        }
+  //       }
+  //     }
+  //     else{
+  //       if(this.vel[2]>=0){
+  //         for(int i=0;i<3;i++){
+  //           this.previouspos[i]=this.pos[i];
+  //         }
+  //         if(this.pos[0]<=this.rpos[0]){
+  //           this.pos[0]=this.rpos[0]-Math.sqrt(Math.pow(this.r,2)-Math.pow(this.nextpos[2]-this.rpos[2],2));
+  //           this.pos[1]=this.nextpos[1];
+  //           this.pos[2]=this.nextpos[2];
+  //         }
+  //         else{
+  //           this.pos[0]=this.rpos[0]+Math.sqrt(Math.pow(this.r,2)-Math.pow(this.nextpos[2]-this.rpos[2],2));
+  //           this.pos[1]=this.nextpos[1];
+  //           this.pos[2]=this.nextpos[2];
+  //         }
+  //         for(int i=0;i<3;i++){
+  //           this.vel[i]=this.cr*(this.nextpos[i]-this.previouspos[i]);
+  //           // this.previouspos[i]=this.pos[i];
+  //         }
 
-        // this.pos[2]=this.nextpos[2];
-        // this.pos[i]=this.nextpos[i];
-        // if(Math.pow(vel[0],2)+Math.pow(vel[0],2)<=1e-5){
-        //   this.pos[2]=this.nextpos[2];
-        // }
-        // else{
-        //   this.pos[2]=Math.sqrt(Math.pow(this.r,2)-Math.pow(this.nextpos[0]-this.rpos[0],2));
-        // }
-      }
-  }
+  //       }
+  //       else{
+  //         for(int i=0;i<3;i++){
+  //           this.previouspos[i]=this.pos[i];
+  //         }
+  //         if(this.pos[0]<=this.rpos[0]){
+  //           this.pos[0]=this.nextpos[0];
+  //           this.pos[1]=this.nextpos[1];
+  //           this.pos[2]=this.rpos[2]+Math.sqrt(Math.pow(this.r,2)-Math.pow(this.nextpos[0]-this.rpos[0],2));
+  //         }
+  //         else{
+  //           this.pos[0]=this.nextpos[0];
+  //           this.pos[1]=this.nextpos[1];
+  //           this.pos[2]=this.rpos[2]+Math.sqrt(Math.pow(this.r,2)-Math.pow(this.nextpos[0]-this.rpos[0],2));
+  //         }
+  //         for(int i=0;i<3;i++){
+  //           this.vel[i]=this.cr*(this.nextpos[i]-this.previouspos[i]);
+  //           // this.previouspos[i]=this.pos[i];
+  //         }
+  //       }
+
+  //       System.out.print("cx "+ this.pos[0] +"cz "+ this.pos[2] );
+
+  //     }
+  // }
 
 
 

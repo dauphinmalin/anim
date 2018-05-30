@@ -10,9 +10,9 @@ public class Particle{
   private double[] f;//force on X,force Y,force Z
   private double dt;
   private double radius;//radius to display the particle
-  private static double[] posMAX={9.5,0,6.5};
+  private static double[] posMAX={950,0,650};
   private static double cr=0.7;
-  private static double gcst = 6.67e-1;
+  private static double gcst = 6.67e-3;
 
 
 public Particle(double m,double[] pos,double[] vel,double[] f,double dt,double radius){
