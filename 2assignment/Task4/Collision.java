@@ -8,14 +8,20 @@ class Cluster{
   public double zMin;
   public double xMax;
   public double zMax;
+  double m;
+  double cmx;
+  double cmz;
 
 
-  public Cluster(int[] elements,double xmin,double xmax,double zmin,double zmax){
+  public Cluster(int[] elements,double xmin,double xmax,double zmin,double zmax,double m,double cxm,double czm){
     this.elements=elements;
     this.xMin=xmin;
     this.xMax=xmax;
     this.zMin=zmin;
     this.zMax=zmax;
+    this.m=m;
+    this.cmx=cxm;
+    this.cmz=czm;
   }
 
 
@@ -54,6 +60,7 @@ class Tree{
   Tree right;
   Tree left;
   boolean checked;
+
   private static Particle[] particles=null;
 
 
@@ -66,7 +73,10 @@ class Tree{
 
 
   public void setParticles(Particle[] particles){
-    this.particles=particles;
+    this.particles=particles.clone();
+  }
+  public Particle[] getParticles(){
+    return this.particles;
   }
 
 
@@ -93,6 +103,13 @@ class Tree{
     double azmax=-11111.000;
     double bxmax=-11111.000;
     double bzmax=-11111.000;
+    double cmxa=0;
+    double cmxb=0;
+    double cmzb=0;
+    double cmza=0;
+    double ma=0;
+    double mb=0;
+
     for(i=0;i<tab.length/2;i++){
       a.add(tab[i]);
       medx1=this.particles[tab[i]].getX()+medx1;
@@ -129,6 +146,12 @@ class Tree{
       bxmin=1000000000000.0;
       azmin=1000000000000.0;
       bzmin=1000000000000.0;
+      cmxa=0;
+      cmxb=0;
+      cmzb=0;
+      cmza=0;
+      ma=0;
+      mb=0;
       axmax=-1111111111;
       azmax=-1111111111;
       azmax=-1111111111;
@@ -141,8 +164,13 @@ class Tree{
         a.add(tab[0]);
         medx1=0;
         medz1=0;
-        medx1+=this.particles[tab[0]].getX();;
-        medz1+=this.particles[tab[0]].getZ();;
+
+        cmxa+=this.particles[tab[0]].getX();
+        cmza+=this.particles[tab[0]].getZ();
+        ma+=this.particles[tab[0]].getM();
+        medx1+=this.particles[tab[0]].getX();
+        medz1+=this.particles[tab[0]].getZ();
+
         k1+=1;
         double radius=this.particles[tab[0]].getRadius();
         if(this.particles[tab[0]].getX()+radius>axmax){axmax=this.particles[tab[0]].getX()+radius;}
@@ -166,11 +194,17 @@ class Tree{
         double x=this.particles[tab[i]].getX();
         double z= this.particles[tab[i]].getZ();
         double radius=this.particles[tab[i]].getRadius();
+        double m=this.particles[tab[i]].getM();
         if(Math.pow(prevMedx1-x,2)+Math.pow(prevMedz1-z,2)< Math.pow(prevMedx2-x,2)+Math.pow(prevMedz2-z,2)){
           a.add(tab[i]);
           medx1+=x;
           medz1+=z;
           k1+=1;
+
+          cmxa=(cmxa*ma+m*x)/(ma+m);
+          cmza=(cmza*ma+m*z)/(ma+m);
+          ma+=m;
+
           if(x-radius<axmin){axmin=x-radius;}
           if(x+radius>axmax){axmax=x+radius;}
           if(z-radius<azmin){azmin=z-radius;}
@@ -181,6 +215,9 @@ class Tree{
           medx2+=x;
           medz2+=z;
           k2+=1;
+          cmxb=(cmxb*mb+m*x)/(mb+m);
+          cmzb=(cmzb*mb+m*z)/(mb+m);
+          mb+=m;
           if(x-radius<bxmin){bxmin=x-radius;}
           if(x+radius>bxmax){bxmax=x+radius;}
           if(z-radius<bzmin){bzmin=z-radius;}
@@ -204,8 +241,8 @@ class Tree{
     {
       right[i] = iteratorb.next().intValue();
     }
-    Cluster cleft=new Cluster(left,axmin,axmax,azmin,azmax);
-    Cluster cright=new Cluster(right,bxmin,bxmax,bzmin,bzmax);
+    Cluster cleft=new Cluster(left,axmin,axmax,azmin,azmax,ma,cmxa,cmza);
+    Cluster cright=new Cluster(right,bxmin,bxmax,bzmin,bzmax,mb,cmxb,cmzb);
     Cluster[] result={cleft,cright};
 
     return  result;
@@ -272,6 +309,22 @@ class Tree{
     }
     return list;
   }
+
+
+public void calculateForceTree(double m,double cmx,double cmz){
+  if(this.cluster.elements.length>1){
+    double m1=this.right.cluster.m;
+    this.left.calculateForceTree(m+m1,(cmx*m+m1*this.right.cluster.cmx)/(m+m1),(cmz*m+m1*this.right.cluster.cmz)/(m+m1));
+    m1=this.left.cluster.m;
+    this.right.calculateForceTree(m+m1,(cmx*m+m1*this.left.cluster.cmx)/(m+m1),(cmz*m+m1*this.left.cluster.cmz)/(m+m1));
+
+  }
+  else{
+    //System.out.println(m);
+    this.particles[this.cluster.elements[0]].calculateForce(m,cmx,cmz);
+
+  }
+}
 }
 
 
@@ -285,7 +338,7 @@ public class Collision{
 
 
   public Collision(Particle[] particles,double sizex,double sizez){
-    this.particles=particles;
+    this.particles=particles.clone();
     this.sizex=sizex;
     this.sizez=sizez;
     int[] tab=new int[particles.length];
@@ -294,13 +347,20 @@ public class Collision{
     }
   }
 
+  public void calculateForce(){
+
+    this.collisionTree.calculateForceTree(0,0,0);
+
+
+
+  }
 
   public ArrayList<Integer[]> checkCollision(){
     int[] inside=new int[this.particles.length];
     for(int i=0;i<this.particles.length;i++){
       inside[i]=i;
     }
-    Cluster cluster=new Cluster(inside,0,0,this.sizex,this.sizez);
+    Cluster cluster=new Cluster(inside,0,0,this.sizex,this.sizez,0,0,0);
     this.collisionTree= new Tree(cluster);
     this.collisionTree.setParticles(this.particles);
     this.collisionTree.RecursionCluster();
@@ -321,4 +381,6 @@ public class Collision{
       return null;
     }
   }
+
+
 }

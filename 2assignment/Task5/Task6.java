@@ -1,5 +1,5 @@
 import java.util.*;
-class Task5{
+class Task6{
 	public static void main (String args[])throws InterruptedException {
 
 
@@ -23,7 +23,7 @@ class Task5{
 
 		for(int i=0;i<n;i++){
 			// double[] pos ={radius+(1-9.5*radius)*rand.nextDouble(),0,radius+(1-6.5*radius)*rand.nextDouble()};
-			double m=(0.1-0.05)*rand.nextDouble();
+			double m=0.2;
 			double sign=-1+2*rand.nextInt(1);
 			double R=(1+(2.5-1)*rand.nextDouble());
 			double x=4.5+R*sign;
@@ -63,19 +63,21 @@ class Task5{
 
 		Viewing viewer = new Viewing(950,650,particles,"Task5");
 
+		boolean bool=true;
 
-
-		while(true){
+		while(true){bool=!bool;
 
 
 			viewer.drawParticles(particles);
 
+
+
+
+			collision.calculateForce();
 			for(int i=0;i<particles.length;i++){
-				particles[i].calculateForce(particles);
 				particles[i].calculatePos();
 				particles[i].borderResponse();
 			}
-
 			list = collision.checkCollision();
 			iterator = list.iterator();
 			while (iterator.hasNext()) {

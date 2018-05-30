@@ -20,9 +20,9 @@ class Drawing extends JPanel{
       // g.fillOval((int)Math.round(100*this.particles[1].getX())-radius1,(int)Math.round(100*this.particles[1].getZ())-radius1,2*radius1,2*radius1);
 
       for(int i=0;i<particles.length;i++){
-        int radius=(int)Math.round(this.particles[i].getRadius());
+        int radius=(int)Math.round(100*this.particles[i].getRadius());
         g.setColor(Color.blue);
-        g.fillOval((int)Math.round(this.particles[i].getX())-radius,(int)Math.round(this.particles[i].getZ())-radius,2*radius,2*radius);
+        g.fillOval((int)Math.round(100*this.particles[i].getX())-radius,(int)Math.round(100*this.particles[i].getZ())-radius,2*radius,2*radius);
       }
   }
   public void move(Particle[] particles){

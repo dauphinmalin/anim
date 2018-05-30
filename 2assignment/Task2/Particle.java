@@ -153,21 +153,17 @@ public void borderResponse(){
   }
 }
 
-public void calculateForce(Particle[] particles){
+public void calculateForce(double m,double cmx,double cmz){
   this.f[0]=0;
   this.f[2]=0;
-    for(int i=0;i<particles.length;i++){
-      if(particles[i] != this){
-        double x = particles[i].getX() - this.pos[0];
-        double z = particles[i].getZ() - this.pos[2];
+        double x = cmx - this.pos[0];
+        double z = cmz - this.pos[2];
         double distance = Math.sqrt(x*x+z*z);
         if(distance!=0){
-          double force = this.gcst*this.m*particles[i].getM()/(distance*distance*distance);
-
+          double force = this.gcst*this.m*m/(distance*distance*distance);
           this.f[0] += force*x;
           this.f[2] += force*z;
-        }
-      }
+
 
     }
 }
