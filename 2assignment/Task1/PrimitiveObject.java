@@ -7,11 +7,12 @@ abstract class PrimitiveObject{
   protected double[] f;//force on X,force Y,force Z
   protected double dt;
   protected static double[] posMAX;
+  protected double length;
   protected double width;
   protected double height;
 
 
-PrimitiveObject(double m,double[] pos,double[] vel,double[] f,double dt,double width,double height){
+PrimitiveObject(double m,double[] pos,double[] vel,double[] f,double dt,double length, double width,double height){
   this.m=m;
   this.dt=dt;
   this.previouspos=new double[3];
@@ -23,11 +24,12 @@ PrimitiveObject(double m,double[] pos,double[] vel,double[] f,double dt,double w
   }
   this.vel=vel.clone();
   this.f=f.clone();
+  this.length=length;
   this.width=width;
   this.height=height;
 }
   abstract void borderResponse();
-  abstract void calculateForce(double m,double cmx,double cmz);
+  abstract void calculateForce(double m,double[] cm);
   abstract void calculatePos();
   /*abstract void draw();
 
@@ -35,6 +37,10 @@ PrimitiveObject(double m,double[] pos,double[] vel,double[] f,double dt,double w
 
   public double getHeight(){
     return this.height;
+
+  }
+  public double getLength(){
+    return this.length;
 
   }
   public double getWidth(){

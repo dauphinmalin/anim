@@ -8,8 +8,8 @@ public class Particle extends PrimitiveObject{
   private static double cr=0.7;
   private static double gcst = 6.67e-3;
 
-public Particle(double m,double[] pos,double[] vel,double[] f,double dt,double radius){
-    super(m,pos,vel,f,dt,radius,radius);
+public Particle(double m,double[] pos,double[] vel,double[] f,double dt,double length, double width,double height,double radius){
+    super(m,pos,vel,f,dt,length,width,height);
 
     this.radius=radius;
 
@@ -77,16 +77,19 @@ public void borderResponse(){
     }
   }
 }
-@Override
-public void calculateForce(double m,double cmx,double cmz){
+
+public void calculateForce(double m,double[] cm){
   this.f[0]=0;
+  this.f[1]=0;
   this.f[2]=0;
-        double x = cmx - this.pos[0];
-        double z = cmz - this.pos[2];
-        double distance = Math.sqrt(x*x+z*z);
+        double x = cm[0] - this.pos[0];
+        double y = cm[1] - this.pos[1];
+        double z = cm[2] - this.pos[2];
+        double distance = Math.sqrt(x*x+y*y+z*z);
         if(distance!=0){
           double force = this.gcst*this.m*m/(distance*distance*distance);
           this.f[0] += force*x;
+          this.f[1] += force*y;
           this.f[2] += force*z;
 
 
