@@ -13,7 +13,8 @@ public void Draw(){
 public RigidObject(PrimitiveObject[] objects,double[] pos,double[] vel,double[] rotation,double[] f,double dt){
   super(0,pos,vel,rotation,f,dt,0,0);
   this.elements=objects.clone();
-  this.TreeofElements=new ObjectTree(this.particles,0,0,0,950,650,650,0,0,0);
+  
+  this.TreeofElements=new ObjectTree(this.particles,min,max,m,cm);
 
 }
 

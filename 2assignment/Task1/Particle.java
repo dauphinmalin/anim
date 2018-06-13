@@ -9,10 +9,13 @@ public class Particle extends PrimitiveObject{
   private static double gcst = 6.67e-3;
 
 public Particle(double m,double[] pos,double[] vel,double[] rotation,double[] f,double dt,double radius){
-    super(m,pos,vel,rotation,f,dt,radius,radius,radius);
+    super(m,pos,vel,rotation,f,dt);
 
     this.radius=radius;
-
+    double[] tab={-radius,radius};
+    this.length=tab;
+    this.height=tab;
+    this.width=tab;
 
 
 
