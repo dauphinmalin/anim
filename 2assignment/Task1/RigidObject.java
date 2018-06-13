@@ -13,10 +13,18 @@ public void Draw(){
 public RigidObject(PrimitiveObject[] objects,double[] pos,double[] vel,double[] rotation,double[] f,double dt){
   super(0,pos,vel,rotation,f,dt,0,0);
   this.elements=objects.clone();
-  
+
   this.TreeofElements=new ObjectTree(this.particles,min,max,m,cm);
 
 }
+
+public void calculateVolume(){
+  for(int i=0;i<elements.length;i++){
+    if(this.elements[i].length[0]+this.elements[i].getX()<elements.length[0]+this.getX()){
+      elements.length[0]
+    }
+  }
+};
 
 public void setPos(double[] position,double rotation){
   super(position,rotation);

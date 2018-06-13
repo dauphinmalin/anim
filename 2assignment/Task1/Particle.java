@@ -10,12 +10,18 @@ public class Particle extends PrimitiveObject{
 
 public Particle(double m,double[] pos,double[] vel,double[] rotation,double[] f,double dt,double radius){
     super(m,pos,vel,rotation,f,dt);
+    for(int j=0;j<3;j++){
 
+    }
     this.radius=radius;
-    double[] tab={-radius,radius};
-    this.length=tab;
-    this.height=tab;
-    this.width=tab;
+    this.extremeInf=new double[3];
+    this.extremeSup=new double[3];
+    for(int j=0;j<3;j++){
+      this.extremeInf[j]=pos[j]-this.radius;
+      this.extremeSup[j]=pos[j]+this.radius;
+
+    }
+
 
 
 
@@ -67,15 +73,19 @@ public void borderResponse(){
       this.vel[i]=-this.cr*(this.nextpos[i]-this.pos[i]);
       this.previouspos[i]=this.posMAX[i]-this.radius-this.vel[i];
       this.pos[i]=this.posMAX[i]-this.radius;
+      this.extremeSup[i]=this.posMAX[i];
     }
     else if(this.nextpos[i]<this.radius){
       this.vel[i]=-this.cr*(this.nextpos[i]-this.pos[i]);
       this.previouspos[i]=this.radius-this.vel[i];
       this.pos[i]=this.radius;
+      this.extremeInf[i]=0;
     }
     else{
     this.previouspos[i]=this.pos[i];
     this.pos[i]=this.nextpos[i];
+    this.extremeInf[i]=this.pos[i]-this.radius;
+    this.extremeSup[i]=this.pos[i]+this.radius;
     this.vel[i]=this.cr*(this.pos[i]-this.previouspos[i]);
     }
   }

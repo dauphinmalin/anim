@@ -8,9 +8,8 @@ abstract class PrimitiveObject{
   protected double[] f;//force on X,force Y,force Z
   protected double dt;
   protected static double[] posMAX;
-  protected double[] length;
-  protected double[] width;
-  protected double[] height;
+  protected double[] extremeInf;
+  protected double[] extremeSup;
 
 
 PrimitiveObject(double m,double[] pos,double[] vel,double[] rotation,double[] f,double dt){
@@ -41,17 +40,15 @@ PrimitiveObject(double m,double[] pos,double[] vel,double[] rotation,double[] f,
 
   abstract void Collision();*/
 
-  public double[] getHeight(){
-    return this.height;
+  public double[] getExtremeInf(){
+    return this.extremeInf;
 
   }
-  public double[] getLength(){
-    return this.length;
+  public double[] getExtremeSup(){
+    return this.extremeSup;
 
   }
-  public double[] getWidth(){
-    return this.width;
-  }
+
   public double getX(){
     return this.pos[0];
   }
