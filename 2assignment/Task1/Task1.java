@@ -30,7 +30,7 @@ class Task1{
 			double length = radius;
 			double width = radius;
 			double height = radius;
-			particles[i]=new Particle(m,pos, vel,rotation, f, dt,length,width,height,radius);
+			particles[i]=new Particle(m,pos, vel,rotation, f, dt,radius);
 			// particles[0]=new Particle(m,po, vel, f, dt,radius);
 
 		}
@@ -74,7 +74,7 @@ class Task1{
 
 			}
 
-			Thread.sleep((int)(1000*dt));
+			// Thread.sleep((int)(1000*dt));
 
 		}
 

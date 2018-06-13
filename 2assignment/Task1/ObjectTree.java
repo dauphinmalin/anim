@@ -13,6 +13,10 @@ class Cluster{
 
   public Cluster(int[] elements,double[] Min, double[] Max, double m, double[] cm){
     this.elements=elements;
+    this.Min=new double[3];
+    this.Max=new double[3];
+    this.cm=new double[3];
+
     for(int i=0;i<3;i++){
       this.Min[i]=Min[i];
       this.Max[i]=Max[i];
