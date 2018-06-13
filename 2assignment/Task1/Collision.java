@@ -32,15 +32,12 @@ public class Collision{
 
   public ArrayList<Integer[]> checkCollision(){
     int[] inside=new int[this.particles.length];
-    for(int i=0;i<this.particles.length;i++){
-      inside[i]=i;
-    }
-    Cluster cluster=new Cluster(inside,0,0,this.sizex,this.sizez,0,0,0);
-    this.collisionTree= new ObjectTree(cluster);
-    this.collisionTree.setParticles(this.particles);
-    this.collisionTree.RecursionCluster();
-    if(this.collisionTree.cluster.elements.length>1){
-      ArrayList<Integer[]> list=this.collisionTree.RecursionCheck();
+
+
+    this.collisionTree= new ObjectTree(this.particles,0,0,this.sizex,this.sizez,0,0,0);
+    this.collisionTree.Cluster();
+    if(this.collisionTree.elements.length>1){
+      ArrayList<Integer[]> list=this.collisionTree.checkCollision();
       Iterator<Integer[]> iterator = list.iterator();
       while (iterator.hasNext()) {
         Integer[] tab=iterator.next();

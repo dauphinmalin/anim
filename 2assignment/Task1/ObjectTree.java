@@ -54,31 +54,21 @@ class Cluster{
   }
 }
 
-
-public class ObjectTree{
-  public Cluster cluster;
-  public ObjectTree right;
-  public ObjectTree left;
-  public boolean checked;
-
-  private static PrimitiveObject[] objects=null;
+class Node{
+  Cluster cluster;
+  Node right;
+  Node left;
+  boolean checked;
+  PrimitiveObject[] elements;
 
 
-  public ObjectTree(Cluster cluster){
+  public Node(PrimitiveObject[] elements,Cluster cluster){
     this.cluster=cluster;
     this.left=null;
     this.right=null;
     this.checked=false;
+    this.elements=elements;
   }
-
-
-  public void setParticles(Particle[] particles){
-    this.particles=particles.clone();
-  }
-  public Particle[] getParticles(){
-    return this.particles;
-  }
-
 
   public Cluster[] Clustering(int[] tab){
 
@@ -112,15 +102,15 @@ public class ObjectTree{
 
     for(i=0;i<tab.length/2;i++){
       a.add(tab[i]);
-      medx1=this.particles[tab[i]].getX()+medx1;
-      medz1=this.particles[tab[i]].getZ()+medz1;
+      medx1=this.elements[tab[i]].getX()+medx1;
+      medz1=this.elements[tab[i]].getZ()+medz1;
     }
     medx1=medx1/i;
     medz1=medz1/i;
     while(i<tab.length){
       b.add(tab[i]);
-      medx2=this.particles[tab[i]].getX()+medx2;
-      medz2=this.particles[tab[i]].getZ()+medz2;
+      medx2=this.elements[tab[i]].getX()+medx2;
+      medz2=this.elements[tab[i]].getZ()+medz2;
       i++;
     }
 
@@ -165,18 +155,19 @@ public class ObjectTree{
         medx1=0;
         medz1=0;
 
-        cmxa+=this.particles[tab[0]].getX();
-        cmza+=this.particles[tab[0]].getZ();
-        ma+=this.particles[tab[0]].getM();
-        medx1+=this.particles[tab[0]].getX();
-        medz1+=this.particles[tab[0]].getZ();
+        cmxa+=this.elements[tab[0]].getX();
+        cmza+=this.elements[tab[0]].getZ();
+        ma+=this.elements[tab[0]].getM();
+        medx1+=this.elements[tab[0]].getX();
+        medz1+=this.elements[tab[0]].getZ();
 
         k1+=1;
-        double radius=this.particles[tab[0]].getRadius();
-        if(this.particles[tab[0]].getX()+radius>axmax){axmax=this.particles[tab[0]].getX()+radius;}
-        if(this.particles[tab[0]].getX()-radius<axmin){axmin=this.particles[tab[0]].getX()-radius;}
-        if(this.particles[tab[0]].getZ()-radius<azmin){azmin=this.particles[tab[0]].getZ()-radius;}
-        if(this.particles[tab[0]].getZ()+radius>azmax){azmax=this.particles[tab[0]].getZ()+radius;}
+        double width=this.elements[tab[0]].getWidth();
+        double height=this.elements[tab[0]].getHeight();
+        if(this.elements[tab[0]].getX()+width>axmax){axmax=this.elements[tab[0]].getX()+width;}
+        if(this.elements[tab[0]].getX()-width<axmin){axmin=this.elements[tab[0]].getX()-width;}
+        if(this.elements[tab[0]].getZ()-height<azmin){azmin=this.elements[tab[0]].getZ()-height;}
+        if(this.elements[tab[0]].getZ()+height>azmax){azmax=this.elements[tab[0]].getZ()+height;}
 
         medx2=0;
         medz2=0;
@@ -191,10 +182,11 @@ public class ObjectTree{
 
 
       for(i=i;i<tab.length;i++){
-        double x=this.particles[tab[i]].getX();
-        double z= this.particles[tab[i]].getZ();
-        double radius=this.particles[tab[i]].getRadius();
-        double m=this.particles[tab[i]].getM();
+        double x=this.elements[tab[i]].getX();
+        double z= this.elements[tab[i]].getZ();
+        double width=this.elements[tab[i]].getWidth();
+        double height=this.elements[tab[i]].getHeight();
+        double m=this.elements[tab[i]].getM();
         if(Math.pow(prevMedx1-x,2)+Math.pow(prevMedz1-z,2)< Math.pow(prevMedx2-x,2)+Math.pow(prevMedz2-z,2)){
           a.add(tab[i]);
           medx1+=x;
@@ -205,10 +197,10 @@ public class ObjectTree{
           cmza=(cmza*ma+m*z)/(ma+m);
           ma+=m;
 
-          if(x-radius<axmin){axmin=x-radius;}
-          if(x+radius>axmax){axmax=x+radius;}
-          if(z-radius<azmin){azmin=z-radius;}
-          if(z+radius>azmax){azmax=z+radius;}
+          if(x-width<axmin){axmin=x-width;}
+          if(x+width>axmax){axmax=x+width;}
+          if(z-height<azmin){azmin=z-height;}
+          if(z+height>azmax){azmax=z+height;}
         }
         else{
           b.add(tab[i]);
@@ -218,10 +210,10 @@ public class ObjectTree{
           cmxb=(cmxb*mb+m*x)/(mb+m);
           cmzb=(cmzb*mb+m*z)/(mb+m);
           mb+=m;
-          if(x-radius<bxmin){bxmin=x-radius;}
-          if(x+radius>bxmax){bxmax=x+radius;}
-          if(z-radius<bzmin){bzmin=z-radius;}
-          if (z+radius>bzmax){bzmax=z+radius;}
+          if(x-width<bxmin){bxmin=x-width;}
+          if(x+width>bxmax){bxmax=x+width;}
+          if(z-height<bzmin){bzmin=z-height;}
+          if (z+height>bzmax){bzmax=z+height;}
         }
       }
       medx1=medx1/k1;
@@ -252,15 +244,15 @@ public class ObjectTree{
   public void RecursionCluster(){
     if (this.cluster.elements.length>1){
       Cluster[] result=this.Clustering(this.cluster.elements);
-      this.left=new ObjectTree(result[0]);
-      this.right=new ObjectTree(result[1]);
+      this.left=new Node(this.elements,result[0]);
+      this.right=new Node(this.elements,result[1]);
       this.left.RecursionCluster();
       this.right.RecursionCluster();
     }
   }
 
 
-  public ArrayList<Integer[]> RecursionChecklower(ObjectTree bigger){
+  public ArrayList<Integer[]> RecursionChecklower(Node bigger){
     boolean col=this.cluster.Col(bigger.cluster);
     ArrayList<Integer[]> list=new ArrayList<Integer[]>();
     if(col){
@@ -311,18 +303,53 @@ public class ObjectTree{
   }
 
 
-public void calculateForceObjectTree(double m,double cmx,double cmz){
+public void calculateForceNode(double m,double cmx,double cmz){
   if(this.cluster.elements.length>1){
     double m1=this.right.cluster.m;
-    this.left.calculateForceObjectTree(m+m1,(cmx*m+m1*this.right.cluster.cmx)/(m+m1),(cmz*m+m1*this.right.cluster.cmz)/(m+m1));
+    this.left.calculateForceNode(m+m1,(cmx*m+m1*this.right.cluster.cmx)/(m+m1),(cmz*m+m1*this.right.cluster.cmz)/(m+m1));
     m1=this.left.cluster.m;
-    this.right.calculateForceObjectTree(m+m1,(cmx*m+m1*this.left.cluster.cmx)/(m+m1),(cmz*m+m1*this.left.cluster.cmz)/(m+m1));
+    this.right.calculateForceNode(m+m1,(cmx*m+m1*this.left.cluster.cmx)/(m+m1),(cmz*m+m1*this.left.cluster.cmz)/(m+m1));
 
   }
   else{
     //System.out.println(m);
-    this.particles[this.cluster.elements[0]].calculateForce(m,cmx,cmz);
+    this.elements[this.cluster.elements[0]].calculateForce(m,cmx,cmz);
 
   }
 }
+}
+public class ObjectTree{
+  Node tree;
+  protected PrimitiveObject[] elements;
+
+
+  public ObjectTree(PrimitiveObject[] elements,int xmin,double zmin,double xmax,double zmax,double m ,double cmx,double cmz){
+    int[] inside=new int[elements.length];
+    for(int i=0;i<elements.length;i++){
+      inside[i]=i;
+    }
+  this.elements=elements.clone();
+  Cluster cluster=new Cluster(inside,xmin,xmax,zmin,zmax,m,cmx,cmz);
+  this.tree=new Node(this.elements,cluster);
+}
+
+
+
+  public PrimitiveObject[] getElements(){
+    return this.elements;
+  }
+
+  public void calculateForceObjectTree(double x,double y,double z){
+    this.tree.calculateForceNode(x,y,z);
+  }
+
+  ArrayList<Integer[]> checkCollision(){
+    return this.tree.RecursionCheck();
+  }
+  public void Cluster(){
+    this.tree.RecursionCluster();
+  }
+
+
+
 }
