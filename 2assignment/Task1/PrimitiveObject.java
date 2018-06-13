@@ -4,6 +4,7 @@ abstract class PrimitiveObject{
   protected double[] previouspos;
   protected double[] nextpos;
   protected double[] vel;
+  protected double[] rotation;
   protected double[] f;//force on X,force Y,force Z
   protected double dt;
   protected static double[] posMAX;
@@ -12,18 +13,21 @@ abstract class PrimitiveObject{
   protected double height;
 
 
-PrimitiveObject(double m,double[] pos,double[] vel,double[] f,double dt,double length, double width,double height){
+PrimitiveObject(double m,double[] pos,double[] vel,double[] rotation,double[] f,double dt,double length; width,double height){
   this.m=m;
   this.dt=dt;
   this.previouspos=new double[3];
   this.nextpos=new double[3];
   this.pos=pos.clone();
+  double[] rotation = {0,0,0};
+  this.rotation=rotation;
   for(int i=0;i<pos.length;i++){
   this.previouspos[i]=pos[i]-vel[i]*dt;
   this.nextpos[i] = 2*pos[i]-pos[i]-vel[i]*dt+dt*dt*f[i]/m;
   }
   this.vel=vel.clone();
   this.f=f.clone();
+  this.rotation=rotation.clone();
   this.length=length;
   this.width=width;
   this.height=height;
@@ -31,6 +35,11 @@ PrimitiveObject(double m,double[] pos,double[] vel,double[] f,double dt,double l
   abstract void borderResponse();
   abstract void calculateForce(double m,double[] cm);
   abstract void calculatePos();
+
+  public void setPos(double[] pos,double[] rotation){
+    this.pos=pos;
+    this.rotation=rotation;
+  }
   /*abstract void draw();
 
   abstract void Collision();*/
