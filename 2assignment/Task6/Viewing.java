@@ -16,9 +16,9 @@ class Drawing extends JPanel{
   public void paintComponent(Graphics g) {
     super.paintComponent(g);
     for(int i=0;i<particles.length;i++){
-      int radius=(int)Math.round(100*this.particles[i].getRadius());
+      int radius=(int)Math.round(this.particles[i].getRadius());
       g.setColor(Color.blue);
-      g.fillOval((int)Math.round(100*this.particles[i].getX())-radius,(int)Math.round(100*this.particles[i].getZ())-radius,2*radius,2*radius);
+      g.fillOval((int)Math.round(this.particles[i].getX())-radius,(int)Math.round(this.particles[i].getZ())-radius,2*radius,2*radius);
     }
   }
 
