@@ -2,47 +2,55 @@ import java.util.*;
 import java.lang.Math;
 
 
+
 class Cluster{
   public int[] elements;
-  public double xMin;
-  public double zMin;
-  public double xMax;
-  public double zMax;
+  public double[] Min;
+  public double[] Max;
   double m;
-  double cmx;
-  double cmz;
+  double[] cm;
 
 
-  public Cluster(int[] elements,double xmin,double xmax,double zmin,double zmax,double m,double cxm,double czm){
+  public Cluster(int[] elements,double[] Min, double[] Max, double m, double[] cm){
     this.elements=elements;
-    this.xMin=xmin;
-    this.xMax=xmax;
-    this.zMin=zmin;
-    this.zMax=zmax;
-    this.m=m;
-    this.cmx=cxm;
-    this.cmz=czm;
-  }
+    this.Min=new double[3];
+    this.Max=new double[3];
+    this.cm=new double[3];
 
-
-  public void Show(){
-
-    for(int i=0;i<elements.length;i++){
-
-
+    for(int i=0;i<3;i++){
+      this.Min[i]=Min[i];
+      this.Max[i]=Max[i];
+      this.cm[i]=cm[i];
     }
+    this.m=m;
+
   }
+
+
+  // public void Show(){
+  //
+  //   for(int i=0;i<elements.length;i++){
+  //
+  //
+  //   }
+  // }
 
 
   public boolean Col(Cluster c){
-    double xmin=this.xMin+c.xMin-c.xMax;
-    double xmax=this.xMax;
-    double zmin=this.zMin+c.zMin-c.zMax;
-    double zmax=this.zMax;
-    if(xmin<=c.xMin && c.xMin<=xmax){
-      if(zmin<=c.zMin && c.zMin<=zmax){
-        return true;
-
+    double xmin=this.Min[0]+c.Min[0]-c.Max[0];
+    double xmax=this.Max[0];
+    double ymin=this.Min[1]+c.Min[1]-c.Max[1];
+    double ymax=this.Max[1];
+    double zmin=this.Min[2]+c.Min[2]-c.Max[2];
+    double zmax=this.Max[2];
+    if(xmin<=c.Min[0] && c.Min[0]<=xmax){
+      if(ymin<=c.Min[1] && c.Min[1]<=ymax){
+        if(zmin<=c.Min[2] && c.Min[2]<=zmax){
+          return true;
+        }
+        else{
+          return false;
+        }
       }
       else{
         return false;
@@ -77,45 +85,39 @@ class Node{
     ArrayList<Integer> a1=new ArrayList<Integer>();
     ArrayList<Integer> b1=new ArrayList<Integer>();
     int i;
-    double medx1=0;
-    double medz1=0;
-    double medx2=0;
-    double medz2=0;
-    double prevMedx1=0;
-    double prevMedz1=0;
-    double prevMedx2=0;
-    double prevMedz2=0;
-    double bxmin=100000000000000.0;
-    double azmin=100000000000000.0;
-    double axmin=100000000000000.0;
-    double bzmin=100000000000000.0;
-    double axmax=-11111.000;
-    double azmax=-11111.000;
-    double bxmax=-11111.000;
-    double bzmax=-11111.000;
-    double cmxa=0;
-    double cmxb=0;
-    double cmzb=0;
-    double cmza=0;
+    double[] med1={0.0,0.0,0.0};
+    double[] med2={0.0,0.0,0.0};
+    double[] prevMed1={0.0,0.0,0.0};
+    double[] prevMed2={0.0,0.0,0.0};
+    double[] bmin={100000000000000.0,100000000000000.0,100000000000000.0};
+    double[] amin={100000000000000.0,100000000000000.0,100000000000000.0};
+    double[] bmax={-11111.000,-11111.000,-11111.000};
+    double[] amax={-11111.000,-11111.000,-11111.000};
+    double[] cma={0.0, 0.0, 0.0};
+    double[] cmb={0.0, 0.0, 0.0};
     double ma=0;
     double mb=0;
 
     for(i=0;i<tab.length/2;i++){
       a.add(tab[i]);
-      medx1=this.elements[tab[i]].getX()+medx1;
-      medz1=this.elements[tab[i]].getZ()+medz1;
+      med1[0]=this.elements[tab[i]].getX()+med1[0];
+      med1[1]=this.elements[tab[i]].getY()+med1[1];
+      med1[2]=this.elements[tab[i]].getZ()+med1[2];
     }
-    medx1=medx1/i;
-    medz1=medz1/i;
+    med1[0]=med1[0]/i;
+    med1[1]=med1[1]/i;
+    med1[2]=med1[2]/i;
     while(i<tab.length){
       b.add(tab[i]);
-      medx2=this.elements[tab[i]].getX()+medx2;
-      medz2=this.elements[tab[i]].getZ()+medz2;
+      med2[0]=this.elements[tab[i]].getX()+med2[0];
+      med2[1]=this.elements[tab[i]].getY()+med2[1];
+      med2[2]=this.elements[tab[i]].getZ()+med2[2];
       i++;
     }
 
-    medx2=medx2/(i-tab.length/2);
-    medz2=medz2/(i-tab.length/2);
+    med2[0]=med2[0]/(i-tab.length/2);
+    med2[1]=med2[1]/(i-tab.length/2);
+    med2[2]=med2[2]/(i-tab.length/2);
     while(!a.equals(a1) && !b.equals(b1)){
 
       a1.clear();
@@ -128,98 +130,116 @@ class Node{
       }
       a.clear();
       b.clear();
-      prevMedx1=medx1;
-      prevMedz1=medz1;
-      prevMedx2=medx2;
-      prevMedz2=medz2;
-      axmin=1000000000000.0;
-      bxmin=1000000000000.0;
-      azmin=1000000000000.0;
-      bzmin=1000000000000.0;
-      cmxa=0;
-      cmxb=0;
-      cmzb=0;
-      cmza=0;
+      prevMed1[0]=med1[0];
+      prevMed1[1]=med1[1];
+      prevMed1[2]=med1[2];
+      prevMed2[0]=med2[0];
+      prevMed2[1]=med2[1];
+      prevMed2[2]=med2[2];
+      for(int k=0;k<3;k++){
+        amin[k] = 1000000000000.0;
+        bmin[k] = 1000000000000.0;
+        cma[k] = 0.0;
+        cmb[k] = 0.0;
+        amax[k] = -1111111111;
+        bmax[k] = -1111111111;
+      }
       ma=0;
       mb=0;
-      axmax=-1111111111;
-      azmax=-1111111111;
-      azmax=-1111111111;
-      bzmax=-1111111111;
       i=0;
       int k1=0;
       int k2=0;
-      if(medx1==medx2 && medz1==medz2){
+      if(med1[0]==med2[0] && med1[1]==med2[1] && med1[2]==med2[2]){
         i=1;
         a.add(tab[0]);
-        medx1=0;
-        medz1=0;
 
-        cmxa+=this.elements[tab[0]].getX();
-        cmza+=this.elements[tab[0]].getZ();
+        for(int ii=0;ii<3;ii++){
+          med1[ii] = 0;
+        }
+
+        cma[0]+=this.elements[tab[0]].getX();
+        cma[1]+=this.elements[tab[0]].getY();
+        cma[2]+=this.elements[tab[0]].getZ();
         ma+=this.elements[tab[0]].getM();
-        medx1+=this.elements[tab[0]].getX();
-        medz1+=this.elements[tab[0]].getZ();
+        med1[0]+=this.elements[tab[0]].getX();
+        med1[1]+=this.elements[tab[0]].getY();
+        med1[2]+=this.elements[tab[0]].getZ();
 
         k1+=1;
+        double length=this.elements[tab[0]].getLength();
         double width=this.elements[tab[0]].getWidth();
         double height=this.elements[tab[0]].getHeight();
-        if(this.elements[tab[0]].getX()+width>axmax){axmax=this.elements[tab[0]].getX()+width;}
-        if(this.elements[tab[0]].getX()-width<axmin){axmin=this.elements[tab[0]].getX()-width;}
-        if(this.elements[tab[0]].getZ()-height<azmin){azmin=this.elements[tab[0]].getZ()-height;}
-        if(this.elements[tab[0]].getZ()+height>azmax){azmax=this.elements[tab[0]].getZ()+height;}
+        if(this.elements[tab[0]].getX()+length>amax[0]){amax[0]=this.elements[tab[0]].getX()+length;}
+        if(this.elements[tab[0]].getX()-length<amin[0]){amin[0]=this.elements[tab[0]].getX()-length;}
+        if(this.elements[tab[0]].getY()+width>amax[1]){amax[1]=this.elements[tab[0]].getX()+width;}
+        if(this.elements[tab[0]].getY()-width<amin[1]){amin[1]=this.elements[tab[0]].getX()-width;}
+        if(this.elements[tab[0]].getZ()-height<amin[2]){amin[2]=this.elements[tab[0]].getZ()-height;}
+        if(this.elements[tab[0]].getZ()+height>amax[2]){amax[2]=this.elements[tab[0]].getZ()+height;}
 
-        medx2=0;
-        medz2=0;
+        for(int j=0;j<3;j++){
+          med2[j] = 0;
+        }
 
       }
       else{
-      medx1=0;
-      medz1=0;
-      medx2=0;
-      medz2=0;
+        for(int jj=0;jj<3;jj++){
+          med1[jj] = 0;
+          med2[jj] = 0;
+        }
     }
 
 
       for(i=i;i<tab.length;i++){
         double x=this.elements[tab[i]].getX();
+        double y=this.elements[tab[i]].getY();
         double z= this.elements[tab[i]].getZ();
+        double length=this.elements[tab[i]].getLength();
         double width=this.elements[tab[i]].getWidth();
         double height=this.elements[tab[i]].getHeight();
         double m=this.elements[tab[i]].getM();
-        if(Math.pow(prevMedx1-x,2)+Math.pow(prevMedz1-z,2)< Math.pow(prevMedx2-x,2)+Math.pow(prevMedz2-z,2)){
+        if(Math.pow(prevMed1[0]-x,2)+Math.pow(prevMed1[1]-y,2)+Math.pow(prevMed1[2]-z,2)< Math.pow(prevMed2[0]-x,2)+Math.pow(prevMed2[1]-y,2)+Math.pow(prevMed2[2]-z,2)){
           a.add(tab[i]);
-          medx1+=x;
-          medz1+=z;
+          med1[0]+=x;
+          med1[1]+=y;
+          med1[2]+=z;
           k1+=1;
 
-          cmxa=(cmxa*ma+m*x)/(ma+m);
-          cmza=(cmza*ma+m*z)/(ma+m);
+          cma[0]=(cma[0]*ma+m*x)/(ma+m);
+          cma[1]=(cma[1]*ma+m*x)/(ma+m);
+          cma[2]=(cma[2]*ma+m*z)/(ma+m);
           ma+=m;
 
-          if(x-width<axmin){axmin=x-width;}
-          if(x+width>axmax){axmax=x+width;}
-          if(z-height<azmin){azmin=z-height;}
-          if(z+height>azmax){azmax=z+height;}
+          if(x-length<amin[0]){amin[0]=x-length;}
+          if(x+length>amax[0]){amax[0]=x+length;}
+          if(y-width<amin[1]){amin[1]=y-width;}
+          if(y+width>amax[1]){amax[1]=y+width;}
+          if(z-height<amin[2]){amin[2]=z-height;}
+          if(z+height>amax[2]){amax[2]=z+height;}
         }
         else{
           b.add(tab[i]);
-          medx2+=x;
-          medz2+=z;
+          med2[0]+=x;
+          med2[1]+=y;
+          med2[2]+=z;
           k2+=1;
-          cmxb=(cmxb*mb+m*x)/(mb+m);
-          cmzb=(cmzb*mb+m*z)/(mb+m);
+          cmb[0]=(cmb[0]*mb+m*x)/(mb+m);
+          cmb[1]=(cmb[1]*mb+m*x)/(mb+m);
+          cmb[2]=(cmb[2]*mb+m*z)/(mb+m);
           mb+=m;
-          if(x-width<bxmin){bxmin=x-width;}
-          if(x+width>bxmax){bxmax=x+width;}
-          if(z-height<bzmin){bzmin=z-height;}
-          if (z+height>bzmax){bzmax=z+height;}
+          if(x-length<bmin[0]){bmin[0]=x-length;}
+          if(x+length>bmax[0]){bmax[0]=x+length;}
+          if(y-width<bmin[1]){bmin[1]=y-width;}
+          if(y+width>bmax[1]){bmax[1]=y+width;}
+          if(z-height<bmin[2]){bmin[2]=z-height;}
+          if(z+height>bmax[2]){bmax[2]=z+height;}
         }
       }
-      medx1=medx1/k1;
-      medz1=medz1/k1;
-      medx2=medx2/k2;
-      medz2=medz2/k2;
+      med1[0]=med1[0]/k1;
+      med1[1]=med1[1]/k1;
+      med1[2]=med1[2]/k1;
+      med2[0]=med2[0]/k2;
+      med2[1]=med2[1]/k2;
+      med2[2]=med2[2]/k2;
     }
     int[] left = new int[a.size()];
     Iterator<Integer> iteratora = a.iterator();
@@ -233,8 +253,8 @@ class Node{
     {
       right[i] = iteratorb.next().intValue();
     }
-    Cluster cleft=new Cluster(left,axmin,axmax,azmin,azmax,ma,cmxa,cmza);
-    Cluster cright=new Cluster(right,bxmin,bxmax,bzmin,bzmax,mb,cmxb,cmzb);
+    Cluster cleft=new Cluster(left,amin,amax,ma,cma);
+    Cluster cright=new Cluster(right,bmin,bmax,mb,cmb);
     Cluster[] result={cleft,cright};
 
     return  result;
@@ -303,17 +323,19 @@ class Node{
   }
 
 
-public void calculateForceNode(double m,double cmx,double cmz){
+public void calculateForceNode(double m,double[] cm){
   if(this.cluster.elements.length>1){
     double m1=this.right.cluster.m;
-    this.left.calculateForceNode(m+m1,(cmx*m+m1*this.right.cluster.cmx)/(m+m1),(cmz*m+m1*this.right.cluster.cmz)/(m+m1));
+    double[] cm1 = {(cm[0]*m+m1*this.right.cluster.cm[0])/(m+m1), (cm[1]*m+m1*this.right.cluster.cm[1])/(m+m1), (cm[2]*m+m1*this.right.cluster.cm[2])/(m+m1)};
+    this.left.calculateForceNode(m+m1,cm1);
     m1=this.left.cluster.m;
-    this.right.calculateForceNode(m+m1,(cmx*m+m1*this.left.cluster.cmx)/(m+m1),(cmz*m+m1*this.left.cluster.cmz)/(m+m1));
+    double[] cm2 = {(cm[0]*m+m1*this.left.cluster.cm[0])/(m+m1), (cm[1]*m+m1*this.left.cluster.cm[1])/(m+m1), (cm[2]*m+m1*this.left.cluster.cm[2])/(m+m1)};
+    this.right.calculateForceNode(m+m1,cm2);
 
   }
   else{
     //System.out.println(m);
-    this.elements[this.cluster.elements[0]].calculateForce(m,cmx,cmz);
+    this.elements[this.cluster.elements[0]].calculateForce(m,cm);
 
   }
 }
@@ -323,13 +345,13 @@ public class ObjectTree{
   protected PrimitiveObject[] elements;
 
 
-  public ObjectTree(PrimitiveObject[] elements,int xmin,double zmin,double xmax,double zmax,double m ,double cmx,double cmz){
+  public ObjectTree(PrimitiveObject[] elements,double[] min,double[] max,double m ,double[] cm){
     int[] inside=new int[elements.length];
     for(int i=0;i<elements.length;i++){
       inside[i]=i;
     }
   this.elements=elements.clone();
-  Cluster cluster=new Cluster(inside,xmin,xmax,zmin,zmax,m,cmx,cmz);
+  Cluster cluster=new Cluster(inside,min,max,m,cm);
   this.tree=new Node(this.elements,cluster);
 }
 
@@ -339,8 +361,8 @@ public class ObjectTree{
     return this.elements;
   }
 
-  public void calculateForceObjectTree(double x,double y,double z){
-    this.tree.calculateForceNode(x,y,z);
+  public void calculateForceObjectTree(double m,double[] cm){
+    this.tree.calculateForceNode(m,cm);
   }
 
   ArrayList<Integer[]> checkCollision(){

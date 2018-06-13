@@ -9,12 +9,14 @@ public class Collision{
   Particle[] particles;
   ObjectTree collisionTree;
   double sizex;
+  double sizey;
   double sizez;
 
 
-  public Collision(Particle[] particles,double sizex,double sizez){
+  public Collision(Particle[] particles,double sizex,double sizey,double sizez){
     this.particles=particles.clone();
     this.sizex=sizex;
+    this.sizey=sizey;
     this.sizez=sizez;
     int[] tab=new int[particles.length];
     for(int i=0;i<particles.length;i++){
@@ -23,8 +25,8 @@ public class Collision{
   }
 
   public void calculateForce(){
-
-    this.collisionTree.calculateForceObjectTree(0,0,0);
+    double[] cm = {0,0,0};
+    this.collisionTree.calculateForceObjectTree(0,cm);
 
 
 
@@ -32,9 +34,11 @@ public class Collision{
 
   public ArrayList<Integer[]> checkCollision(){
     int[] inside=new int[this.particles.length];
+    double[] min = {0,0,0};
+    double[] max = {this.sizex,this.sizey,this.sizez};
+    double[] cm = {0,0,0};
 
-
-    this.collisionTree= new ObjectTree(this.particles,0,0,this.sizex,this.sizez,0,0,0);
+    this.collisionTree= new ObjectTree(this.particles,min,max,0,cm);
     this.collisionTree.Cluster();
     if(this.collisionTree.elements.length>1){
       ArrayList<Integer[]> list=this.collisionTree.checkCollision();
