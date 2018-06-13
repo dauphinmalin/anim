@@ -1,26 +1,28 @@
-class RigidObjectTree{
-  Volume volume;
-  double[] speed;
-  double[] force;s
-  double[] constraintPosition; //constraint on position for the left and right sons;
-  double[] constraintAngle;   //constraint on angle for the left and right sons;
-  RigidObject left;
-  RigidObject right;
+class RigidObject extends PrimitiveObject{
 
+  private double[] constraintleft; //constraint on position and rotation for the left son;
+  private double[] constraintright;   //constraint on position and angle for right son;
+  private PrimitiveObject left;
+  private PrimitiveObject right;
+public void Draw(){
+  left.Draw();
+  right.Draw();
+}
 
-
+public void setPos(double[] position,double rotation){
+  super(position,rotation);
+  double[] leftpos={0,0,0};
+  for(i=0;i<3;i++){
+    leftpos[i]=position[i]+
+  }
+  this.left.setPos();
+  this.right.calculatePos();
 }
 
 
-public class RigidObject{
-  double[] position;
-  Volume volume;
-  double[] speed;
-  double[] rotation;
-  double[] force;
-  RigidObjectTree volumes;
 
-public RigidObject(PrimitiveObject[] objects,double[] speed,double[] rotation,double[] force){
+public RigidObject(PrimitiveObject[] objects,double[] pos,double[] vel,double[] rotation,double[] f,double dt){
+  super(0,pos,vel,rotation,f,dt,0,0);
 
 }
 
