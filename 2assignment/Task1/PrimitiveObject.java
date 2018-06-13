@@ -28,9 +28,12 @@ abstract class PrimitiveObject{
     this.rotation=rotation.clone();
 
   }
+
+  abstract void calculateBoundingVolume();
   abstract void borderResponse();
   abstract void calculateForce(double m,double[] cm);
   abstract void calculatePos();
+  abstract void Draw();
 
   public void setPos(double[] pos,double[] rotation){
     this.pos=pos;

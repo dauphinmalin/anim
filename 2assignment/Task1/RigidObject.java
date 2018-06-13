@@ -10,20 +10,33 @@ class RigidObject extends PrimitiveObject{
       elements[i].Draw();
     }
   }
-  public RigidObject(PrimitiveObject[] objects,double[] pos,double[] vel,double[] rotation,double[] f,double dt){
+  public RigidObject(PrimitiveObject[] objects,double[] vel,double[] rotation,double[] f,double dt){
     super(0,pos,vel,rotation,f,dt,0,0);
     this.elements=objects.clone();
-
+    int i=0;
+    for(int i=0;i<this.elements.length){
+      for(int j=0;j<this.elements[i].pos.lenght;j++){
+        this.pos[j]+=(this.elements[i].m*this.elements[i].pos[j]+this.pos[j]*this.m)/(this.m+this.elements[i].m);
+        this.m=this.m+this.elements[i].m;
+      }
+    }
+    this.calculateBoundingVolume();
     this.TreeofElements=new ObjectTree(this.particles,min,max,m,cm);
 
   }
 
-  public void calculateVolume(){
+  public void Draw(){
+    for(int i=1;i<this.elements.length;i++){
+      elements[i].Draw();
+    }
+  }
+
+  public void calculateBoundingVolume(){
     for(int j=0;j<this.elements[i].lenght;j++){
       this.extremeInf[j]=this.elements[0].extremeInf[j];
       this.extremeSup[j]=this.elements[0].extremeSup[j];
     }
-    for(int i=1;i<elements.length;i++){
+    for(int i=1;i<this.elements.length;i++){
       for(int j=0;j<this.elements[i].lenght;j++){
         if(this.elements[i].extremeInf[j]<this.extremeInf[j]){
           this.extremeInf[j]=this.elements[i].extremeInf[j];
@@ -33,17 +46,8 @@ class RigidObject extends PrimitiveObject{
         }
       }
     }
-  };
-
-  public void setPos(double[] position,double rotation){
-    super(position,rotation);
-    double[] leftpos={0,0,0};
-    for(i=0;i<3;i++){
-      leftpos[i]=position[i]+
-    }
-    this.left.setPos();
-    this.right.calculatePos();
   }
+
 
 
 

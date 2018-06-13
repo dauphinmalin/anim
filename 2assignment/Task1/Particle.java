@@ -19,14 +19,14 @@ public class Particle extends PrimitiveObject{
     for(int j=0;j<3;j++){
       this.extremeInf[j]=pos[j]-this.radius;
       this.extremeSup[j]=pos[j]+this.radius;
-
     }
-
-
-
-
-    //else throw "masse equal to 0!!"
   }
+    public void Draw(){
+      System.out.println("Draw");
+  }
+
+  public void calculateBoundingVolume(){
+  };
 
 
   public double getRadius(){
