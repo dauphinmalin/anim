@@ -166,15 +166,15 @@ class Node{
         med1[2]+=this.elements[tab[0]].getZ();
 
         k1+=1;
-        double length=this.elements[tab[0]].getLength();
-        double width=this.elements[tab[0]].getWidth();
-        double height=this.elements[tab[0]].getHeight();
-        if(this.elements[tab[0]].getX()+length>amax[0]){amax[0]=this.elements[tab[0]].getX()+length;}
-        if(this.elements[tab[0]].getX()-length<amin[0]){amin[0]=this.elements[tab[0]].getX()-length;}
-        if(this.elements[tab[0]].getY()+width>amax[1]){amax[1]=this.elements[tab[0]].getX()+width;}
-        if(this.elements[tab[0]].getY()-width<amin[1]){amin[1]=this.elements[tab[0]].getX()-width;}
-        if(this.elements[tab[0]].getZ()-height<amin[2]){amin[2]=this.elements[tab[0]].getZ()-height;}
-        if(this.elements[tab[0]].getZ()+height>amax[2]){amax[2]=this.elements[tab[0]].getZ()+height;}
+        double[] length=this.elements[tab[0]].getLength();
+        double[] width=this.elements[tab[0]].getWidth();
+        double[] height=this.elements[tab[0]].getHeight();
+        if(this.elements[tab[0]].getX()+length[0]>amax[0]){amax[0]=this.elements[tab[0]].getX()+length[0];}
+        if(this.elements[tab[0]].getX()+length[1]<amin[0]){amin[0]=this.elements[tab[0]].getX()+length[1];}
+        if(this.elements[tab[0]].getY()+width[0]>amax[1]){amax[1]=this.elements[tab[0]].getX()+width[0];}
+        if(this.elements[tab[0]].getY()+width[1]<amin[1]){amin[1]=this.elements[tab[0]].getX()+width[1];}
+        if(this.elements[tab[0]].getZ()+height[1]<amin[2]){amin[2]=this.elements[tab[0]].getZ()+height[1];}
+        if(this.elements[tab[0]].getZ()+height[0]>amax[2]){amax[2]=this.elements[tab[0]].getZ()+height[0];}
 
         for(int j=0;j<3;j++){
           med2[j] = 0;
@@ -193,9 +193,9 @@ class Node{
         double x=this.elements[tab[i]].getX();
         double y=this.elements[tab[i]].getY();
         double z= this.elements[tab[i]].getZ();
-        double length=this.elements[tab[i]].getLength();
-        double width=this.elements[tab[i]].getWidth();
-        double height=this.elements[tab[i]].getHeight();
+        double[] length=this.elements[tab[i]].getLength();
+        double[] width=this.elements[tab[i]].getWidth();
+        double[] height=this.elements[tab[i]].getHeight();
         double m=this.elements[tab[i]].getM();
         if(Math.pow(prevMed1[0]-x,2)+Math.pow(prevMed1[1]-y,2)+Math.pow(prevMed1[2]-z,2)< Math.pow(prevMed2[0]-x,2)+Math.pow(prevMed2[1]-y,2)+Math.pow(prevMed2[2]-z,2)){
           a.add(tab[i]);
@@ -209,12 +209,12 @@ class Node{
           cma[2]=(cma[2]*ma+m*z)/(ma+m);
           ma+=m;
 
-          if(x-length<amin[0]){amin[0]=x-length;}
-          if(x+length>amax[0]){amax[0]=x+length;}
-          if(y-width<amin[1]){amin[1]=y-width;}
-          if(y+width>amax[1]){amax[1]=y+width;}
-          if(z-height<amin[2]){amin[2]=z-height;}
-          if(z+height>amax[2]){amax[2]=z+height;}
+          if(x+length[0]<amin[0]){amin[0]=x+length[0];}
+          if(x+length[1]>amax[0]){amax[0]=x+length[1];}
+          if(y+width[0]<amin[1]){amin[1]=y+width[0];}
+          if(y+width[1]>amax[1]){amax[1]=y+width[1];}
+          if(z+height[0]<amin[2]){amin[2]=z+height[0];}
+          if(z+height[1]>amax[2]){amax[2]=z+height[1];}
         }
         else{
           b.add(tab[i]);
@@ -226,12 +226,12 @@ class Node{
           cmb[1]=(cmb[1]*mb+m*x)/(mb+m);
           cmb[2]=(cmb[2]*mb+m*z)/(mb+m);
           mb+=m;
-          if(x-length<bmin[0]){bmin[0]=x-length;}
-          if(x+length>bmax[0]){bmax[0]=x+length;}
-          if(y-width<bmin[1]){bmin[1]=y-width;}
-          if(y+width>bmax[1]){bmax[1]=y+width;}
-          if(z-height<bmin[2]){bmin[2]=z-height;}
-          if(z+height>bmax[2]){bmax[2]=z+height;}
+          if(x+length[0]<bmin[0]){bmin[0]=x+length[0];}
+          if(x+length[1]>bmax[0]){bmax[0]=x+length[1];}
+          if(y+width[0]<bmin[1]){bmin[1]=y+width[0];}
+          if(y+width[1]>bmax[1]){bmax[1]=y+width[1];}
+          if(z+height[0]<bmin[2]){bmin[2]=z+height[0];}
+          if(z+height[1]>bmax[2]){bmax[2]=z+height[1];}
         }
       }
       med1[0]=med1[0]/k1;

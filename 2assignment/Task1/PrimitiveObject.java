@@ -8,12 +8,12 @@ abstract class PrimitiveObject{
   protected double[] f;//force on X,force Y,force Z
   protected double dt;
   protected static double[] posMAX;
-  protected double length;
-  protected double width;
-  protected double height;
+  protected double[] length;
+  protected double[] width;
+  protected double[] height;
 
 
-PrimitiveObject(double m,double[] pos,double[] vel,double[] rotation,double[] f,double dt,double length,double width,double height){
+PrimitiveObject(double m,double[] pos,double[] vel,double[] rotation,double[] f,double dt){
   this.m=m;
   this.dt=dt;
   this.previouspos=new double[3];
@@ -27,9 +27,7 @@ PrimitiveObject(double m,double[] pos,double[] vel,double[] rotation,double[] f,
   this.vel=vel.clone();
   this.f=f.clone();
   this.rotation=rotation.clone();
-  this.length=length;
-  this.width=width;
-  this.height=height;
+
 }
   abstract void borderResponse();
   abstract void calculateForce(double m,double[] cm);
@@ -43,15 +41,15 @@ PrimitiveObject(double m,double[] pos,double[] vel,double[] rotation,double[] f,
 
   abstract void Collision();*/
 
-  public double getHeight(){
+  public double[] getHeight(){
     return this.height;
 
   }
-  public double getLength(){
+  public double[] getLength(){
     return this.length;
 
   }
-  public double getWidth(){
+  public double[] getWidth(){
     return this.width;
   }
   public double getX(){
