@@ -8,8 +8,8 @@ public class Particle extends PrimitiveObject{
   private static double cr=0.7;
   private static double gcst = 6.67e-3;
 
-public Particle(double m,double[] pos,double[] vel,double[] f,double dt,double length, double width,double height,double radius){
-    super(m,pos,vel,f,dt,length,width,height);
+public Particle(double m,double[] pos,double[] vel,double[] rotation,double[] f,double dt,double length, double width,double height,double radius){
+    super(m,pos,vel,rotation,f,dt,length,width,height);
 
     this.radius=radius;
 

@@ -13,13 +13,12 @@ abstract class PrimitiveObject{
   protected double height;
 
 
-PrimitiveObject(double m,double[] pos,double[] vel,double[] rotation,double[] f,double dt,double length; width,double height){
+PrimitiveObject(double m,double[] pos,double[] vel,double[] rotation,double[] f,double dt,double length,double width,double height){
   this.m=m;
   this.dt=dt;
   this.previouspos=new double[3];
   this.nextpos=new double[3];
   this.pos=pos.clone();
-  double[] rotation = {0,0,0};
   this.rotation=rotation;
   for(int i=0;i<pos.length;i++){
   this.previouspos[i]=pos[i]-vel[i]*dt;

@@ -22,7 +22,7 @@ class Task1{
 			double[] vel = {40*rand.nextDouble(),40*rand.nextDouble(),40*rand.nextDouble()};
 			// double[] pos ={radius+(1-9.5*radius)*rand.nextDouble(),0,radius+(1-6.5*radius)*rand.nextDouble()};
 
-
+			double[] rotation = {0,0,0};
 
 			// double[] po = {3.0,0.0,3.0};
 			double m = 1*rand.nextDouble();
@@ -30,7 +30,7 @@ class Task1{
 			double length = radius;
 			double width = radius;
 			double height = radius;
-			particles[i]=new Particle(m,pos, vel, f, dt,length,width,height,radius);
+			particles[i]=new Particle(m,pos, vel,rotation, f, dt,length,width,height,radius);
 			// particles[0]=new Particle(m,po, vel, f, dt,radius);
 
 		}
