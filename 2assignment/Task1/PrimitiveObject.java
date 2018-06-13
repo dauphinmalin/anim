@@ -12,22 +12,22 @@ abstract class PrimitiveObject{
   protected double[] extremeSup;
 
 
-PrimitiveObject(double m,double[] pos,double[] vel,double[] rotation,double[] f,double dt){
-  this.m=m;
-  this.dt=dt;
-  this.previouspos=new double[3];
-  this.nextpos=new double[3];
-  this.pos=pos.clone();
-  this.rotation=rotation;
-  for(int i=0;i<pos.length;i++){
-  this.previouspos[i]=pos[i]-vel[i]*dt;
-  this.nextpos[i] = 2*pos[i]-pos[i]-vel[i]*dt+dt*dt*f[i]/m;
-  }
-  this.vel=vel.clone();
-  this.f=f.clone();
-  this.rotation=rotation.clone();
+  PrimitiveObject(double m,double[] pos,double[] vel,double[] rotation,double[] f,double dt){
+    this.m=m;
+    this.dt=dt;
+    this.previouspos=new double[3];
+    this.nextpos=new double[3];
+    this.pos=pos.clone();
+    this.rotation=rotation;
+    for(int i=0;i<pos.length;i++){
+      this.previouspos[i]=pos[i]-vel[i]*dt;
+      this.nextpos[i] = 2*pos[i]-pos[i]-vel[i]*dt+dt*dt*f[i]/m;
+    }
+    this.vel=vel.clone();
+    this.f=f.clone();
+    this.rotation=rotation.clone();
 
-}
+  }
   abstract void borderResponse();
   abstract void calculateForce(double m,double[] cm);
   abstract void calculatePos();

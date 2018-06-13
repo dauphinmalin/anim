@@ -169,8 +169,8 @@ class Node{
         double[] extremeInf=this.elements[tab[0]].getExtremeInf();
         double[] extremeSup=this.elements[tab[0]].getExtremeSup();
         for(int j=0;j<extremeInf.length;j++){
-        if(extremeSup[j]>amax[j]){amax[j]=extremeSup[j];}
-        if(extremeInf[j]<amin[j]){amin[j]=extremeInf[j];}
+          if(extremeSup[j]>amax[j]){amax[j]=extremeSup[j];}
+          if(extremeInf[j]<amin[j]){amin[j]=extremeInf[j];}
         }
         for(int j=0;j<3;j++){
           med2[j] = 0;
@@ -182,7 +182,7 @@ class Node{
           med1[jj] = 0;
           med2[jj] = 0;
         }
-    }
+      }
 
 
       for(i=i;i<tab.length;i++){
@@ -205,8 +205,8 @@ class Node{
           ma+=m;
 
           for(int j=0;j<extremeInf.length;j++){
-          if(extremeSup[j]>amax[j]){amax[j]=extremeSup[j];}
-          if(extremeInf[j]<amin[j]){amin[j]=extremeInf[j];}
+            if(extremeSup[j]>amax[j]){amax[j]=extremeSup[j];}
+            if(extremeInf[j]<amin[j]){amin[j]=extremeInf[j];}
           }
         }
         else{
@@ -220,8 +220,8 @@ class Node{
           cmb[2]=(cmb[2]*mb+m*z)/(mb+m);
           mb+=m;
           for(int j=0;j<extremeInf.length;j++){
-          if(extremeSup[j]>bmax[j]){bmax[j]=extremeSup[j];}
-          if(extremeInf[j]<bmin[j]){bmin[j]=extremeInf[j];}
+            if(extremeSup[j]>bmax[j]){bmax[j]=extremeSup[j];}
+            if(extremeInf[j]<bmin[j]){bmin[j]=extremeInf[j];}
           }
         }
       }
@@ -314,22 +314,22 @@ class Node{
   }
 
 
-public void calculateForceNode(double m,double[] cm){
-  if(this.cluster.elements.length>1){
-    double m1=this.right.cluster.m;
-    double[] cm1 = {(cm[0]*m+m1*this.right.cluster.cm[0])/(m+m1), (cm[1]*m+m1*this.right.cluster.cm[1])/(m+m1), (cm[2]*m+m1*this.right.cluster.cm[2])/(m+m1)};
-    this.left.calculateForceNode(m+m1,cm1);
-    m1=this.left.cluster.m;
-    double[] cm2 = {(cm[0]*m+m1*this.left.cluster.cm[0])/(m+m1), (cm[1]*m+m1*this.left.cluster.cm[1])/(m+m1), (cm[2]*m+m1*this.left.cluster.cm[2])/(m+m1)};
-    this.right.calculateForceNode(m+m1,cm2);
+  public void calculateForceNode(double m,double[] cm){
+    if(this.cluster.elements.length>1){
+      double m1=this.right.cluster.m;
+      double[] cm1 = {(cm[0]*m+m1*this.right.cluster.cm[0])/(m+m1), (cm[1]*m+m1*this.right.cluster.cm[1])/(m+m1), (cm[2]*m+m1*this.right.cluster.cm[2])/(m+m1)};
+      this.left.calculateForceNode(m+m1,cm1);
+      m1=this.left.cluster.m;
+      double[] cm2 = {(cm[0]*m+m1*this.left.cluster.cm[0])/(m+m1), (cm[1]*m+m1*this.left.cluster.cm[1])/(m+m1), (cm[2]*m+m1*this.left.cluster.cm[2])/(m+m1)};
+      this.right.calculateForceNode(m+m1,cm2);
 
-  }
-  else{
-    //System.out.println(m);
-    this.elements[this.cluster.elements[0]].calculateForce(m,cm);
+    }
+    else{
+      //System.out.println(m);
+      this.elements[this.cluster.elements[0]].calculateForce(m,cm);
 
+    }
   }
-}
 }
 public class ObjectTree{
   Node tree;
@@ -341,10 +341,10 @@ public class ObjectTree{
     for(int i=0;i<elements.length;i++){
       inside[i]=i;
     }
-  this.elements=elements.clone();
-  Cluster cluster=new Cluster(inside,min,max,m,cm);
-  this.tree=new Node(this.elements,cluster);
-}
+    this.elements=elements.clone();
+    Cluster cluster=new Cluster(inside,min,max,m,cm);
+    this.tree=new Node(this.elements,cluster);
+  }
 
 
 
