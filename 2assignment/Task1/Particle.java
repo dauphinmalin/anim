@@ -1,20 +1,14 @@
 
 
-public class Particle{
+public class Particle extends PrimitiveObject{
 
-  private double m;//not equal to 0!!!
-  private double[] pos;//X,Y,Z
-  private double[] previouspos;
-  private double[] nextpos;
-  private double[] vel;
-  private double[] f;//force on X,force Y,force Z
-  private double dt;
+
   private double radius;//radius to display the particle
   private static double[] posMAX={9.5,0,6.5};
   private static double cr=0.7;
   private static double gcst = 6.67e-1;
 
-
+@Override
 public Particle(double m,double[] pos,double[] vel,double[] f,double dt,double radius){
   if(m>0){
     this.m=m;
@@ -35,29 +29,6 @@ public Particle(double m,double[] pos,double[] vel,double[] f,double dt,double r
 //else throw "masse equal to 0!!"
 }
 
-public double getX(){
-  return this.pos[0];
-}
-
-public double getY(){
-  return this.pos[1];
-}
-
-public double getZ(){
-  return this.pos[2];
-}
-
-public double getpX(){
-  return this.previouspos[0];
-}
-
-public double getpY(){
-  return this.previouspos[1];
-}
-
-public double getpZ(){
-  return this.previouspos[2];
-}
 
 public double getRadius(){
   return this.radius;
@@ -130,7 +101,7 @@ public void calculatePos(){
     this.nextpos[i] = 2*this.pos[i]-this.previouspos[i]+this.dt*this.dt*this.f[i]/this.m;//Verlet for x,y,z
   }
 }
-
+@Override
 public void borderResponse(){
 
   for(int i=0;i<3;i++){
@@ -152,7 +123,7 @@ public void borderResponse(){
     }
   }
 }
-
+@Override
 public void calculateForce(double m,double cmx,double cmz){
   this.f[0]=0;
   this.f[2]=0;
