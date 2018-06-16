@@ -1,4 +1,4 @@
-public Sphere extends PrimitiveObject{
+public ObjSphere extends PrimitiveObject{
 
 
 

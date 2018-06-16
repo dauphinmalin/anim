@@ -1,14 +1,15 @@
-
-
-public class Particle extends PrimitiveObject{
+import javax.media.opengl.GLAutoDrawable;
+import javax.media.opengl.GL2;
+import javax.media.opengl.glu.GLU;
+import javax.media.opengl.glu.GLUquadric;
+import java.util.*;
+public class Spheric extends PrimitiveObject{
 
 
   private double radius;//radius to display the particle
-  private static double[] posMAX={950,0,650};
-  private static double cr=1;
-  private static double gcst = 6.67e-3;
 
-  public Particle(double m,double[] pos,double[] vel,double[] rotation,double[] f,double dt,double radius){
+
+  public Spheric(double m,double[] pos,double[] vel,double[] rotation,double[] f,double dt,double radius){
     super(m,pos,vel,rotation,f,dt);
     for(int j=0;j<3;j++){
 
@@ -20,9 +21,16 @@ public class Particle extends PrimitiveObject{
       this.extremeInf[j]=pos[j]-this.radius;
       this.extremeSup[j]=pos[j]+this.radius;
     }
+
   }
-    public void Draw(){
-      System.out.println("Draw");
+  @Override
+    public void Draw(GLAutoDrawable drawable,GLU glu,GL2 gl){
+      gl.glPushMatrix();
+      gl.glTranslatef((float)pos[0],(float)pos[1],(float)pos[2]  );
+      GLUquadric quad = glu.gluNewQuadric();
+      glu.gluSphere(quad,this.radius, 10, 15);
+      glu.gluDeleteQuadric(quad);
+      gl.glPopMatrix();
   }
 
   public void calculateBoundingVolume(){

@@ -1,3 +1,6 @@
+import javax.media.opengl.GLAutoDrawable;
+import javax.media.opengl.glu.GLU;
+import javax.media.opengl.GL2;
 abstract class PrimitiveObject{
   protected double m;//not equal to 0!!!
   protected double[] pos;//X,Y,Z
@@ -7,9 +10,12 @@ abstract class PrimitiveObject{
   protected double[] rotation;
   protected double[] f;//force on X,force Y,force Z
   protected double dt;
-  protected static double[] posMAX;
   protected double[] extremeInf;
   protected double[] extremeSup;
+  protected static double[] posMAX={650,650,650};
+
+  protected static double cr=1;
+  protected static double gcst = 6.67e-3;
 
 
   PrimitiveObject(double m,double[] pos,double[] vel,double[] rotation,double[] f,double dt){
@@ -33,7 +39,7 @@ abstract class PrimitiveObject{
   abstract void borderResponse();
   abstract void calculateForce(double m,double[] cm);
   abstract void calculatePos();
-  abstract void Draw();
+  abstract void Draw(GLAutoDrawable drawable,GLU glu,GL2 gl);
 
   public void setPos(double[] pos,double[] rotation){
     this.pos=pos;

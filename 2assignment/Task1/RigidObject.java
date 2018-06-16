@@ -22,6 +22,7 @@ class RigidObject extends PrimitiveObject{
     }
     this.calculateBoundingVolume();
     this.TreeofElements=new ObjectTree(this.particles,min,max,m,cm);
+    this.TreeofElements.Cluster();
 
   }
 
