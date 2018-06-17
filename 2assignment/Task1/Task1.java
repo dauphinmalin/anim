@@ -4,7 +4,7 @@ import java.awt.event.*;
 import javax.swing.*;
 import javax.media.opengl.awt.GLCanvas;
 import javax.swing.JFrame;
-
+import java.lang.Math;
 class Task1{
 
 

@@ -3,6 +3,8 @@ import javax.media.opengl.GL2;
 import javax.media.opengl.glu.GLU;
 import javax.media.opengl.glu.GLUquadric;
 import java.util.*;
+import java.lang.Math;
+
 public class Square extends PrimitiveObject{
   private double side;
 
@@ -37,8 +39,42 @@ public void calculatePos(){
     this.nextpos[i] = 2*this.pos[i]-this.previouspos[i]+this.dt*this.dt*this.f[i]/this.m;//Verlet for x,y,z
   }
 }
+
+private double[][] matrixProduct(double[][] A,double [][] B){
+  double[][] C=new double[3][3];
+  for (int i = 0; i < A.length; i++) { // aRow
+      for (int j = 0; j < B.length; j++) { // bColumn
+          for (int k = 0; k < A.length; k++) { // aColumn
+              C[i][j] += A[i][k] * B[k][j];
+          }
+      }
+  }
+
+  return C;
+}
+
+
+public double[][] calculateSummit(){
+  double[][] summit={{this.pos[0]-this.side/2,this.pos[1]-this.side/2,this.pos[2]-this.side/2},{this.pos[0]-this.side/2,this.pos[1]-this.side/2,this.pos[2]+this.side/2},
+  {this.pos[0]-this.side/2,this.pos[1]+this.side/2,this.pos[2]-this.side/2},{this.pos[0]-this.side/2,this.pos[1]+this.side/2,this.pos[2]+this.side/2},
+  {this.pos[0]+this.side/2,this.pos[1]-this.side/2,this.pos[2]-this.side/2},{this.pos[0]+this.side/2,this.pos[1]-this.side/2,this.pos[2]+this.side/2},
+  {this.pos[0]+this.side/2,this.pos[1]+this.side/2,this.pos[2]-this.side/2},{this.pos[0]+this.side/2,this.pos[1]+this.side/2,this.pos[2]+this.side/2}};
+  double[][] summitbis=new double[8][3];
+  double[][] rotX ={{1,0,0},{0,Math.cos(this.rotation[0]),Math.sin(this.rotation[0])},{0,-Math.sin(this.rotation[0]),Math.cos(this.rotation[0])}};
+  double[][] rotY ={{Math.cos(this.rotation[1]),0,Math.sin(this.rotation[1])},{0,1,0},{-Math.sin(this.rotation[1]),0,Math.cos(this.rotation[1])}};
+  double[][] rotZ ={{Math.cos(this.rotation[2]),Math.sin(this.rotation[2]),0},{-Math.sin(this.rotation[2]),Math.cos(this.rotation[2]),0},{0,0,1}};
+  double[][] rot=matrixProduct(rotX,rotY);
+  rotX=matrixProduct(rot,rotZ);
+  for(int i=0;i<8;i++){
+    for(int j=0;j<3;j++){
+    summitbis[i][0]=rotX[j][1]*summit[i][0]+rotX[j][1]*summit[i][1]+rotX[j][2]*summit[i][0];
+  }
+  }
+  return summitbis;
+}
 @Override
 public void borderResponse(){
+  double[][] summit=calculateSummit();
 
   for(int i=0;i<3;i++){
 
