@@ -114,6 +114,13 @@ abstract class PrimitiveObject{
 
   }
 
+  public void setRot(double rotx, double roty, double rotz){
+    this.rotation[0]+=rotx;
+    this.rotation[1]+=roty;
+    this.rotation[2]+=rotz;
+
+  }
+
   public void setPreviousPos(double px,double py,double pz){
     this.previouspos[0]=px;
     this.previouspos[1]=py;

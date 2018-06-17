@@ -67,7 +67,7 @@ public double[][] calculateSummit(){
   rotX=matrixProduct(rot,rotZ);
   for(int i=0;i<8;i++){
     for(int j=0;j<3;j++){
-    summitbis[i][0]=rotX[j][1]*summit[i][0]+rotX[j][1]*summit[i][1]+rotX[j][2]*summit[i][0];
+    summitbis[i][j]=rotX[j][1]*summit[i][0]+rotX[j][1]*summit[i][1]+rotX[j][2]*summit[i][0];
   }
   }
   return summitbis;
@@ -117,4 +117,35 @@ public void calculateForce(double m,double[] cm){
 
   }
 }
+
+public double[] calculateRelCenter(){
+  double[] center = new double[3];
+  double[][] rotX ={{1,0,0},{0,Math.cos(this.rotation[0]),Math.sin(-this.rotation[0])},{0,Math.sin(this.rotation[0]),Math.cos(this.rotation[0])}};
+  double[][] rotY ={{Math.cos(this.rotation[1]),0,Math.sin(-this.rotation[1])},{0,1,0},{Math.sin(this.rotation[1]),0,Math.cos(this.rotation[1])}};
+  double[][] rotZ ={{Math.cos(this.rotation[2]),-Math.sin(this.rotation[2]),0},{Math.sin(this.rotation[2]),Math.cos(this.rotation[2]),0},{0,0,1}};
+  double[][] rot=matrixProduct(rotX,rotY);
+  rot = matrixProduct(rot,rotZ);
+  for(int i=0;i<3;i++){
+    center[i] = rot[i][0]*center[0]+rot[i][1]*center[1]+rot[i][2]*center[2];
+  }
+  return center;
+}
+
+public boolean checkCollision(Square square){
+  square.setRot(-this.rotation[0], -this.rotation[1], -this.rotation[2]);
+  double[][] summit = square.calculateSummit();
+  double[] center = this.calculateRelCenter();
+  for(int i=0;i<8;i++){
+    if((summit[i][0]<(center[0]+this.side/2))&&(summit[i][0]>(center[0]-this.side/2))){
+      if((summit[i][1]<(center[1]+this.side/2))&&(summit[i][1]>(center[1]-this.side/2))){
+        if((summit[i][2]<(center[2]+this.side/2))&&(summit[i][2]>(center[0]-this.side/2))){
+          square.setRot(this.rotation[0], this.rotation[1], this.rotation[2]);
+          return true;
+        }
+      }
+    }
+  }
+  return false;
+}
+
 }
