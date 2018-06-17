@@ -74,7 +74,7 @@ public class Viewing implements GLEventListener{
       // Setup perspective projection, with aspect ratio matches viewport
       gl.glMatrixMode(GL2.GL_PROJECTION);  // choose projection matrix
       gl.glLoadIdentity();             // reset projection matrix
-      this.glu.gluPerspective(45, aspect,1, 2000); // fovy, aspect, zNear, zFar
+      this.glu.gluPerspective(45, aspect,1, 2500); // fovy, aspect, zNear, zFar
       this.glu.gluLookAt(-900,125,725,475,425,125,0,0,1);
 
       // Enable the model-view transform

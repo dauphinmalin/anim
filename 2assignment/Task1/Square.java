@@ -7,9 +7,12 @@ import java.lang.Math;
 
 public class Square extends PrimitiveObject{
   private double side;
+  private Spheric[] summits;
+  private double[][] pos0;
 
 public Square(double m,double[] pos,double[] vel,double[] rotation,double[] f,double dt,double side){
   super(m,pos,vel,rotation,f,dt);
+
   for(int j=0;j<3;j++){
 
   }
@@ -20,24 +23,96 @@ public Square(double m,double[] pos,double[] vel,double[] rotation,double[] f,do
     this.extremeInf[j]=pos[j]-this.side/2;
     this.extremeSup[j]=pos[j]+this.side/2;
 }
+this.pos0=calculateSummit();
+this.summits=new Spheric[8];
+for(int i=0;i<8;i++){
+  summits[i]=new Spheric(m/8,pos0[i],vel,rotation,f,dt,0);
+}
 }
 @Override
   public void Draw(GLAutoDrawable drawable,GLU glu,GL2 gl){
-    gl.glPushMatrix();
-    gl.glTranslatef((float)pos[0],(float)pos[1],(float)pos[2]);
-    GLUquadric quad = glu.gluNewQuadric();
-    glu.gluCylinder(quad,this.side,this.side,this.side,4,4);
-    glu.gluDeleteQuadric(quad);
-    gl.glPopMatrix();
+    gl.glBegin(GL2.GL_LINES);
+     gl.glVertex3f((float)summits[0].pos[0],(float)summits[0].pos[1],(float)summits[0].pos[2]);
+     gl.glVertex3f((float)summits[1].pos[0],(float)summits[1].pos[1],(float)summits[1].pos[2]);
+     gl.glEnd();
+
+     gl.glBegin(GL2.GL_LINES);
+     gl.glVertex3f((float)summits[0].pos[0],(float)summits[0].pos[1],(float)summits[0].pos[2]); // 3 units into the window
+     gl.glVertex3f((float)summits[2].pos[0],(float)summits[2].pos[1],(float)summits[2].pos[2]);
+     gl.glEnd();
+
+     //top
+     gl.glBegin(GL2.GL_LINES);
+     gl.glVertex3f((float)summits[0].pos[0],(float)summits[0].pos[1],(float)summits[0].pos[2]);
+     gl.glVertex3f((float)summits[4].pos[0],(float)summits[4].pos[1],(float)summits[4].pos[2]);
+     gl.glEnd();
+
+     // bottom
+     gl.glBegin(GL2.GL_LINES);
+     gl.glVertex3f((float)summits[3].pos[0],(float)summits[3].pos[1],(float)summits[3].pos[2]);
+     gl.glVertex3f((float)summits[1].pos[0],(float)summits[1].pos[1],(float)summits[1].pos[2]);
+     gl.glEnd();
+
+     // edge 2....
+     gl.glBegin(GL2.GL_LINES);
+     gl.glVertex3f((float)summits[3].pos[0],(float)summits[3].pos[1],(float)summits[3].pos[2]);
+     gl.glVertex3f((float)summits[2].pos[0],(float)summits[2].pos[1],(float)summits[2].pos[2]);
+     gl.glEnd();
+
+     gl.glBegin(GL2.GL_LINES);
+     gl.glVertex3f((float)summits[3].pos[0],(float)summits[3].pos[1],(float)summits[3].pos[2]);
+     gl.glVertex3f((float)summits[7].pos[0],(float)summits[7].pos[1],(float)summits[7].pos[2]);
+     gl.glEnd();
+
+     gl.glBegin(GL2.GL_LINES);
+     gl.glVertex3f((float)summits[6].pos[0],(float)summits[6].pos[1],(float)summits[6].pos[2]);
+     gl.glVertex3f((float)summits[2].pos[0],(float)summits[2].pos[1],(float)summits[2].pos[2]);
+     gl.glEnd();
+
+     gl.glBegin(GL2.GL_LINES);
+     gl.glVertex3f((float)summits[6].pos[0],(float)summits[6].pos[1],(float)summits[6].pos[2]);
+     gl.glVertex3f((float)summits[4].pos[0],(float)summits[4].pos[1],(float)summits[4].pos[2]);
+     gl.glEnd();
+
+     //Edge 3.............
+     gl.glBegin(GL2.GL_LINES);
+     gl.glVertex3f((float)summits[6].pos[0],(float)summits[6].pos[1],(float)summits[6].pos[2]);
+     gl.glVertex3f((float)summits[7].pos[0],(float)summits[7].pos[1],(float)summits[7].pos[2]);
+     gl.glEnd();
+
+     gl.glBegin(GL2.GL_LINES);
+     gl.glVertex3f((float)summits[5].pos[0],(float)summits[5].pos[1],(float)summits[5].pos[2]);
+     gl.glVertex3f((float)summits[1].pos[0],(float)summits[1].pos[1],(float)summits[1].pos[2]);
+     gl.glEnd();
+
+     gl.glBegin(GL2.GL_LINES);
+     gl.glVertex3f((float)summits[5].pos[0],(float)summits[5].pos[1],(float)summits[5].pos[2]);
+     gl.glVertex3f((float)summits[4].pos[0],(float)summits[4].pos[1],(float)summits[4].pos[2]);
+     gl.glEnd();
+
+     gl.glBegin(GL2.GL_LINES);
+     gl.glVertex3f((float)summits[5].pos[0],(float)summits[5].pos[1],(float)summits[5].pos[2]);
+     gl.glVertex3f((float)summits[7].pos[0],(float)summits[7].pos[1],(float)summits[7].pos[2]);
+     gl.glEnd();
 }
 
 public void calculateBoundingVolume(){
 }
 
 public void calculatePos(){
+  for(int i=0;i<8;i++){
+  this.summits[i].calculatePos();
+    }
   for(int i=0;i<3;i++){
     this.nextpos[i] = 2*this.pos[i]-this.previouspos[i]+this.dt*this.dt*this.f[i]/this.m;//Verlet for x,y,z
   }
+}
+
+public void borderResponse(){
+  for(int i =0;i<8;i++){
+    this.summits[i].borderResponse();
+  }
+
 }
 
 private double[][] matrixProduct(double[][] A,double [][] B){
@@ -67,38 +142,12 @@ public double[][] calculateSummit(){
   rotX=matrixProduct(rot,rotZ);
   for(int i=0;i<8;i++){
     for(int j=0;j<3;j++){
-    summitbis[i][0]=rotX[j][1]*summit[i][0]+rotX[j][1]*summit[i][1]+rotX[j][2]*summit[i][0];
+    summitbis[i][j]=rotX[j][0]*summit[i][0]+rotX[j][1]*summit[i][1]+rotX[j][2]*summit[i][0];
   }
   }
-  return summitbis;
+  return summit;
 }
-@Override
-public void borderResponse(){
-  double[][] summit=calculateSummit();
 
-  for(int i=0;i<3;i++){
-
-    if(this.nextpos[i]>(this.posMAX[i]-this.side/2)){
-      this.vel[i]=-this.cr*(this.nextpos[i]-this.pos[i]);
-      this.previouspos[i]=this.posMAX[i]-this.side/2-this.vel[i];
-      this.pos[i]=this.posMAX[i]-this.side/2;
-      this.extremeSup[i]=this.posMAX[i];
-    }
-    else if(this.nextpos[i]<this.side/2){
-      this.vel[i]=-this.cr*(this.nextpos[i]-this.pos[i]);
-      this.previouspos[i]=this.side/2-this.vel[i];
-      this.pos[i]=this.side/2;
-      this.extremeInf[i]=0;
-    }
-    else{
-      this.previouspos[i]=this.pos[i];
-      this.pos[i]=this.nextpos[i];
-      this.extremeInf[i]=this.pos[i]-this.side/2;
-      this.extremeSup[i]=this.pos[i]+this.side/2;
-      this.vel[i]=this.cr*(this.pos[i]-this.previouspos[i]);
-    }
-  }
-}
 
 public void calculateForce(double m,double[] cm){
   this.f[0]=0;
