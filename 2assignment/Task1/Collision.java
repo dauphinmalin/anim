@@ -58,5 +58,30 @@ public class Collision{
     }
   }
 
+  // public ArrayList<Integer[]> checkColID(){
+  //   int[] inside=new int[this.objects.length];
+  //   double[] min = {0,0,0};
+  //   double[] max = {this.sizex,this.sizey,this.sizez};
+  //   double[] cm = {0,0,0};
+  //
+  //   this.collisionTree= this.objects[0].TreeofElements;
+  //   this.collisionTree.Cluster();
+  //   if(this.collisionTree.elements.length>1){
+  //     ArrayList<Integer[]> list=this.collisionTree.checkCollision();
+  //     Iterator<Integer[]> iterator = list.iterator();
+  //     while (iterator.hasNext()) {
+  //       Integer[] tab=iterator.next();
+  //       if(tab[0]==-1){iterator.remove();}
+  //       else{
+  //         for(int i=0;i<tab.length;i++){
+  //         }
+  //       }
+  //     }
+  //     return list;
+  //   }
+  //   else{
+  //     return null;
+  //   }
+  // }
 
 }
