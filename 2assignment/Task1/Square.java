@@ -130,10 +130,10 @@ private double[][] matrixProduct(double[][] A,double [][] B){
 
 
 public double[][] calculateSummit(){
-  double[][] summit={{this.pos[0]-this.side/2,this.pos[1]-this.side/2,this.pos[2]-this.side/2},{this.pos[0]-this.side/2,this.pos[1]-this.side/2,this.pos[2]+this.side/2},
-  {this.pos[0]-this.side/2,this.pos[1]+this.side/2,this.pos[2]-this.side/2},{this.pos[0]-this.side/2,this.pos[1]+this.side/2,this.pos[2]+this.side/2},
-  {this.pos[0]+this.side/2,this.pos[1]-this.side/2,this.pos[2]-this.side/2},{this.pos[0]+this.side/2,this.pos[1]-this.side/2,this.pos[2]+this.side/2},
-  {this.pos[0]+this.side/2,this.pos[1]+this.side/2,this.pos[2]-this.side/2},{this.pos[0]+this.side/2,this.pos[1]+this.side/2,this.pos[2]+this.side/2}};
+  double[][] summit={{-this.side/2,-this.side/2,-this.side/2},{-this.side/2,-this.side/2,this.side/2},
+  {-this.side/2,this.side/2,-this.side/2},{-this.side/2,this.side/2,this.side/2},
+  {this.side/2,-this.side/2,-this.side/2},{this.side/2,-this.side/2,this.side/2},
+  {this.side/2,this.side/2,-this.side/2},{this.side/2,this.side/2,this.side/2}};
   double[][] summitbis=new double[8][3];
   double[][] rotX ={{1,0,0},{0,Math.cos(this.rotation[0]),Math.sin(this.rotation[0])},{0,-Math.sin(this.rotation[0]),Math.cos(this.rotation[0])}};
   double[][] rotY ={{Math.cos(this.rotation[1]),0,Math.sin(this.rotation[1])},{0,1,0},{-Math.sin(this.rotation[1]),0,Math.cos(this.rotation[1])}};
@@ -143,11 +143,11 @@ public double[][] calculateSummit(){
   for(int i=0;i<8;i++){
     for(int j=0;j<3;j++){
 
-    summitbis[i][j]=rotX[j][0]*summit[i][0]+rotX[j][1]*summit[i][1]+rotX[j][2]*summit[i][2];
+    summitbis[i][j]=rotX[j][0]*summit[i][0]+rotX[j][1]*summit[i][1]+rotX[j][2]*summit[i][2]+this.pos[j];
 
   }
   }
-  return summit;
+  return summitbis;
 }
 
 
@@ -177,7 +177,7 @@ public double[] calculateRelCenter(){
   double[][] rot=matrixProduct(rotX,rotY);
   rot = matrixProduct(rot,rotZ);
   for(int i=0;i<3;i++){
-    center[i] = rot[i][0]*center[0]+rot[i][1]*center[1]+rot[i][2]*center[2];
+    center[i] = rot[i][0]*this.pos[0]+rot[i][1]*this.pos[1]+rot[i][2]*this.pos[2];
   }
   return center;
 }
@@ -196,6 +196,8 @@ public boolean checkCollision(Square square){
       }
     }
   }
+  square.setRot(this.rotation[0], this.rotation[1], this.rotation[2]);
+
   return false;
 }
 
