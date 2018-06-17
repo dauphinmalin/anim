@@ -67,7 +67,7 @@ public double[][] calculateSummit(){
   rotX=matrixProduct(rot,rotZ);
   for(int i=0;i<8;i++){
     for(int j=0;j<3;j++){
-    summitbis[i][j]=rotX[j][1]*summit[i][0]+rotX[j][1]*summit[i][1]+rotX[j][2]*summit[i][0];
+    summitbis[i][j]=rotX[j][0]*summit[i][0]+rotX[j][1]*summit[i][1]+rotX[j][2]*summit[i][2];
   }
   }
   return summitbis;
@@ -121,7 +121,7 @@ public void calculateForce(double m,double[] cm){
 public double[] calculateRelCenter(){
   double[] center = new double[3];
   double[][] rotX ={{1,0,0},{0,Math.cos(this.rotation[0]),Math.sin(-this.rotation[0])},{0,Math.sin(this.rotation[0]),Math.cos(this.rotation[0])}};
-  double[][] rotY ={{Math.cos(this.rotation[1]),0,Math.sin(-this.rotation[1])},{0,1,0},{Math.sin(this.rotation[1]),0,Math.cos(this.rotation[1])}};
+  double[][] rotY ={{Math.cos(this.rotation[1]),0,-Math.sin(this.rotation[1])},{0,1,0},{Math.sin(this.rotation[1]),0,Math.cos(this.rotation[1])}};
   double[][] rotZ ={{Math.cos(this.rotation[2]),-Math.sin(this.rotation[2]),0},{Math.sin(this.rotation[2]),Math.cos(this.rotation[2]),0},{0,0,1}};
   double[][] rot=matrixProduct(rotX,rotY);
   rot = matrixProduct(rot,rotZ);
