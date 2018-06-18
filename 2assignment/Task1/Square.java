@@ -182,42 +182,36 @@ public double[] calculateRelCenter(){
   return center;
 }
 
-public double[][] rot(){
-  double[][] summit={{this.pos[0]-this.side/2,this.pos[1]-this.side/2,this.pos[2]-this.side/2},{this.pos[0]-this.side/2,this.pos[1]-this.side/2,this.pos[2]+this.side/2},
-  {this.pos[0]-this.side/2,this.pos[1]+this.side/2,this.pos[2]-this.side/2},{this.pos[0]-this.side/2,this.pos[1]+this.side/2,this.pos[2]+this.side/2},
-  {this.pos[0]+this.side/2,this.pos[1]-this.side/2,this.pos[2]-this.side/2},{this.pos[0]+this.side/2,this.pos[1]-this.side/2,this.pos[2]+this.side/2},
-  {this.pos[0]+this.side/2,this.pos[1]+this.side/2,this.pos[2]-this.side/2},{this.pos[0]+this.side/2,this.pos[1]+this.side/2,this.pos[2]+this.side/2}};
-  double[][] summitbis=new double[8][3];
-  double[][] rotX ={{1,0,0},{0,Math.cos(this.rotation[0]),Math.sin(this.rotation[0])},{0,-Math.sin(this.rotation[0]),Math.cos(this.rotation[0])}};
-  double[][] rotY ={{Math.cos(this.rotation[1]),0,Math.sin(this.rotation[1])},{0,1,0},{-Math.sin(this.rotation[1]),0,Math.cos(this.rotation[1])}};
-  double[][] rotZ ={{Math.cos(this.rotation[2]),Math.sin(this.rotation[2]),0},{-Math.sin(this.rotation[2]),Math.cos(this.rotation[2]),0},{0,0,1}};
-  double[][] rot=matrixProduct(rotX,rotY);
-  rotX=matrixProduct(rot,rotZ);
-  for(int i=0;i<8;i++){
-    for(int j=0;j<3;j++){
-
-    summitbis[i][j]=rotX[j][0]*summit[i][0]+rotX[j][1]*summit[i][1]+rotX[j][2]*summit[i][2];
-
+public double[][] summitProj(double[] center,double[][] base){
+  double[][] summitP = new double[8][3];
+  for(int ii=0;ii<8;ii++){
+    for(int jj=0;jj<3;jj++){
+      summitP[ii][jj] = (this.pos0[ii][0]-center[0])*base[jj][0]+(this.pos0[ii][1]-center[1])*base[jj][1]+(this.pos0[ii][2]-center[2])*base[jj][2];
+    }
   }
-  }
-  return summitbis;
+  return summitP;
 }
 
 public boolean checkCollision(Square square){
-  square.setRot(-this.rotation[0], -this.rotation[1], -this.rotation[2]);
-  double[][] summit = square.rot();
-  double[] center = this.calculateRelCenter();
+  double[][] base = new double[3][3];
+  for(int j=0;j<3;j++){
+    base[0][j] = (this.pos0[1][j]-this.pos0[0][j])/this.side;
+    base[1][j] = (this.pos0[2][j]-this.pos0[0][j])/this.side;
+    base[2][j] = (this.pos0[4][j]-this.pos0[0][j])/this.side;
+  }
+  double[][] summitP = new double[8][3];
+  // double[] centerP = {this.side/2,this.side/2,this.side/2};
+
+  summitP = square.summitProj(this.pos, base);
   for(int i=0;i<8;i++){
-    if((summit[i][0]<(center[0]+this.side/2))&&(summit[i][0]>(center[0]-this.side/2))){
-      if((summit[i][1]<(center[1]+this.side/2))&&(summit[i][1]>(center[1]-this.side/2))){
-        if((summit[i][2]<(center[2]+this.side/2))&&(summit[i][2]>(center[0]-this.side/2))){
-          square.setRot(this.rotation[0], this.rotation[1], this.rotation[2]);
+    if((summitP[i][0]<this.side)&&(summitP[i][0]>0)){
+      if((summitP[i][1]<this.side)&&(summitP[i][1]>0)){
+        if((summitP[i][2]<this.side)&&(summitP[i][2]>0)){
           return true;
         }
       }
     }
   }
-  square.setRot(this.rotation[0], this.rotation[1], this.rotation[2]);
 
   return false;
 }
