@@ -4,6 +4,7 @@ import javax.media.opengl.glu.GLU;
 import javax.media.opengl.glu.GLUquadric;
 import java.util.*;
 import java.lang.Math;
+import org.apache.commons.math3.linear.*;
 
 public class Square extends PrimitiveObject{
   private double side;
@@ -115,20 +116,6 @@ public void borderResponse(){
 
 }
 
-private double[][] matrixProduct(double[][] A,double [][] B){
-  double[][] C=new double[3][3];
-  for (int i = 0; i < A.length; i++) { // aRow
-      for (int j = 0; j < B.length; j++) { // bColumn
-          for (int k = 0; k < A.length; k++) { // aColumn
-              C[i][j] += A[i][k] * B[k][j];
-          }
-      }
-  }
-
-  return C;
-}
-
-
 public double[][] calculateSummit(){
   double[][] summit={{-this.side/2,-this.side/2,-this.side/2},{-this.side/2,-this.side/2,this.side/2},
   {-this.side/2,this.side/2,-this.side/2},{-this.side/2,this.side/2,this.side/2},
@@ -138,12 +125,15 @@ public double[][] calculateSummit(){
   double[][] rotX ={{1,0,0},{0,Math.cos(this.rotation[0]),Math.sin(this.rotation[0])},{0,-Math.sin(this.rotation[0]),Math.cos(this.rotation[0])}};
   double[][] rotY ={{Math.cos(this.rotation[1]),0,Math.sin(this.rotation[1])},{0,1,0},{-Math.sin(this.rotation[1]),0,Math.cos(this.rotation[1])}};
   double[][] rotZ ={{Math.cos(this.rotation[2]),Math.sin(this.rotation[2]),0},{-Math.sin(this.rotation[2]),Math.cos(this.rotation[2]),0},{0,0,1}};
-  double[][] rot=matrixProduct(rotX,rotY);
-  rotX=matrixProduct(rot,rotZ);
+  RealMatrix mrotX=new BlockRealMatrix(rotX);
+  RealMatrix mrotY=new BlockRealMatrix(rotY);
+  RealMatrix mrotZ=new BlockRealMatrix(rotZ);
+  RealMatrix mrot=mrotX.multiply(mrotY);
+  mrot=mrot.multiply(mrotZ);
   for(int i=0;i<8;i++){
     for(int j=0;j<3;j++){
 
-    summitbis[i][j]=rotX[j][0]*summit[i][0]+rotX[j][1]*summit[i][1]+rotX[j][2]*summit[i][2]+this.pos[j];
+    summitbis[i][j]=mrot.getEntry(j,0)*summit[i][0]+mrot.getEntry(j,1)*summit[i][1]+mrot.getEntry(j,2)*summit[i][2]+this.pos[j];
 
   }
   }
@@ -174,10 +164,13 @@ public double[] calculateRelCenter(){
   double[][] rotX ={{1,0,0},{0,Math.cos(this.rotation[0]),Math.sin(-this.rotation[0])},{0,Math.sin(this.rotation[0]),Math.cos(this.rotation[0])}};
   double[][] rotY ={{Math.cos(this.rotation[1]),0,-Math.sin(this.rotation[1])},{0,1,0},{Math.sin(this.rotation[1]),0,Math.cos(this.rotation[1])}};
   double[][] rotZ ={{Math.cos(this.rotation[2]),-Math.sin(this.rotation[2]),0},{Math.sin(this.rotation[2]),Math.cos(this.rotation[2]),0},{0,0,1}};
-  double[][] rot=matrixProduct(rotX,rotY);
-  rot = matrixProduct(rot,rotZ);
+  RealMatrix mrotX=new BlockRealMatrix(rotX);
+  RealMatrix mrotY=new BlockRealMatrix(rotY);
+  RealMatrix mrotZ=new BlockRealMatrix(rotZ);
+  RealMatrix mrot=mrotX.multiply(mrotY);
+  mrot=mrot.multiply(mrotZ);
   for(int i=0;i<3;i++){
-    center[i] = rot[i][0]*this.pos[0]+rot[i][1]*this.pos[1]+rot[i][2]*this.pos[2];
+    center[i] = mrot.getEntry(i,0)*this.pos[0]+mrot.getEntry(i,1)*this.pos[1]+mrot.getEntry(i,2)*this.pos[2];
   }
   return center;
 }

@@ -34,8 +34,8 @@ class Task{
 			double[] vel = {40*rand.nextDouble(),40*rand.nextDouble(),40*rand.nextDouble()};
 			// double[] pos ={radius+(1-9.5*radius)*rand.nextDouble(),0,radius+(1-6.5*radius)*rand.nextDouble()};
 
-			//double[] rotation = {rand.nextDouble(),rand.nextDouble(),rand.nextDouble()};
-			double[] rotation={0,0,0};
+			double[] rotation = {rand.nextDouble(),rand.nextDouble(),rand.nextDouble()};
+			//double[] rotation={0,0,0};
 			// double[] po = {3.0,0.0,3.0};
 			double m = 1*rand.nextDouble();
 			double radius=70*m;
