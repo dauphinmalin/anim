@@ -19,7 +19,7 @@ class Task{
     frame.setVisible(true);
     frame.setSize(950,650+22);
 		Random rand = new Random();
-		int n=2;
+		int n=5;
 		Square[] objects = new Square[n];
 		// double m = 1;
 		double dt = 0.01;
@@ -34,8 +34,8 @@ class Task{
 			double[] vel = {40*rand.nextDouble(),40*rand.nextDouble(),40*rand.nextDouble()};
 			// double[] pos ={radius+(1-9.5*radius)*rand.nextDouble(),0,radius+(1-6.5*radius)*rand.nextDouble()};
 
-			//double[] rotation = {rand.nextDouble(),rand.nextDouble(),rand.nextDouble()};
-			double[] rotation={0,0,0};
+			double[] rotation = {rand.nextDouble(),rand.nextDouble(),rand.nextDouble()};
+			// double[] rotation={0,0,0};
 			// double[] po = {3.0,0.0,3.0};
 			double m = 1*rand.nextDouble();
 			double radius=70*m;
