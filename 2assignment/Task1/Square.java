@@ -11,8 +11,8 @@ public class Square extends PrimitiveObject{
   private double side;
   private Spheric[] summits;
   private double[] pos0;
-  static private double coefK = 100;
-  static private double coefB = 1;
+  static private double coefK = 0.00001;
+  static private double coefB = 0.00001;
   static private double coefI;
 
 
@@ -163,7 +163,7 @@ public void calculatePos(){
     }
   borderResponse();
 
-  shapeMatching();
+  // shapeMatching();
 }
 
 
@@ -296,46 +296,62 @@ public boolean checkCollision(Square square){
             //substraction for vector a faire
             double[] vRel = {square.getVel()[0]-this.getVel()[0],square.getVel()[1]-this.getVel()[1],square.getVel()[2]-this.getVel()[2]};
             double[] f = new double[3];
-            double[] r = {square.summits[i].getX()-square.getX(),square.summits[i].getY()-square.getY(),square.summits[i].getZ()-square.getZ()};
-            Vector3D rv = new Vector3D(r);
+            double[] r1 = {square.summits[i].getX()-square.getX(),square.summits[i].getY()-square.getY(),square.summits[i].getZ()-square.getZ()};
+            double[] r2 = {square.summits[i].getX()-this.pos[0],square.summits[i].getY()-this.pos[1],square.summits[i].getZ()-this.pos[2]};
             for(int k=0;k<3;k++){
               f[k] = (-this.coefK*x[0]-this.coefB*(vRel[0]*n[0]+vRel[1]*n[1]+vRel[2]*n[2]))*n[k];
             }
-            Vector3D fv = new Vector3D(f);
-            Vector3D crossP = rv.crossProduct(rv,fv);
-            // crossP *=this.dt*this.coefI;
+            square.rot(r1, f);
             square.addForceSummit(f);
+            for(int j=0;j<3;j++){
+              f[j] = - f[j];
+            }
+            this.rot(r2, f);
             this.addForceSummit(f);
             // System.out.println("f: "+ f[0]+" "+f[1]+" "+f[2]);
-            System.out.println("f: "+ f[0]+" "+f[1]+" "+f[2]);
+            System.out.println("fa: "+ f[0]+" "+f[1]+" "+f[2]);
           }
-          if(b==8){
+          else if(b==8){
             double[] pIn = {square.summits[i].getX(),square.summits[i].getY(),square.summits[i].getZ()};
             double[] n = rotV(y,pIn);
             //substraction for vector a faire
             double[] vRel = {square.getVel()[0]-this.getVel()[0],square.getVel()[1]-this.getVel()[1],square.getVel()[2]-this.getVel()[2]};
             double[] f = new double[3];
+            double[] r1 = {square.summits[i].getX()-square.getX(),square.summits[i].getY()-square.getY(),square.summits[i].getZ()-square.getZ()};
+            double[] r2 = {square.summits[i].getX()-this.pos[0],square.summits[i].getY()-this.pos[1],square.summits[i].getZ()-this.pos[2]};
             for(int k=0;k<3;k++){
               f[k] = (-this.coefK*y[1]-this.coefB*(vRel[0]*n[0]+vRel[1]*n[1]+vRel[2]*n[2]))*n[k];
             }
+            square.rot(r1, f);
             square.addForceSummit(f);
+            for(int j=0;j<3;j++){
+              f[j] = - f[j];
+            }
+            this.rot(r2, f);
             this.addForceSummit(f);
             // System.out.println("f: "+ f[0]+" "+f[1]+" "+f[2]);
-            System.out.println("f: "+ f[0]+" "+f[1]+" "+f[2]);
+            System.out.println("fb: "+ f[0]+" "+f[1]+" "+f[2]);
           }
-          if(c==8){
+          else if(c==8){
             double[] pIn = {square.summits[i].getX(),square.summits[i].getY(),square.summits[i].getZ()};
             double[] n = rotV(z,pIn);
             //substraction for vector a faire
             double[] vRel = {square.getVel()[0]-this.getVel()[0],square.getVel()[1]-this.getVel()[1],square.getVel()[2]-this.getVel()[2]};
             double[] f = new double[3];
+            double[] r1 = {square.summits[i].getX()-square.getX(),square.summits[i].getY()-square.getY(),square.summits[i].getZ()-square.getZ()};
+            double[] r2 = {square.summits[i].getX()-this.pos[0],square.summits[i].getY()-this.pos[1],square.summits[i].getZ()-this.pos[2]};
             for(int k=0;k<3;k++){
               f[k] = (-this.coefK*z[2]-this.coefB*(vRel[0]*n[0]+vRel[1]*n[1]+vRel[2]*n[2]))*n[k];
             }
+            square.rot(r1, f);
             square.addForceSummit(f);
+            for(int j=0;j<3;j++){
+              f[j] = - f[j];
+            }
+            this.rot(r2, f);
             this.addForceSummit(f);
             // System.out.println("f: "+ f[0]+" "+f[1]+" "+f[2]);
-            System.out.println("f: "+ f[0]+" "+f[1]+" "+f[2]);
+            System.out.println("fc: "+ f[0]+" "+f[1]+" "+f[2]);
           }
           return true;
         }
@@ -355,9 +371,14 @@ public void addForceSummit(double[] f){
   }
 }
 
-public void rot(double[] rot){
+public void rot(double[] r,double[] f){
+  Vector3D rv = new Vector3D(r);
+  Vector3D fv = new Vector3D(f);
+  Vector3D crossP = rv.crossProduct(rv,fv);
+  crossP.scalarMultiply(this.dt*this.coefI);
+  double[] w = crossP.toArray();
   for(int i=0;i<3;i++){
-    this.rotation[i] = rot[i];
+    this.rotation[i] = w[i];
   }
 }
 // public void collisionResponse(Square square){
