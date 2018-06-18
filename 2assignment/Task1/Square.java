@@ -5,13 +5,15 @@ import javax.media.opengl.glu.GLUquadric;
 import java.util.*;
 import java.lang.Math;
 import org.apache.commons.math3.linear.*;
+import org.apache.commons.math3.geometry.euclidean.threed.*;
 
 public class Square extends PrimitiveObject{
   private double side;
   private Spheric[] summits;
   private double[] pos0;
   static private double coefK = 100;
-  static private double coefB = 10;
+  static private double coefB = 1;
+  static private double coefI;
 
 
 public Square(double m,double[] pos,double[] vel,double[] rotation,double[] f,double dt,double side){
@@ -36,6 +38,7 @@ for(int i=0;i<8;i++){
   summits[i]=new Spheric(m/8,possummits[i],vel,rotation,f,dt,0);
 
 }
+this.coefI = this.m*this.side*this.side/6;
 }
 @Override
   public void Draw(GLAutoDrawable drawable,GLU glu,GL2 gl){
@@ -232,7 +235,7 @@ public void calculateForce(double m,double[] cm){
   }
 }
 
-public double[] rot(double[] vec, double[] center){
+public double[] rotV(double[] vec, double[] center){
   double[] result = new double[3];
   double[][] rotX ={{1,0,0},{0,Math.cos(this.rotation[0]),Math.sin(this.rotation[0])},{0,-Math.sin(this.rotation[0]),Math.cos(this.rotation[0])}};
   double[][] rotY ={{Math.cos(this.rotation[1]),0,Math.sin(this.rotation[1])},{0,1,0},{-Math.sin(this.rotation[1]),0,Math.cos(this.rotation[1])}};
@@ -289,83 +292,49 @@ public boolean checkCollision(Square square){
           }
           if(a==8){
             double[] pIn = {square.summits[i].getX(),square.summits[i].getY(),square.summits[i].getZ()};
-            double[] n = rot(x,pIn);
+            double[] n = rotV(x,pIn);
             //substraction for vector a faire
             double[] vRel = {square.getVel()[0]-this.getVel()[0],square.getVel()[1]-this.getVel()[1],square.getVel()[2]-this.getVel()[2]};
             double[] f = new double[3];
+            double[] r = {square.summits[i].getX()-square.getX(),square.summits[i].getY()-square.getY(),square.summits[i].getZ()-square.getZ()};
+            Vector3D rv = new Vector3D(r);
             for(int k=0;k<3;k++){
               f[k] = (-this.coefK*x[0]-this.coefB*(vRel[0]*n[0]+vRel[1]*n[1]+vRel[2]*n[2]))*n[k];
             }
-            square.summits[0].setF(f[0],f[1],f[2]);
-            square.summits[1].setF(f[0],f[1],f[2]);
-            square.summits[2].setF(f[0],f[1],f[2]);
-            square.summits[3].setF(f[0],f[1],f[2]);
-            square.summits[4].setF(f[0],f[1],f[2]);
-            square.summits[5].setF(f[0],f[1],f[2]);
-            square.summits[6].setF(f[0],f[1],f[2]);
-            square.summits[7].setF(f[0],f[1],f[2]);
-            this.summits[0].setF(-f[0],-f[1],-f[2]);
-            this.summits[1].setF(-f[0],-f[1],-f[2]);
-            this.summits[2].setF(-f[0],-f[1],-f[2]);
-            this.summits[3].setF(-f[0],-f[1],-f[2]);
-            this.summits[4].setF(-f[0],-f[1],-f[2]);
-            this.summits[5].setF(-f[0],-f[1],-f[2]);
-            this.summits[6].setF(-f[0],-f[1],-f[2]);
-            this.summits[0].setF(-f[0],-f[1],-f[2]);
+            Vector3D fv = new Vector3D(f);
+            Vector3D crossP = rv.crossProduct(rv,fv);
+            // crossP *=this.dt*this.coefI;
+            square.addForceSummit(f);
+            this.addForceSummit(f);
+            // System.out.println("f: "+ f[0]+" "+f[1]+" "+f[2]);
             System.out.println("f: "+ f[0]+" "+f[1]+" "+f[2]);
           }
           if(b==8){
             double[] pIn = {square.summits[i].getX(),square.summits[i].getY(),square.summits[i].getZ()};
-            double[] n = rot(y,pIn);
+            double[] n = rotV(y,pIn);
             //substraction for vector a faire
             double[] vRel = {square.getVel()[0]-this.getVel()[0],square.getVel()[1]-this.getVel()[1],square.getVel()[2]-this.getVel()[2]};
             double[] f = new double[3];
             for(int k=0;k<3;k++){
               f[k] = (-this.coefK*y[1]-this.coefB*(vRel[0]*n[0]+vRel[1]*n[1]+vRel[2]*n[2]))*n[k];
             }
-            square.summits[0].setF(f[0],f[1],f[2]);
-            square.summits[1].setF(f[0],f[1],f[2]);
-            square.summits[2].setF(f[0],f[1],f[2]);
-            square.summits[3].setF(f[0],f[1],f[2]);
-            square.summits[4].setF(f[0],f[1],f[2]);
-            square.summits[5].setF(f[0],f[1],f[2]);
-            square.summits[6].setF(f[0],f[1],f[2]);
-            square.summits[7].setF(f[0],f[1],f[2]);
-            this.summits[0].setF(-f[0],-f[1],-f[2]);
-            this.summits[1].setF(-f[0],-f[1],-f[2]);
-            this.summits[2].setF(-f[0],-f[1],-f[2]);
-            this.summits[3].setF(-f[0],-f[1],-f[2]);
-            this.summits[4].setF(-f[0],-f[1],-f[2]);
-            this.summits[5].setF(-f[0],-f[1],-f[2]);
-            this.summits[6].setF(-f[0],-f[1],-f[2]);
-            this.summits[0].setF(-f[0],-f[1],-f[2]);
+            square.addForceSummit(f);
+            this.addForceSummit(f);
+            // System.out.println("f: "+ f[0]+" "+f[1]+" "+f[2]);
             System.out.println("f: "+ f[0]+" "+f[1]+" "+f[2]);
           }
           if(c==8){
             double[] pIn = {square.summits[i].getX(),square.summits[i].getY(),square.summits[i].getZ()};
-            double[] n = rot(z,pIn);
+            double[] n = rotV(z,pIn);
             //substraction for vector a faire
             double[] vRel = {square.getVel()[0]-this.getVel()[0],square.getVel()[1]-this.getVel()[1],square.getVel()[2]-this.getVel()[2]};
             double[] f = new double[3];
             for(int k=0;k<3;k++){
               f[k] = (-this.coefK*z[2]-this.coefB*(vRel[0]*n[0]+vRel[1]*n[1]+vRel[2]*n[2]))*n[k];
             }
-            square.summits[0].setF(f[0],f[1],f[2]);
-            square.summits[1].setF(f[0],f[1],f[2]);
-            square.summits[2].setF(f[0],f[1],f[2]);
-            square.summits[3].setF(f[0],f[1],f[2]);
-            square.summits[4].setF(f[0],f[1],f[2]);
-            square.summits[5].setF(f[0],f[1],f[2]);
-            square.summits[6].setF(f[0],f[1],f[2]);
-            square.summits[7].setF(f[0],f[1],f[2]);
-            this.summits[0].setF(-f[0],-f[1],-f[2]);
-            this.summits[1].setF(-f[0],-f[1],-f[2]);
-            this.summits[2].setF(-f[0],-f[1],-f[2]);
-            this.summits[3].setF(-f[0],-f[1],-f[2]);
-            this.summits[4].setF(-f[0],-f[1],-f[2]);
-            this.summits[5].setF(-f[0],-f[1],-f[2]);
-            this.summits[6].setF(-f[0],-f[1],-f[2]);
-            this.summits[0].setF(-f[0],-f[1],-f[2]);
+            square.addForceSummit(f);
+            this.addForceSummit(f);
+            // System.out.println("f: "+ f[0]+" "+f[1]+" "+f[2]);
             System.out.println("f: "+ f[0]+" "+f[1]+" "+f[2]);
           }
           return true;
@@ -376,8 +345,20 @@ public boolean checkCollision(Square square){
   return false;
 }
 
-public void addForce(double f1, double f2, double f3){
+public void addForceSummit(double[] f){
+  // this.addForce(f);
+  for(int i=0;i<3;i++){
+    f[i] /=8;
+  }
+  for(int i=0;i<8;i++){
+    this.summits[i].addForce(f);
+  }
+}
 
+public void rot(double[] rot){
+  for(int i=0;i<3;i++){
+    this.rotation[i] = rot[i];
+  }
 }
 // public void collisionResponse(Square square){
 //   double[][] base = new double[3][3];

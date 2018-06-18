@@ -89,7 +89,11 @@ public class Spheric extends PrimitiveObject{
     }
   }
 
-
+public void addForce(double[] f){
+  for(int i=0;i<3;i++){
+    this.f[i] += f[i];
+  }
+}
 
 
 
