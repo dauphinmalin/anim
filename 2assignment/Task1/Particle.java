@@ -22,7 +22,6 @@ public class Particle extends PrimitiveObject{
     }
   }
     public void Draw(){
-      System.out.println("Draw");
   }
 
   public void calculateBoundingVolume(){
@@ -70,13 +69,13 @@ public class Particle extends PrimitiveObject{
     for(int i=0;i<3;i++){
 
       if(this.nextpos[i]>(this.posMAX[i]-this.radius)){
-        this.vel[i]=-this.cr*(this.nextpos[i]-this.pos[i]);
+        this.vel[i]=-20000*this.cr*(this.nextpos[i]-this.pos[i]);
         this.previouspos[i]=this.posMAX[i]-this.radius-this.vel[i];
         this.pos[i]=this.posMAX[i]-this.radius;
         this.extremeSup[i]=this.posMAX[i];
       }
       else if(this.nextpos[i]<this.radius){
-        this.vel[i]=-this.cr*(this.nextpos[i]-this.pos[i]);
+        this.vel[i]=-20000*this.cr*(this.nextpos[i]-this.pos[i]);
         this.previouspos[i]=this.radius-this.vel[i];
         this.pos[i]=this.radius;
         this.extremeInf[i]=0;
@@ -86,7 +85,7 @@ public class Particle extends PrimitiveObject{
         this.pos[i]=this.nextpos[i];
         this.extremeInf[i]=this.pos[i]-this.radius;
         this.extremeSup[i]=this.pos[i]+this.radius;
-        this.vel[i]=this.cr*(this.pos[i]-this.previouspos[i]);
+    //    this.vel[i]=this.cr*(this.pos[i]-this.previouspos[i]);
       }
     }
   }

@@ -19,7 +19,7 @@ class Task{
     frame.setVisible(true);
     frame.setSize(950,650+22);
 		Random rand = new Random();
-		int n=5;
+		int n=1;
 		Square[] objects = new Square[n];
 		// double m = 1;
 		double dt = 0.01;
@@ -31,14 +31,14 @@ class Task{
 			collisiontab[i]=i;
 			double[] pos ={250,250,250};
 			double[] f = {0,0,0};
-			double[] vel = {40*rand.nextDouble(),40*rand.nextDouble(),40*rand.nextDouble()};
-			// double[] pos ={radius+(1-9.5*radius)*rand.nextDouble(),0,radius+(1-6.5*radius)*rand.nextDouble()};
-
-			double[] rotation = {rand.nextDouble(),rand.nextDouble(),rand.nextDouble()};
-			// double[] rotation={0,0,0};
+			double[] vel = {2000*rand.nextDouble(),200*rand.nextDouble(),200*rand.nextDouble()};
+			//double[] pos ={radius+(1-9.5*radius)*rand.nextDouble(),0,radius+(1-6.5*radius)*rand.nextDouble()};
+		//	double[] vel={0,0,0};
+			//double[] rotation = {rand.nextDouble(),rand.nextDouble(),rand.nextDouble()};
+			double[] rotation={0,0,0};
 			// double[] po = {3.0,0.0,3.0};
 			double m = 1*rand.nextDouble();
-			double radius=70*m;
+			double radius=70;
 			double length = radius;
 			double width = radius;
 			double height = radius;
@@ -61,11 +61,13 @@ class Task{
 			objects[i].calculatePos();
 			objects[i].borderResponse();
 		}
-		// list = collision.checkCollision();
+		 list = collision.checkCollision();
+	/*	 if(list!=null){
 		iterator = list.iterator();
-	/*	while (iterator.hasNext()) {
+		while (iterator.hasNext()) {
 			collisionResponse(iterator.next(), objects);
-		}*/
+		}
+	}*/
 
 
 		//Init for the viewer
@@ -79,20 +81,20 @@ class Task{
 			viewer.drawObject(objects);
 			for(int i=0;i<objects.length;i++){
 				objects[i].calculatePos();
-				objects[i].borderResponse();
 			}
 			list = collision.checkCollision();
+			if(list!=null){
+
 			iterator = list.iterator();
 
 			while (iterator.hasNext()) {
 				Integer[] col=iterator.next();
-				System.out.println(col[0]+"    "+col[1]);
-				System.out.println(objects[col[0]].checkCollision(objects[col[1]]));
 
 
 			}
+		}
 
-			// Thread.sleep((int)(10000*dt));
+			// Thread.sleep((int)(1000*dt));
 
 		}
 
