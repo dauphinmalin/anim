@@ -63,11 +63,13 @@ class Task{
 			objects[i].calculatePos();
 			objects[i].borderResponse();
 		}
-		// list = collision.checkCollision();
+		 list = collision.checkCollision();
+	/*	 if(list!=null){
 		iterator = list.iterator();
-	/*	while (iterator.hasNext()) {
+		while (iterator.hasNext()) {
 			collisionResponse(iterator.next(), objects);
-		}*/
+		}
+	}*/
 
 
 		//Init for the viewer
@@ -82,31 +84,33 @@ class Task{
 			viewer.drawObject(objects);
 			for(int i=0;i<objects.length;i++){
 				objects[i].calculatePos();
-				objects[i].borderResponse();
 			}
 			list = collision.checkCollision();
+			if(list!=null){
 
-			iterator = list.iterator();
 
+				iterator = list.iterator();
 
-			while (iterator.hasNext()) {
-				Integer[] col=iterator.next();
-				if(objects[col[0]].checkCollision(objects[col[1]])){
-					k+=1;
-					System.out.println(k+":  "+col[0]+"    "+col[1]);
+				while (iterator.hasNext()) {
+					Integer[] col=iterator.next();
+					if(objects[col[0]].checkCollision(objects[col[1]])){
+						k+=1;
+						System.out.println(k+":  "+col[0]+"    "+col[1]);
+						// System.out.println(objects[col[0]].checkCollision(objects[col[1]]));
+					}
+					else if(objects[col[1]].checkCollision(objects[col[0]])){
+						System.out.println(k+":  "+col[1]+"    "+col[0]);
+						// System.out.println(objects[col[0]].checkCollision(objects[col[1]]));
+					}
+					// System.out.println(k+":  "+col[0]+"    "+col[1]);
 					// System.out.println(objects[col[0]].checkCollision(objects[col[1]]));
+
+
 				}
-				else if(objects[col[1]].checkCollision(objects[col[0]])){
-					System.out.println(k+":  "+col[1]+"    "+col[0]);
-					// System.out.println(objects[col[0]].checkCollision(objects[col[1]]));
-				}
-				// System.out.println(k+":  "+col[0]+"    "+col[1]);
-				// System.out.println(objects[col[0]].checkCollision(objects[col[1]]));
+		}
+		}
 
-
-			}
-
-			// Thread.sleep((int)(10000*dt));
+			// Thread.sleep((int)(1000*dt));
 
 		}
 

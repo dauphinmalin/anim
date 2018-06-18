@@ -13,9 +13,10 @@ abstract class PrimitiveObject{
   protected double[] extremeInf;
   protected double[] extremeSup;
   protected static double[] posMAX={650,650,650};
-
+  protected double[] pos0;
   protected static double cr=1;
   protected static double gcst = 6.67e-3;
+  protected static double alpha=1;
 
 
   PrimitiveObject(double m,double[] pos,double[] vel,double[] rotation,double[] f,double dt){
@@ -24,6 +25,7 @@ abstract class PrimitiveObject{
     this.previouspos=new double[3];
     this.nextpos=new double[3];
     this.pos=pos.clone();
+    this.pos0=pos.clone();
     this.rotation=rotation;
     for(int i=0;i<pos.length;i++){
       this.previouspos[i]=pos[i]-vel[i]*dt;
