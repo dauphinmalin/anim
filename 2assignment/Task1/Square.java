@@ -4,17 +4,15 @@ import javax.media.opengl.glu.GLU;
 import javax.media.opengl.glu.GLUquadric;
 import java.util.*;
 import java.lang.Math;
+import org.apache.commons.math3.linear.*;
 
 public class Square extends PrimitiveObject{
   private double side;
   private Spheric[] summits;
-<<<<<<< HEAD
-  private double[][] pos0;
+  private double[] pos0;
   static private double coefK = 100;
   static private double coefB = 10;
-=======
 
->>>>>>> d2e4f4e14133c789d4db0d976edf9b074cb915e0
 
 public Square(double m,double[] pos,double[] vel,double[] rotation,double[] f,double dt,double side){
   super(m,pos,vel,rotation,f,dt);
@@ -33,12 +31,10 @@ double[][] possummits=calculateSummit();
 this.pos0=pos.clone();
 this.summits=new Spheric[8];
 for(int i=0;i<8;i++){
-<<<<<<< HEAD
-  //!!!!!!!!the vel in the center is not equal to the vel on ectremity
-  summits[i]=new Spheric(m/8,pos0[i],vel,rotation,f,dt,0);
-=======
+
+
   summits[i]=new Spheric(m/8,possummits[i],vel,rotation,f,dt,0);
->>>>>>> d2e4f4e14133c789d4db0d976edf9b074cb915e0
+
 }
 }
 @Override
@@ -300,8 +296,22 @@ public boolean checkCollision(Square square){
             for(int k=0;k<3;k++){
               f[k] = (-this.coefK*x[0]-this.coefB*(vRel[0]*n[0]+vRel[1]*n[1]+vRel[2]*n[2]))*n[k];
             }
-            square.setF(f[0],f[1],f[2]);
-            this.setF(-f[0],-f[1],-f[2]);
+            square.summits[0].setF(f[0],f[1],f[2]);
+            square.summits[1].setF(f[0],f[1],f[2]);
+            square.summits[2].setF(f[0],f[1],f[2]);
+            square.summits[3].setF(f[0],f[1],f[2]);
+            square.summits[4].setF(f[0],f[1],f[2]);
+            square.summits[5].setF(f[0],f[1],f[2]);
+            square.summits[6].setF(f[0],f[1],f[2]);
+            square.summits[7].setF(f[0],f[1],f[2]);
+            this.summits[0].setF(-f[0],-f[1],-f[2]);
+            this.summits[1].setF(-f[0],-f[1],-f[2]);
+            this.summits[2].setF(-f[0],-f[1],-f[2]);
+            this.summits[3].setF(-f[0],-f[1],-f[2]);
+            this.summits[4].setF(-f[0],-f[1],-f[2]);
+            this.summits[5].setF(-f[0],-f[1],-f[2]);
+            this.summits[6].setF(-f[0],-f[1],-f[2]);
+            this.summits[0].setF(-f[0],-f[1],-f[2]);
             System.out.println("f: "+ f[0]+" "+f[1]+" "+f[2]);
           }
           if(b==8){
@@ -313,8 +323,22 @@ public boolean checkCollision(Square square){
             for(int k=0;k<3;k++){
               f[k] = (-this.coefK*y[1]-this.coefB*(vRel[0]*n[0]+vRel[1]*n[1]+vRel[2]*n[2]))*n[k];
             }
-            square.setF(f[0],f[1],f[2]);
-            this.setF(-f[0],-f[1],-f[2]);
+            square.summits[0].setF(f[0],f[1],f[2]);
+            square.summits[1].setF(f[0],f[1],f[2]);
+            square.summits[2].setF(f[0],f[1],f[2]);
+            square.summits[3].setF(f[0],f[1],f[2]);
+            square.summits[4].setF(f[0],f[1],f[2]);
+            square.summits[5].setF(f[0],f[1],f[2]);
+            square.summits[6].setF(f[0],f[1],f[2]);
+            square.summits[7].setF(f[0],f[1],f[2]);
+            this.summits[0].setF(-f[0],-f[1],-f[2]);
+            this.summits[1].setF(-f[0],-f[1],-f[2]);
+            this.summits[2].setF(-f[0],-f[1],-f[2]);
+            this.summits[3].setF(-f[0],-f[1],-f[2]);
+            this.summits[4].setF(-f[0],-f[1],-f[2]);
+            this.summits[5].setF(-f[0],-f[1],-f[2]);
+            this.summits[6].setF(-f[0],-f[1],-f[2]);
+            this.summits[0].setF(-f[0],-f[1],-f[2]);
             System.out.println("f: "+ f[0]+" "+f[1]+" "+f[2]);
           }
           if(c==8){
@@ -326,8 +350,22 @@ public boolean checkCollision(Square square){
             for(int k=0;k<3;k++){
               f[k] = (-this.coefK*z[2]-this.coefB*(vRel[0]*n[0]+vRel[1]*n[1]+vRel[2]*n[2]))*n[k];
             }
-            square.setF(f[0],f[1],f[2]);
-            this.setF(-f[0],-f[1],-f[2]);
+            square.summits[0].setF(f[0],f[1],f[2]);
+            square.summits[1].setF(f[0],f[1],f[2]);
+            square.summits[2].setF(f[0],f[1],f[2]);
+            square.summits[3].setF(f[0],f[1],f[2]);
+            square.summits[4].setF(f[0],f[1],f[2]);
+            square.summits[5].setF(f[0],f[1],f[2]);
+            square.summits[6].setF(f[0],f[1],f[2]);
+            square.summits[7].setF(f[0],f[1],f[2]);
+            this.summits[0].setF(-f[0],-f[1],-f[2]);
+            this.summits[1].setF(-f[0],-f[1],-f[2]);
+            this.summits[2].setF(-f[0],-f[1],-f[2]);
+            this.summits[3].setF(-f[0],-f[1],-f[2]);
+            this.summits[4].setF(-f[0],-f[1],-f[2]);
+            this.summits[5].setF(-f[0],-f[1],-f[2]);
+            this.summits[6].setF(-f[0],-f[1],-f[2]);
+            this.summits[0].setF(-f[0],-f[1],-f[2]);
             System.out.println("f: "+ f[0]+" "+f[1]+" "+f[2]);
           }
           return true;
@@ -338,6 +376,9 @@ public boolean checkCollision(Square square){
   return false;
 }
 
+public void addForce(double f1, double f2, double f3){
+
+}
 // public void collisionResponse(Square square){
 //   double[][] base = new double[3][3];
 //   for(int j=0;j<3;j++){

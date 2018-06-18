@@ -87,7 +87,7 @@ class Task{
 			}
 			list = collision.checkCollision();
 			if(list!=null){
-
+				// System.out.println("what happened?");
 
 				iterator = list.iterator();
 
@@ -115,51 +115,3 @@ class Task{
 		}
 
 	}
-
-
-	public static void collisionResponse(Integer[] collArray, Spheric[] objects){
-
-		if(collArray.length==2){
-
-			objects[collArray[0]].calculatePos();
-			objects[collArray[1]].calculatePos();
-
-			double deltaX = objects[collArray[0]].getX()-objects[collArray[1]].getX();
-			double deltaZ = objects[collArray[0]].getZ()-objects[collArray[1]].getZ();
-			double distance = Math.sqrt(deltaX*deltaX + deltaZ*deltaZ);
-			double twoRadius = objects[collArray[0]].getRadius() + objects[collArray[1]].getRadius();
-			if(distance < twoRadius){
-				//velocity
-				double mdm = Math.sqrt(objects[collArray[1]].getM()/objects[collArray[0]].getM());
-				double[] vela = objects[collArray[1]].getVel();
-				double[] velb = objects[collArray[0]].getVel();
-				for(int i=0; i<3; i++){
-					vela[i] *= mdm;
-					velb[i] /= mdm;
-
-				}
-				objects[collArray[0]].setVel(vela);
-				objects[collArray[1]].setVel(velb);
-
-				//push objects away from each other
-				objects[collArray[0]].setX(objects[collArray[0]].getX() + deltaX*(twoRadius-distance)*0.5/distance);
-				objects[collArray[0]].setZ(objects[collArray[0]].getZ() + deltaZ*(twoRadius-distance)*0.5/distance);
-				objects[collArray[1]].setX(objects[collArray[1]].getX() - deltaX*(twoRadius-distance)*0.5/distance);
-				objects[collArray[1]].setZ(objects[collArray[1]].getZ() - deltaZ*(twoRadius-distance)*0.5/distance);
-
-				//previous position
-				objects[collArray[0]].setPreviousPos(objects[collArray[0]].getX()-objects[collArray[0]].getVel()[0],0,objects[collArray[0]].getZ()-objects[collArray[0]].getVel()[2]);
-				objects[collArray[1]].setPreviousPos(objects[collArray[1]].getX()-objects[collArray[1]].getVel()[0],0,objects[collArray[1]].getZ()-objects[collArray[1]].getVel()[2]);
-			}
-
-
-		}
-		else if(collArray.length>2){
-
-		}
-
-	}
-
-
-
-}
