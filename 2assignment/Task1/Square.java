@@ -42,6 +42,18 @@ this.coefI = this.m*this.side*this.side/6;
 }
 @Override
   public void Draw(GLAutoDrawable drawable,GLU glu,GL2 gl){
+      GLUquadric quad = glu.gluNewQuadric();
+      gl.glPushMatrix();
+      gl.glColor3d(0,0,1);
+      gl.glTranslated(this.pos[0],this.pos[1],this.pos[2]);
+      gl.glRotated(this.rotation[0],1,0,0);
+      gl.glRotated(this.rotation[1],0,1,0);
+      gl.glRotated(this.rotation[2],0,0,1);
+      glu.gluCylinder(quad,this.side/2,this.side/2,this.side,4, 2);
+      glu.gluDeleteQuadric(quad);
+      gl.glPopMatrix();
+
+    /*
     gl.glBegin(GL2.GL_LINES);
      gl.glVertex3f((float)summits[0].pos[0],(float)summits[0].pos[1],(float)summits[0].pos[2]);
      gl.glVertex3f((float)summits[1].pos[0],(float)summits[1].pos[1],(float)summits[1].pos[2]);
@@ -104,7 +116,7 @@ this.coefI = this.m*this.side*this.side/6;
      gl.glBegin(GL2.GL_LINES);
      gl.glVertex3f((float)summits[5].pos[0],(float)summits[5].pos[1],(float)summits[5].pos[2]);
      gl.glVertex3f((float)summits[7].pos[0],(float)summits[7].pos[1],(float)summits[7].pos[2]);
-     gl.glEnd();
+     gl.glEnd();*/
 }
 
 public void calculateBoundingVolume(){
@@ -154,13 +166,20 @@ private void shapeMatching(){
 }
 public void calculatePos(){
 
-  for(int i=0;i<8;i++){
+  /*for(int i=0;i<8;i++){
   this.summits[i].calculatePos();
+
   for(int k=0;k<3;k++){
   if(this.summits[i].pos[k]<this.extremeInf[k]){this.extremeInf[k]=this.summits[i].pos[k];}
   if(this.summits[i].pos[k]>this.extremeSup[k]){this.extremeSup[k]=this.summits[i].pos[k];}
 }
-    }
+}
+    }*/
+    for(int i=0;i<3;i++){
+    this.vel[i]=this.vel[i]+this.dt*this.f[i]/this.m;
+    this.nextpos[i] = this.pos[i]+this.vel[i]*this.dt;
+  }
+
   borderResponse();
 
   // shapeMatching();
@@ -168,15 +187,31 @@ public void calculatePos(){
 
 
 public void borderResponse(){
-  this.pos[0]=0;
-  this.pos[1]=0;
-  this.pos[2]=0;
-  for(int i =0;i<this.summits.length;i++){
+  for(int i=0;i<3;i++){
+
+    if(this.nextpos[i]>(this.posMAX[i]-this.side/2)){
+      this.vel[i]=-(this.nextpos[i]-this.pos[i])/this.dt;
+      this.pos[i]=this.posMAX[i]-this.side/2;
+      this.extremeSup[i]=this.posMAX[i];
+    }
+    else if(this.nextpos[i]<this.side/2){
+      this.vel[i]=-(this.nextpos[i]-this.pos[i])/this.dt;
+      this.pos[i]=this.side/2;
+      this.extremeInf[i]=0;
+    }
+    else{
+      this.pos[i]=this.nextpos[i];
+      this.extremeInf[i]=this.pos[i]-this.side;
+      this.extremeSup[i]=this.pos[i]+this.side;
+
+    }
+  }
+  /*for(int i =0;i<this.summits.length;i++){
     this.summits[i].borderResponse();
     this.pos[0]=(this.pos[0]*i*m+this.summits[i].pos[0]*m)/((i+1)*m);
     this.pos[1]=(this.pos[1]*i*m+this.summits[i].pos[1]*m)/((i+1)*m);
     this.pos[2]=(this.pos[2]*i*m+this.summits[i].pos[2]*m)/((i+1)*m);
-  }
+  }*/
 
 
 }
