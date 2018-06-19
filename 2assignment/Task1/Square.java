@@ -13,7 +13,7 @@ public class Square extends PrimitiveObject{
   private double[][] summitspos;
   private double[] pos0;
   static private double coefK = 100;
-  static private double coefB = 20;
+  static private double coefB =1;
   static private double coefI;
 
 
@@ -319,6 +319,7 @@ public RealMatrix summitProj(double[] center,RealMatrix base){
 }
 
 public boolean checkCollision(Square square){
+  boolean bool=false;
   double[][] basetab = new double[3][3];
   for(int j=0;j<3;j++){
     basetab[0][j] = (this.summitspos[4][j]-this.summitspos[0][j])/this.side;
@@ -337,13 +338,51 @@ public boolean checkCollision(Square square){
 
   RealMatrix summitP = square.summitProj(this.summitspos[0], baseop);
   for(int i=0;i<8;i++){
-    if((summitP.getEntry(i,0)<this.side)&&(summitP.getEntry(i,0)>0)){
-      if((summitP.getEntry(i,1)<this.side)&&(summitP.getEntry(i,1)>0)){
-        if((summitP.getEntry(i,2)<this.side)&&(summitP.getEntry(i,2)>0)){
+    if((summitP.getEntry(i,0)<=this.side)&&(summitP.getEntry(i,0)>=0)){
+      if((summitP.getEntry(i,1)<=this.side)&&(summitP.getEntry(i,1)>=0)){
+        if((summitP.getEntry(i,2)<=this.side)&&(summitP.getEntry(i,2)>=0)){
           double[] x = {this.side-summitP.getEntry(i,0),0,0};
           double[] y = {0,this.side-summitP.getEntry(i,1),0};
           double[] z = {0,0,this.side-summitP.getEntry(i,2)};
-          System.out.println(true);
+          double[][] tabCentersquare={{square.pos[0]-this.summitspos[0][0]},{square.pos[1]-this.summitspos[0][1]},{square.pos[2]-this.summitspos[0][2]}};
+          RealMatrix Centersquare=new BlockRealMatrix(tabCentersquare);
+          double[] Centersquarebis=(baseop.multiply(Centersquare)).getColumn(0);
+          double[] distance=new double[6];
+          distance[0]=Math.abs(Centersquarebis[0]);
+          distance[1]=Math.abs(Centersquarebis[0]-this.side);
+          distance[2]=Math.abs(Centersquarebis[1]);
+          distance[3]=Math.abs(Centersquarebis[1]-this.side);
+          distance[4]=Math.abs(Centersquarebis[2]);
+          distance[5]=Math.abs(Centersquarebis[2]-this.side);
+          double min=distance[0];
+          int indicemin=0;
+          for(int k=0;k<6;k++){
+            if(min>distance[k]){
+              System.out.println(k);
+              indicemin=k;
+              min=distance[k];
+            }
+          }
+          int direction=(-2*(indicemin%2)+1);
+          int axe=indicemin/2;
+          double distancei=Math.signum(-(direction)*side*(indicemin%2)+summitP.getEntry(i,axe));
+          double[] force={0,0,0};
+          double[][] speeds={this.vel};
+          RealMatrix speed=new BlockRealMatrix(speeds);
+          speeds[0]=square.vel;
+          RealMatrix speedsquare=new BlockRealMatrix(speeds);
+          speedsquare=speedsquare.subtract(speed);
+          RealMatrix speedbis=baseop.multiply(speedsquare.transpose());
+          force[axe]=direction*(this.coefK*distancei+direction*this.coefB*speedbis.getEntry(axe,0));
+          System.out.println(axe);
+          RealMatrix forcem=new BlockRealMatrix(3,1);
+          forcem.setColumn(0,force);
+          force=(base.multiply(forcem)).getColumn(0);
+          for(int k=0;k<3;k++){
+            this.vel[k]+=force[k]/this.m*this.dt;
+            square.vel[k]-=force[k]/square.m*this.dt;
+          }
+          /*
           int a = 0;
           int b = 0;
           int c = 0;
@@ -351,7 +390,7 @@ public boolean checkCollision(Square square){
             if(x[0]*(summitP.getEntry(j,0)-summitP.getEntry(i,0))>=0){
               a += 1;
             }
-            if(y[1]*(summitP.getEntry(j,1)-summitP.getEntry(i,1))>=0){
+            if(y[1]*(summitP.getEntry(j,1)-summitPcoefBgetEntry(i,1))>=0){
               b += 1;
             }
             if(z[2]*(summitP.getEntry(j,2)-summitP.getEntry(i,2))>=0){
@@ -429,13 +468,14 @@ public boolean checkCollision(Square square){
           }
           // else {
           //   System.out.println("What happend?");
-          // }
-          return true;
+          // }*/
+          bool= true;
         }
       }
     }
+
   }
-  return false;
+  return bool;
 }
 
 public void addForceSummit(double[] f){

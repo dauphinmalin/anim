@@ -25,6 +25,7 @@ class Task{
 		double dt = 0.01;
 		// double radius=0.2;
 		int[] collisiontab=new int[n];
+		double m = 2*rand.nextDouble();
 
 		double[] f = {0,0,0};
 		for(int i=0;i<n;i++){
@@ -33,20 +34,13 @@ class Task{
 			// double[] f = {0,0,0};
 			// double[] vel = {0,0,0};
 			double[][] vel = {{0,100,0},{0,-100,0}};
-
-
 			// double[] pos ={radius+(1-9.5*radius)*rand.nextDouble(),0,radius+(1-6.5*radius)*rand.nextDouble()};
-
-
-
-
-			//double[] rotation = {90*rand.nextDouble(),90*rand.nextDouble(),90*rand.nextDouble()};
-
-			double[] rotation={0,0,0};
+		double[] rotation = {90*rand.nextDouble(),90*rand.nextDouble(),90*rand.nextDouble()};
+		//	double[] rotation={0,0,0};
 			// double[] po = {3.0,0.0,3.0};
-			double m = 1*rand.nextDouble();
+			m =m;
 			// double radius=70*m;
-			double radius=((int)(50*m));
+			double radius=((int)(50*m))*(i+1);
 			double length = radius;
 			double width = radius;
 			double height = radius;
@@ -86,7 +80,6 @@ class Task{
 
 		int k=0;
 		while(true){
-			System.out.println("step");
 			canvas.display();
 			viewer.drawObject(objects);
 			for(int i=0;i<objects.length;i++){
@@ -103,20 +96,12 @@ class Task{
 
 				while (iterator.hasNext()) {
 					Integer[] col=iterator.next();
-					if(objects[col[0]].checkCollision(objects[col[1]])){
-						k+=1;
-						for(int i=0;i<objects.length;i++){
-							objects[i].calculatePos();
-						}
-						System.out.println(k+"A:  "+col[0]+"    "+col[1]);
+					if(objects[col[1]].checkCollision(objects[col[0]])){
+
 						// System.out.println(objects[col[0]].checkCollision(objects[col[1]]));
 					}
-					else if(objects[col[1]].checkCollision(objects[col[0]])){
-						k+=1;
-						for(int i=0;i<objects.length;i++){
-							objects[i].calculatePos();
-						}
-						System.out.println(k+"B:  "+col[1]+"    "+col[0]);
+					else {objects[col[0]].checkCollision(objects[col[1]]);
+
 						// System.out.println(objects[col[0]].checkCollision(objects[col[1]]));
 					}
 					// System.out.println(k+":  "+col[0]+"    "+col[1]);
