@@ -105,6 +105,11 @@ abstract class PrimitiveObject{
   public void setVel(double[] vel){
     this.vel = vel;
   }
+  public void addVel(double[] F){
+    for(int i=0;i<3;i++){
+      this.vel[i] += F[i]*this.dt/this.m;
+    }
+  }
 
   public void setX(double x){
     this.pos[0] = x;
