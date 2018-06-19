@@ -19,28 +19,28 @@ class Task{
     frame.setVisible(true);
     frame.setSize(950,650+22);
 		Random rand = new Random();
-		int n=10;
+		int n=3;
 		Square[] objects = new Square[n];
 		// double m = 1;
 		double dt = 0.01;
 		// double radius=0.2;
 		int[] collisiontab=new int[n];
 
-
+		double[] f = {0,0,0};
 		for(int i=0;i<n;i++){
 			collisiontab[i]=i;
 			double[] pos ={250,250,250};
-			double[] f = {0,0,0};
+			// double[] f = {0,0,0};
 			// double[] vel = {0,0,0};
-			double[] vel = {400*rand.nextDouble(),400*rand.nextDouble(),400*rand.nextDouble()};
+			double[] vel = {40*rand.nextDouble(),40*rand.nextDouble(),40*rand.nextDouble()};
 			// double[] pos ={radius+(1-9.5*radius)*rand.nextDouble(),0,radius+(1-6.5*radius)*rand.nextDouble()};
 
-			double[] rotation = {90*rand.nextDouble(),90*rand.nextDouble(),90*rand.nextDouble()};
+			// double[] rotation = {0.001*rand.nextDouble(),0.001*rand.nextDouble(),0.001*rand.nextDouble()};
 			// double[] rotation={0,0,0};
 			// double[] po = {3.0,0.0,3.0};
 			double m = 1*rand.nextDouble();
 			// double radius=70*m;
-			double radius=((int)(100*m));
+			double radius=((int)(200*m));
 			double length = radius;
 			double width = radius;
 			double height = radius;
@@ -83,8 +83,11 @@ class Task{
 			canvas.display();
 			viewer.drawObject(objects);
 			for(int i=0;i<objects.length;i++){
+				objects[i].setF(f[0],f[1],f[2]);
 				objects[i].calculatePos();
 			}
+			System.out.println("rotation: "+objects[0].getRot()[0]+"  "+objects[0].getRot()[1]+"  "+objects[0].getRot()[2]);
+
 			list = collision.checkCollision();
 			if(list!=null){
 				// System.out.println("what happened?");
@@ -95,11 +98,18 @@ class Task{
 					Integer[] col=iterator.next();
 					if(objects[col[0]].checkCollision(objects[col[1]])){
 						k+=1;
-						System.out.println(k+":  "+col[0]+"    "+col[1]);
+						for(int i=0;i<objects.length;i++){
+							objects[i].calculatePos();
+						}
+						System.out.println(k+"A:  "+col[0]+"    "+col[1]);
 						// System.out.println(objects[col[0]].checkCollision(objects[col[1]]));
 					}
 					else if(objects[col[1]].checkCollision(objects[col[0]])){
-						System.out.println(k+":  "+col[1]+"    "+col[0]);
+						k+=1;
+						for(int i=0;i<objects.length;i++){
+							objects[i].calculatePos();
+						}
+						System.out.println(k+"B:  "+col[1]+"    "+col[0]);
 						// System.out.println(objects[col[0]].checkCollision(objects[col[1]]));
 					}
 					// System.out.println(k+":  "+col[0]+"    "+col[1]);

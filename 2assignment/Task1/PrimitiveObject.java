@@ -89,6 +89,10 @@ abstract class PrimitiveObject{
     return this.vel;
   }
 
+  public double[] getRot(){
+    return this.rotation;
+  }
+
   public double getM(){
     return this.m;
   }

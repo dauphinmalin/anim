@@ -11,8 +11,8 @@ public class Square extends PrimitiveObject{
   private double side;
   private Spheric[] summits;
   private double[] pos0;
-  static private double coefK = 0.00001;
-  static private double coefB = 0.00001;
+  static private double coefK = 100;
+  static private double coefB = 20;
   static private double coefI;
 
 
@@ -44,7 +44,7 @@ this.coefI = this.m*this.side*this.side/6;
   public void Draw(GLAutoDrawable drawable,GLU glu,GL2 gl){
       GLUquadric quad = glu.gluNewQuadric();
       gl.glPushMatrix();
-      gl.glColor3d(0,0,1);
+      gl.glColor3d(1,1,1);
       gl.glTranslated(this.pos[0],this.pos[1],this.pos[2]);
       gl.glRotated(this.rotation[0],1,0,0);
       gl.glRotated(this.rotation[1],0,1,0);
@@ -175,12 +175,14 @@ public void calculatePos(){
 }
 }
     }*/
+
     for(int i=0;i<3;i++){
     this.vel[i]=this.vel[i]+this.dt*this.f[i]/this.m;
     this.nextpos[i] = this.pos[i]+this.vel[i]*this.dt;
   }
 
   borderResponse();
+  RecalculateSummit();
 
   // shapeMatching();
 }
@@ -251,6 +253,22 @@ public double[][] calculateSummit(){
   return summitbis;
 }
 
+public void RecalculateSummit(){
+  // for(int i=0;i<3;i++){
+  //   this.rotation[i] += this.rotation[i];
+  //   this.rotation[i] %= 360;
+  // }
+  double[][] rotX ={{1,0,0},{0,Math.cos(this.rotation[0]),Math.sin(this.rotation[0])},{0,-Math.sin(this.rotation[0]),Math.cos(this.rotation[0])}};
+  double[][] rotY ={{Math.cos(this.rotation[1]),0,Math.sin(this.rotation[1])},{0,1,0},{-Math.sin(this.rotation[1]),0,Math.cos(this.rotation[1])}};
+  double[][] rotZ ={{Math.cos(this.rotation[2]),Math.sin(this.rotation[2]),0},{-Math.sin(this.rotation[2]),Math.cos(this.rotation[2]),0},{0,0,1}};
+  double[][] rot=matrixProduct(rotX,rotY);
+  rotX=matrixProduct(rot,rotZ);
+  for(int i=0;i<8;i++){
+    for(int j=0;j<3;j++){
+    this.summits[i].pos[j]=rotX[j][0]*(this.summits[i].pos[0]-this.pos[0])+rotX[j][1]*(this.summits[i].pos[1]-this.pos[1])+rotX[j][2]*(this.summits[i].pos[2]-this.pos[2])+this.pos[j];
+  }
+  }
+}
 
 public void calculateForce(double m,double[] cm){
   this.f[0]=0;
@@ -270,7 +288,10 @@ public void calculateForce(double m,double[] cm){
   }
 }
 
-public double[] rotV(double[] vec, double[] center){
+public double[] rotV(double[] vec){
+  Vector3D vecv = new Vector3D(vec);
+  vecv = vecv.normalize();
+  vec = vecv.toArray();
   double[] result = new double[3];
   double[][] rotX ={{1,0,0},{0,Math.cos(this.rotation[0]),Math.sin(this.rotation[0])},{0,-Math.sin(this.rotation[0]),Math.cos(this.rotation[0])}};
   double[][] rotY ={{Math.cos(this.rotation[1]),0,Math.sin(this.rotation[1])},{0,1,0},{-Math.sin(this.rotation[1]),0,Math.cos(this.rotation[1])}};
@@ -278,7 +299,7 @@ public double[] rotV(double[] vec, double[] center){
   double[][] rot=matrixProduct(rotX,rotY);
   rot = matrixProduct(rot,rotZ);
   for(int i=0;i<3;i++){
-    result[i] = rot[i][0]*vec[0]+rot[i][1]*vec[1]+rot[i][2]*vec[2] + center[i];
+    result[i] = rot[i][0]*vec[0]+rot[i][1]*vec[1]+rot[i][2]*vec[2];
   }
   return result;
 }
@@ -325,17 +346,19 @@ public boolean checkCollision(Square square){
               c += 1;
             }
           }
-          if(a==8){
-            double[] pIn = {square.summits[i].getX(),square.summits[i].getY(),square.summits[i].getZ()};
-            double[] n = rotV(x,pIn);
+          if(a>=7){
+            // double[] pIn = {square.summits[i].getX(),square.summits[i].getY(),square.summits[i].getZ()};
+            double[] n = rotV(x);
             //substraction for vector a faire
             double[] vRel = {square.getVel()[0]-this.getVel()[0],square.getVel()[1]-this.getVel()[1],square.getVel()[2]-this.getVel()[2]};
             double[] f = new double[3];
+
             double[] r1 = {square.summits[i].getX()-square.getX(),square.summits[i].getY()-square.getY(),square.summits[i].getZ()-square.getZ()};
             double[] r2 = {square.summits[i].getX()-this.pos[0],square.summits[i].getY()-this.pos[1],square.summits[i].getZ()-this.pos[2]};
             for(int k=0;k<3;k++){
               f[k] = (-this.coefK*x[0]-this.coefB*(vRel[0]*n[0]+vRel[1]*n[1]+vRel[2]*n[2]))*n[k];
             }
+
             square.rot(r1, f);
             square.addForceSummit(f);
             for(int j=0;j<3;j++){
@@ -346,17 +369,19 @@ public boolean checkCollision(Square square){
             // System.out.println("f: "+ f[0]+" "+f[1]+" "+f[2]);
             System.out.println("fa: "+ f[0]+" "+f[1]+" "+f[2]);
           }
-          else if(b==8){
-            double[] pIn = {square.summits[i].getX(),square.summits[i].getY(),square.summits[i].getZ()};
-            double[] n = rotV(y,pIn);
+          if(b>=7){
+            // double[] pIn = {square.summits[i].getX(),square.summits[i].getY(),square.summits[i].getZ()};
+            double[] n = rotV(y);
             //substraction for vector a faire
             double[] vRel = {square.getVel()[0]-this.getVel()[0],square.getVel()[1]-this.getVel()[1],square.getVel()[2]-this.getVel()[2]};
-            double[] f = new double[3];
+            double[] f = {0,0,0};
+
             double[] r1 = {square.summits[i].getX()-square.getX(),square.summits[i].getY()-square.getY(),square.summits[i].getZ()-square.getZ()};
             double[] r2 = {square.summits[i].getX()-this.pos[0],square.summits[i].getY()-this.pos[1],square.summits[i].getZ()-this.pos[2]};
             for(int k=0;k<3;k++){
               f[k] = (-this.coefK*y[1]-this.coefB*(vRel[0]*n[0]+vRel[1]*n[1]+vRel[2]*n[2]))*n[k];
             }
+
             square.rot(r1, f);
             square.addForceSummit(f);
             for(int j=0;j<3;j++){
@@ -367,17 +392,19 @@ public boolean checkCollision(Square square){
             // System.out.println("f: "+ f[0]+" "+f[1]+" "+f[2]);
             System.out.println("fb: "+ f[0]+" "+f[1]+" "+f[2]);
           }
-          else if(c==8){
-            double[] pIn = {square.summits[i].getX(),square.summits[i].getY(),square.summits[i].getZ()};
-            double[] n = rotV(z,pIn);
+          if(c>=7){
+            // double[] pIn = {square.summits[i].getX(),square.summits[i].getY(),square.summits[i].getZ()};
+            double[] n = rotV(z);
             //substraction for vector a faire
             double[] vRel = {square.getVel()[0]-this.getVel()[0],square.getVel()[1]-this.getVel()[1],square.getVel()[2]-this.getVel()[2]};
             double[] f = new double[3];
+
             double[] r1 = {square.summits[i].getX()-square.getX(),square.summits[i].getY()-square.getY(),square.summits[i].getZ()-square.getZ()};
             double[] r2 = {square.summits[i].getX()-this.pos[0],square.summits[i].getY()-this.pos[1],square.summits[i].getZ()-this.pos[2]};
             for(int k=0;k<3;k++){
               f[k] = (-this.coefK*z[2]-this.coefB*(vRel[0]*n[0]+vRel[1]*n[1]+vRel[2]*n[2]))*n[k];
             }
+
             square.rot(r1, f);
             square.addForceSummit(f);
             for(int j=0;j<3;j++){
@@ -388,6 +415,9 @@ public boolean checkCollision(Square square){
             // System.out.println("f: "+ f[0]+" "+f[1]+" "+f[2]);
             System.out.println("fc: "+ f[0]+" "+f[1]+" "+f[2]);
           }
+          // else {
+          //   System.out.println("What happend?");
+          // }
           return true;
         }
       }
@@ -397,6 +427,9 @@ public boolean checkCollision(Square square){
 }
 
 public void addForceSummit(double[] f){
+  for(int i=0;i<3;i++){
+    this.f[i] += f[i];
+  }
   // this.addForce(f);
   for(int i=0;i<3;i++){
     f[i] /=8;
@@ -407,14 +440,22 @@ public void addForceSummit(double[] f){
 }
 
 public void rot(double[] r,double[] f){
+  // System.out.println("f length: "+f.length);
+  // System.out.println("f: "+f[0]+"  "+f[1]+"  "+f[2]);
   Vector3D rv = new Vector3D(r);
-  Vector3D fv = new Vector3D(f);
+  // System.out.println("rv: "+rv);
+  Vector3D fv = new Vector3D(f[0],f[1],f[2]);
+  // System.out.println("fv: "+fv);
   Vector3D crossP = rv.crossProduct(rv,fv);
   crossP.scalarMultiply(this.dt*this.coefI);
   double[] w = crossP.toArray();
+  // System.out.println("w: "+ w[0]+" "+w[1]+" "+w[2]);
   for(int i=0;i<3;i++){
-    this.rotation[i] = w[i];
+    // this.rotation[i] += w[i]*180/Math.PI;
+    // this.rotation[i] %= 5;
   }
+
+  // System.out.println("rot: "+ this.rotation[0]+" "+this.rotation[1]+" "+this.rotation[2]);
 }
 // public void collisionResponse(Square square){
 //   double[][] base = new double[3][3];
