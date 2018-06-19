@@ -451,8 +451,8 @@ public void rot(double[] r,double[] f){
   double[] w = crossP.toArray();
   // System.out.println("w: "+ w[0]+" "+w[1]+" "+w[2]);
   for(int i=0;i<3;i++){
-    // this.rotation[i] += w[i]*180/Math.PI;
-    // this.rotation[i] %= 5;
+    this.rotation[i] += w[i]*180/Math.PI;
+    this.rotation[i] %= 5;
   }
 
   // System.out.println("rot: "+ this.rotation[0]+" "+this.rotation[1]+" "+this.rotation[2]);

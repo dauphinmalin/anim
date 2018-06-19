@@ -19,7 +19,7 @@ class Task{
     frame.setVisible(true);
     frame.setSize(950,650+22);
 		Random rand = new Random();
-		int n=3;
+		int n=2;
 		Square[] objects = new Square[n];
 		// double m = 1;
 		double dt = 0.01;
