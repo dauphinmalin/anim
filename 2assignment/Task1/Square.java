@@ -434,9 +434,9 @@ public void addForceSummit(double[] f){
   for(int i=0;i<3;i++){
     f[i] /=8;
   }
-  for(int i=0;i<8;i++){
-    this.summits[i].addForce(f);
-  }
+  // for(int i=0;i<8;i++){
+  //   this.summits[i].addForce(f);
+  // }
 }
 
 public void rot(double[] r,double[] f){
