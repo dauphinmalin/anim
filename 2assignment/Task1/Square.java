@@ -49,7 +49,7 @@ this.coefI = this.m*this.side*this.side/6;
       gl.glRotated(this.rotation[0],1,0,0);
       gl.glRotated(this.rotation[1],0,1,0);
       gl.glRotated(this.rotation[2],0,0,1);
-      glu.gluCylinder(quad,this.side/2,this.side/2,this.side,4, 2);
+      glu.gluCylinder(quad,Math.sqrt(2)*this.side/2,Math.sqrt(2)*this.side/2,this.side,4, 4);
       glu.gluDeleteQuadric(quad);
       gl.glPopMatrix();
 
