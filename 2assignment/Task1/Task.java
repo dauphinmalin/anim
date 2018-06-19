@@ -56,7 +56,6 @@ class Task{
 
 		for(int i=0;i<objects.length;i++){
 			objects[i].calculatePos();
-			objects[i].borderResponse();
 		}
 		 list = collision.checkCollision();
 
@@ -74,6 +73,7 @@ class Task{
 			viewer.drawObject(objects);
 			for(int i=0;i<objects.length;i++){
 				objects[i].calculatePos();
+
 			}
 
 			list = collision.checkCollision();

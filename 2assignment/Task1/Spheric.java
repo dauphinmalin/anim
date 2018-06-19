@@ -51,7 +51,7 @@ public class Spheric extends PrimitiveObject{
   }
   @Override
   public void borderResponse(){
-    for(int i=0;i<3;i++){
+    for(int i=0;i<8;i++){
 
       if(this.nextpos[i]>(this.posMAX[i]-this.radius)){
         this.vel[i]=-(this.nextpos[i]-this.pos[i])/this.dt;
