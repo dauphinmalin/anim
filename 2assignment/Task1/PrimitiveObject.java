@@ -84,6 +84,11 @@ abstract class PrimitiveObject{
     return this.previouspos[2];
   }
 
+  public void addForce(double f[]){
+    this.f[0]+=f[0];
+    this.f[1]+=f[1];
+    this.f[2]+=f[2];
+  }
 
   public double[] getVel(){
     return this.vel;
