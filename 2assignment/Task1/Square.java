@@ -10,6 +10,7 @@ import org.apache.commons.math3.geometry.euclidean.threed.*;
 public class Square extends PrimitiveObject{
   private double side;
   private Spheric[] summits;
+  private double[][] summitspos;
   private double[] pos0;
   private double[] w;
   static private double coefK = 1000;
@@ -30,7 +31,12 @@ public Square(double m,double[] pos,double[] vel,double[] rotation,double[] f,do
 }
 double[][] possummits=calculateSummit();
 this.pos0=pos.clone();
+<<<<<<< HEAD
 this.w = w.clone();
+=======
+this.summitspos=calculateSummit();
+
+>>>>>>> f3a15bbe0c0e3ad033e786e591480ea5b601f935
 this.summits=new Spheric[8];
 for(int i=0;i<8;i++){
 
@@ -43,7 +49,7 @@ this.coefI = this.m*this.side*this.side/6;
 }
 @Override
   public void Draw(GLAutoDrawable drawable,GLU glu,GL2 gl){
-      GLUquadric quad = glu.gluNewQuadric();
+      /*GLUquadric quad = glu.gluNewQuadric();
       gl.glPushMatrix();
       gl.glColor3d(1,1,1);
       gl.glTranslated(this.pos[0],this.pos[1],this.pos[2]);
@@ -52,72 +58,72 @@ this.coefI = this.m*this.side*this.side/6;
       gl.glRotated(this.rotation[2],0,0,1);
       glu.gluCylinder(quad,Math.sqrt(2)*this.side/2,Math.sqrt(2)*this.side/2,this.side,4, 4);
       glu.gluDeleteQuadric(quad);
-      gl.glPopMatrix();
+      gl.glPopMatrix();*/
 
-    /*
+
     gl.glBegin(GL2.GL_LINES);
-     gl.glVertex3f((float)summits[0].pos[0],(float)summits[0].pos[1],(float)summits[0].pos[2]);
-     gl.glVertex3f((float)summits[1].pos[0],(float)summits[1].pos[1],(float)summits[1].pos[2]);
+     gl.glVertex3f((float)this.summitspos[0][0],(float)this.summitspos[0][1],(float)this.summitspos[0][2]);
+     gl.glVertex3f((float)this.summitspos[1][0],(float)this.summitspos[1][1],(float)this.summitspos[1][2]);
      gl.glEnd();
 
      gl.glBegin(GL2.GL_LINES);
-     gl.glVertex3f((float)summits[0].pos[0],(float)summits[0].pos[1],(float)summits[0].pos[2]); // 3 units into the window
-     gl.glVertex3f((float)summits[2].pos[0],(float)summits[2].pos[1],(float)summits[2].pos[2]);
+     gl.glVertex3f((float)this.summitspos[0][0],(float)this.summitspos[0][1],(float)this.summitspos[0][2]); // 3 units into the window
+     gl.glVertex3f((float)this.summitspos[2][0],(float)this.summitspos[2][1],(float)this.summitspos[2][2]);
      gl.glEnd();
 
      //top
      gl.glBegin(GL2.GL_LINES);
-     gl.glVertex3f((float)summits[0].pos[0],(float)summits[0].pos[1],(float)summits[0].pos[2]);
-     gl.glVertex3f((float)summits[4].pos[0],(float)summits[4].pos[1],(float)summits[4].pos[2]);
+     gl.glVertex3f((float)this.summitspos[0][0],(float)this.summitspos[0][1],(float)this.summitspos[0][2]);
+     gl.glVertex3f((float)this.summitspos[4][0],(float)this.summitspos[4][1],(float)this.summitspos[4][2]);
      gl.glEnd();
 
      // bottom
      gl.glBegin(GL2.GL_LINES);
-     gl.glVertex3f((float)summits[3].pos[0],(float)summits[3].pos[1],(float)summits[3].pos[2]);
-     gl.glVertex3f((float)summits[1].pos[0],(float)summits[1].pos[1],(float)summits[1].pos[2]);
+     gl.glVertex3f((float)this.summitspos[3][0],(float)this.summitspos[3][1],(float)this.summitspos[3][2]);
+     gl.glVertex3f((float)this.summitspos[1][0],(float)this.summitspos[1][1],(float)this.summitspos[1][2]);
      gl.glEnd();
 
      // edge 2....
      gl.glBegin(GL2.GL_LINES);
-     gl.glVertex3f((float)summits[3].pos[0],(float)summits[3].pos[1],(float)summits[3].pos[2]);
-     gl.glVertex3f((float)summits[2].pos[0],(float)summits[2].pos[1],(float)summits[2].pos[2]);
+     gl.glVertex3f((float)this.summitspos[3][0],(float)this.summitspos[3][1],(float)this.summitspos[3][2]);
+     gl.glVertex3f((float)this.summitspos[2][0],(float)this.summitspos[2][1],(float)this.summitspos[2][2]);
      gl.glEnd();
 
      gl.glBegin(GL2.GL_LINES);
-     gl.glVertex3f((float)summits[3].pos[0],(float)summits[3].pos[1],(float)summits[3].pos[2]);
-     gl.glVertex3f((float)summits[7].pos[0],(float)summits[7].pos[1],(float)summits[7].pos[2]);
+     gl.glVertex3f((float)this.summitspos[3][0],(float)this.summitspos[3][1],(float)this.summitspos[3][2]);
+     gl.glVertex3f((float)this.summitspos[7][0],(float)this.summitspos[7][1],(float)this.summitspos[7][2]);
      gl.glEnd();
 
      gl.glBegin(GL2.GL_LINES);
-     gl.glVertex3f((float)summits[6].pos[0],(float)summits[6].pos[1],(float)summits[6].pos[2]);
-     gl.glVertex3f((float)summits[2].pos[0],(float)summits[2].pos[1],(float)summits[2].pos[2]);
+     gl.glVertex3f((float)this.summitspos[6][0],(float)this.summitspos[6][1],(float)this.summitspos[6][2]);
+     gl.glVertex3f((float)this.summitspos[2][0],(float)this.summitspos[2][1],(float)this.summitspos[2][2]);
      gl.glEnd();
 
      gl.glBegin(GL2.GL_LINES);
-     gl.glVertex3f((float)summits[6].pos[0],(float)summits[6].pos[1],(float)summits[6].pos[2]);
-     gl.glVertex3f((float)summits[4].pos[0],(float)summits[4].pos[1],(float)summits[4].pos[2]);
+     gl.glVertex3f((float)this.summitspos[6][0],(float)this.summitspos[6][1],(float)this.summitspos[6][2]);
+     gl.glVertex3f((float)this.summitspos[4][0],(float)this.summitspos[4][1],(float)this.summitspos[4][2]);
      gl.glEnd();
 
      //Edge 3.............
      gl.glBegin(GL2.GL_LINES);
-     gl.glVertex3f((float)summits[6].pos[0],(float)summits[6].pos[1],(float)summits[6].pos[2]);
-     gl.glVertex3f((float)summits[7].pos[0],(float)summits[7].pos[1],(float)summits[7].pos[2]);
+     gl.glVertex3f((float)this.summitspos[6][0],(float)this.summitspos[6][1],(float)this.summitspos[6][2]);
+     gl.glVertex3f((float)this.summitspos[7][0],(float)this.summitspos[7][1],(float)this.summitspos[7][2]);
      gl.glEnd();
 
      gl.glBegin(GL2.GL_LINES);
-     gl.glVertex3f((float)summits[5].pos[0],(float)summits[5].pos[1],(float)summits[5].pos[2]);
-     gl.glVertex3f((float)summits[1].pos[0],(float)summits[1].pos[1],(float)summits[1].pos[2]);
+     gl.glVertex3f((float)this.summitspos[5][0],(float)this.summitspos[5][1],(float)this.summitspos[5][2]);
+     gl.glVertex3f((float)this.summitspos[1][0],(float)this.summitspos[1][1],(float)this.summitspos[1][2]);
      gl.glEnd();
 
      gl.glBegin(GL2.GL_LINES);
-     gl.glVertex3f((float)summits[5].pos[0],(float)summits[5].pos[1],(float)summits[5].pos[2]);
-     gl.glVertex3f((float)summits[4].pos[0],(float)summits[4].pos[1],(float)summits[4].pos[2]);
+     gl.glVertex3f((float)this.summitspos[5][0],(float)this.summitspos[5][1],(float)this.summitspos[5][2]);
+     gl.glVertex3f((float)this.summitspos[4][0],(float)this.summitspos[4][1],(float)this.summitspos[4][2]);
      gl.glEnd();
 
      gl.glBegin(GL2.GL_LINES);
-     gl.glVertex3f((float)summits[5].pos[0],(float)summits[5].pos[1],(float)summits[5].pos[2]);
-     gl.glVertex3f((float)summits[7].pos[0],(float)summits[7].pos[1],(float)summits[7].pos[2]);
-     gl.glEnd();*/
+     gl.glVertex3f((float)this.summitspos[5][0],(float)this.summitspos[5][1],(float)this.summitspos[5][2]);
+     gl.glVertex3f((float)this.summitspos[7][0],(float)this.summitspos[7][1],(float)this.summitspos[7][2]);
+     gl.glEnd();
 }
 
 public void calculateBoundingVolume(){
@@ -182,9 +188,9 @@ public void calculatePos(){
     this.nextpos[i] = this.pos[i]+this.vel[i]*this.dt;
     this.rotation[i] += this.w[i]*this.dt;
   }
-
+  this.summitspos=calculateSummit();
   borderResponse();
-  RecalculateSummit();
+  //RecalculateSummit();
 
   // shapeMatching();
 }
@@ -312,13 +318,14 @@ public double[] rotV(double[] vec){
   return result;
 }
 
-public double[][] summitProj(double[] center,double[][] base){
-  double[][] summitP = new double[8][3];
-  for(int ii=0;ii<8;ii++){
-    for(int jj=0;jj<3;jj++){
-      summitP[ii][jj] = (this.summits[ii].getX()-center[0])*base[jj][0]+(this.summits[ii].getY()-center[1])*base[jj][1]+(this.summits[ii].getZ()-center[2])*base[jj][2];
+public RealMatrix summitProj(double[] center,RealMatrix base){
+  RealMatrix summitP = new BlockRealMatrix(8,3);
+  for(int i=0;i<8;i++){
+    double[][] vector={{this.summitspos[i][0]-center[0]},{this.summitspos[i][1]-center[1]},{this.summitspos[i][2]-center[2]}};
+    RealMatrix vectorm=new BlockRealMatrix(vector);
+    summitP.setRow(i,(base.multiply(vectorm)).getColumn(0));
     }
-  }
+
   return summitP;
 }
 

@@ -90,6 +90,7 @@ class Task{
 
 		int k=0;
 		while(true){
+			System.out.println("step");
 			canvas.display();
 			viewer.drawObject(objects);
 			for(int i=0;i<objects.length;i++){
