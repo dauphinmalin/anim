@@ -19,7 +19,7 @@ class Task{
     frame.setVisible(true);
     frame.setSize(950,650+22);
 		Random rand = new Random();
-		int n=2;
+		int n=10;
 		Square[] objects = new Square[n];
 		double dt = 0.01;
 		int[] collisiontab=new int[n];
@@ -28,12 +28,17 @@ class Task{
 		double[] f = {0,0,0};
 		for(int i=0;i<n;i++){
 			collisiontab[i]=i;
-			double[][] pos ={{250,50,250},{250,500,250},{25,50,20}};
-			double[][] vel = {{0,80,0},{0,-80,0},{70,20,30}};
-			 double[] rotation={0,0,0};
-			 double[] w={0,0,0};
-			double[] radius={50,100};
-			objects[i]=new Square(m,pos[i], vel[i],rotation, f, dt,radius[i],w);
+			// double[][] pos ={{250,50,250},{250,500,250},{25,50,20}};
+			double[] pos = {650*rand.nextDouble(),650*rand.nextDouble(),650*rand.nextDouble()};
+			double[] vel = {100*rand.nextDouble(),100*rand.nextDouble(),100*rand.nextDouble()};
+			double[] rotation = {0.01*rand.nextDouble(),0.01*rand.nextDouble(),0.01*rand.nextDouble()};
+			double[] w = {0.1*rand.nextDouble(),0.1*rand.nextDouble(),0.1*rand.nextDouble()};
+			double radius = 50+50*rand.nextDouble();
+			// double[][] vel = {{0,80,0},{0,-80,0},{70,20,30}};
+			 // double[] rotation={0,0,0};
+			 // double[] w={0,0,0};
+			// double[] radius={50,100};
+			objects[i]=new Square(m,pos, vel,rotation, f, dt,radius,w);
 
 
 
@@ -78,11 +83,13 @@ class Task{
 
 				while (iterator.hasNext()) {
 					Integer[] col=iterator.next();
-					if(objects[col[1]].checkCollision(objects[col[0]])){}
+					if(objects[col[1]].checkCollision(objects[col[0]])){
+						System.out.println("1: "+col[1]+"  "+col[0]);
+					}
 
 
 					else {objects[col[0]].checkCollision(objects[col[1]]);
-
+						System.out.println("2: "+col[0]+"  "+col[1]);
 					}
 
 

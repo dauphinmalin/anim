@@ -13,7 +13,7 @@ public class Square extends PrimitiveObject{
   private double[][] summitspos;
   private double[] pos0;
 
-  static private double coefK = 100;
+  static private double coefK = 1000;
   static private double coefB =1;
   static private double coefI;
   private double[] w;
@@ -45,7 +45,7 @@ for(int i=0;i<8;i++){
 
 }
 
-this.coefI = this.m*this.side*this.side/6;
+this.coefI = this.m*this.side*this.side/600;
 }
 @Override
   public void Draw(GLAutoDrawable drawable,GLU glu,GL2 gl){
@@ -326,7 +326,7 @@ public boolean checkCollision(Square square){
           int indicemin=0;
           for(int k=0;k<6;k++){
             if(min>distance[k]){
-              System.out.println(k);
+              // System.out.println(k);
               indicemin=k;
               min=distance[k];
             }
@@ -342,7 +342,7 @@ public boolean checkCollision(Square square){
           speedsquare=speedsquare.subtract(speed);
           RealMatrix speedbis=baseop.multiply(speedsquare.transpose());
           force[axe]=direction*(this.coefK*distancei+direction*this.coefB*speedbis.getEntry(axe,0));
-          System.out.println(axe);
+          // System.out.println(axe);
           RealMatrix forcem=new BlockRealMatrix(3,1);
           forcem.setColumn(0,force);
           force=(base.multiply(forcem)).getColumn(0);
@@ -351,6 +351,12 @@ public boolean checkCollision(Square square){
             square.vel[k]-=force[k]/square.m*this.dt;
           }
 
+          double[] r1= {summitP.getEntry(i,0)-square.getX(),summitP.getEntry(i,1)-square.getY(),summitP.getEntry(i,2)-square.getZ()};
+          double[] r2= {summitP.getEntry(i,0)-this.pos[0],summitP.getEntry(i,1)-this.pos[1],summitP.getEntry(i,2)-this.pos[2]};
+          System.out.println("f: "+ force[0]+" "+force[1]+" "+force[2]);
+          double[] minusforce = {-force[0],-force[1],-force[2]};
+          square.rot(r1,minusforce);
+          this.rot(r2,force);
           bool= true;
         }
       }
@@ -521,15 +527,16 @@ public void rot(double[] r,double[] f){
   // System.out.println("f: "+f[0]+"  "+f[1]+"  "+f[2]);
   Vector3D rv = new Vector3D(r);
   // System.out.println("rv: "+rv);
-  Vector3D fv = new Vector3D(f[0],f[1],f[2]);
+  Vector3D fv = new Vector3D(f);
   // System.out.println("fv: "+fv);
   Vector3D crossP = rv.crossProduct(rv,fv);
   crossP.scalarMultiply(this.dt/this.coefI);
   double[] w = crossP.toArray();
   System.out.println("w: "+ w[0]+" "+w[1]+" "+w[2]);
   for(int i=0;i<3;i++){
-    this.w[i] += w[i];
-    // this.rotation[i] %= 360;
+    // this.w[i] += w[i];
+    this.rotation[i] += w[i];
+    // this.rotation[i] %= Math.PI/2;
   }
 
   // System.out.println("rot: "+ this.rotation[0]+" "+this.rotation[1]+" "+this.rotation[2]);
