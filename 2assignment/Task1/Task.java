@@ -42,7 +42,7 @@ class Task{
 
 			//double[] rotation = {90*rand.nextDouble(),90*rand.nextDouble(),90*rand.nextDouble()};
 
-			 double[] rotation={0,0,0};
+			double[] rotation={0,0,0};
 			// double[] po = {3.0,0.0,3.0};
 			double m = 1*rand.nextDouble();
 			// double radius=70*m;
