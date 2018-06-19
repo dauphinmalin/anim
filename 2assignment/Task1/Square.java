@@ -10,6 +10,7 @@ import org.apache.commons.math3.geometry.euclidean.threed.*;
 public class Square extends PrimitiveObject{
   private double side;
   private Spheric[] summits;
+  private double[][] summitspos;
   private double[] pos0;
   static private double coefK = 100;
   static private double coefB = 20;
@@ -31,6 +32,8 @@ public Square(double m,double[] pos,double[] vel,double[] rotation,double[] f,do
 }
 double[][] possummits=calculateSummit();
 this.pos0=pos.clone();
+this.summitspos=calculateSummit();
+
 this.summits=new Spheric[8];
 for(int i=0;i<8;i++){
 
@@ -42,7 +45,7 @@ this.coefI = this.m*this.side*this.side/6;
 }
 @Override
   public void Draw(GLAutoDrawable drawable,GLU glu,GL2 gl){
-      GLUquadric quad = glu.gluNewQuadric();
+      /*GLUquadric quad = glu.gluNewQuadric();
       gl.glPushMatrix();
       gl.glColor3d(1,1,1);
       gl.glTranslated(this.pos[0],this.pos[1],this.pos[2]);
@@ -51,72 +54,72 @@ this.coefI = this.m*this.side*this.side/6;
       gl.glRotated(this.rotation[2],0,0,1);
       glu.gluCylinder(quad,Math.sqrt(2)*this.side/2,Math.sqrt(2)*this.side/2,this.side,4, 4);
       glu.gluDeleteQuadric(quad);
-      gl.glPopMatrix();
+      gl.glPopMatrix();*/
 
-    /*
+
     gl.glBegin(GL2.GL_LINES);
-     gl.glVertex3f((float)summits[0].pos[0],(float)summits[0].pos[1],(float)summits[0].pos[2]);
-     gl.glVertex3f((float)summits[1].pos[0],(float)summits[1].pos[1],(float)summits[1].pos[2]);
+     gl.glVertex3f((float)this.summitspos[0][0],(float)this.summitspos[0][1],(float)this.summitspos[0][2]);
+     gl.glVertex3f((float)this.summitspos[1][0],(float)this.summitspos[1][1],(float)this.summitspos[1][2]);
      gl.glEnd();
 
      gl.glBegin(GL2.GL_LINES);
-     gl.glVertex3f((float)summits[0].pos[0],(float)summits[0].pos[1],(float)summits[0].pos[2]); // 3 units into the window
-     gl.glVertex3f((float)summits[2].pos[0],(float)summits[2].pos[1],(float)summits[2].pos[2]);
+     gl.glVertex3f((float)this.summitspos[0][0],(float)this.summitspos[0][1],(float)this.summitspos[0][2]); // 3 units into the window
+     gl.glVertex3f((float)this.summitspos[2][0],(float)this.summitspos[2][1],(float)this.summitspos[2][2]);
      gl.glEnd();
 
      //top
      gl.glBegin(GL2.GL_LINES);
-     gl.glVertex3f((float)summits[0].pos[0],(float)summits[0].pos[1],(float)summits[0].pos[2]);
-     gl.glVertex3f((float)summits[4].pos[0],(float)summits[4].pos[1],(float)summits[4].pos[2]);
+     gl.glVertex3f((float)this.summitspos[0][0],(float)this.summitspos[0][1],(float)this.summitspos[0][2]);
+     gl.glVertex3f((float)this.summitspos[4][0],(float)this.summitspos[4][1],(float)this.summitspos[4][2]);
      gl.glEnd();
 
      // bottom
      gl.glBegin(GL2.GL_LINES);
-     gl.glVertex3f((float)summits[3].pos[0],(float)summits[3].pos[1],(float)summits[3].pos[2]);
-     gl.glVertex3f((float)summits[1].pos[0],(float)summits[1].pos[1],(float)summits[1].pos[2]);
+     gl.glVertex3f((float)this.summitspos[3][0],(float)this.summitspos[3][1],(float)this.summitspos[3][2]);
+     gl.glVertex3f((float)this.summitspos[1][0],(float)this.summitspos[1][1],(float)this.summitspos[1][2]);
      gl.glEnd();
 
      // edge 2....
      gl.glBegin(GL2.GL_LINES);
-     gl.glVertex3f((float)summits[3].pos[0],(float)summits[3].pos[1],(float)summits[3].pos[2]);
-     gl.glVertex3f((float)summits[2].pos[0],(float)summits[2].pos[1],(float)summits[2].pos[2]);
+     gl.glVertex3f((float)this.summitspos[3][0],(float)this.summitspos[3][1],(float)this.summitspos[3][2]);
+     gl.glVertex3f((float)this.summitspos[2][0],(float)this.summitspos[2][1],(float)this.summitspos[2][2]);
      gl.glEnd();
 
      gl.glBegin(GL2.GL_LINES);
-     gl.glVertex3f((float)summits[3].pos[0],(float)summits[3].pos[1],(float)summits[3].pos[2]);
-     gl.glVertex3f((float)summits[7].pos[0],(float)summits[7].pos[1],(float)summits[7].pos[2]);
+     gl.glVertex3f((float)this.summitspos[3][0],(float)this.summitspos[3][1],(float)this.summitspos[3][2]);
+     gl.glVertex3f((float)this.summitspos[7][0],(float)this.summitspos[7][1],(float)this.summitspos[7][2]);
      gl.glEnd();
 
      gl.glBegin(GL2.GL_LINES);
-     gl.glVertex3f((float)summits[6].pos[0],(float)summits[6].pos[1],(float)summits[6].pos[2]);
-     gl.glVertex3f((float)summits[2].pos[0],(float)summits[2].pos[1],(float)summits[2].pos[2]);
+     gl.glVertex3f((float)this.summitspos[6][0],(float)this.summitspos[6][1],(float)this.summitspos[6][2]);
+     gl.glVertex3f((float)this.summitspos[2][0],(float)this.summitspos[2][1],(float)this.summitspos[2][2]);
      gl.glEnd();
 
      gl.glBegin(GL2.GL_LINES);
-     gl.glVertex3f((float)summits[6].pos[0],(float)summits[6].pos[1],(float)summits[6].pos[2]);
-     gl.glVertex3f((float)summits[4].pos[0],(float)summits[4].pos[1],(float)summits[4].pos[2]);
+     gl.glVertex3f((float)this.summitspos[6][0],(float)this.summitspos[6][1],(float)this.summitspos[6][2]);
+     gl.glVertex3f((float)this.summitspos[4][0],(float)this.summitspos[4][1],(float)this.summitspos[4][2]);
      gl.glEnd();
 
      //Edge 3.............
      gl.glBegin(GL2.GL_LINES);
-     gl.glVertex3f((float)summits[6].pos[0],(float)summits[6].pos[1],(float)summits[6].pos[2]);
-     gl.glVertex3f((float)summits[7].pos[0],(float)summits[7].pos[1],(float)summits[7].pos[2]);
+     gl.glVertex3f((float)this.summitspos[6][0],(float)this.summitspos[6][1],(float)this.summitspos[6][2]);
+     gl.glVertex3f((float)this.summitspos[7][0],(float)this.summitspos[7][1],(float)this.summitspos[7][2]);
      gl.glEnd();
 
      gl.glBegin(GL2.GL_LINES);
-     gl.glVertex3f((float)summits[5].pos[0],(float)summits[5].pos[1],(float)summits[5].pos[2]);
-     gl.glVertex3f((float)summits[1].pos[0],(float)summits[1].pos[1],(float)summits[1].pos[2]);
+     gl.glVertex3f((float)this.summitspos[5][0],(float)this.summitspos[5][1],(float)this.summitspos[5][2]);
+     gl.glVertex3f((float)this.summitspos[1][0],(float)this.summitspos[1][1],(float)this.summitspos[1][2]);
      gl.glEnd();
 
      gl.glBegin(GL2.GL_LINES);
-     gl.glVertex3f((float)summits[5].pos[0],(float)summits[5].pos[1],(float)summits[5].pos[2]);
-     gl.glVertex3f((float)summits[4].pos[0],(float)summits[4].pos[1],(float)summits[4].pos[2]);
+     gl.glVertex3f((float)this.summitspos[5][0],(float)this.summitspos[5][1],(float)this.summitspos[5][2]);
+     gl.glVertex3f((float)this.summitspos[4][0],(float)this.summitspos[4][1],(float)this.summitspos[4][2]);
      gl.glEnd();
 
      gl.glBegin(GL2.GL_LINES);
-     gl.glVertex3f((float)summits[5].pos[0],(float)summits[5].pos[1],(float)summits[5].pos[2]);
-     gl.glVertex3f((float)summits[7].pos[0],(float)summits[7].pos[1],(float)summits[7].pos[2]);
-     gl.glEnd();*/
+     gl.glVertex3f((float)this.summitspos[5][0],(float)this.summitspos[5][1],(float)this.summitspos[5][2]);
+     gl.glVertex3f((float)this.summitspos[7][0],(float)this.summitspos[7][1],(float)this.summitspos[7][2]);
+     gl.glEnd();
 }
 
 public void calculateBoundingVolume(){
@@ -180,9 +183,9 @@ public void calculatePos(){
     this.vel[i]=this.vel[i]+this.dt*this.f[i]/this.m;
     this.nextpos[i] = this.pos[i]+this.vel[i]*this.dt;
   }
-
+  this.summitspos=calculateSummit();
   borderResponse();
-  RecalculateSummit();
+  //RecalculateSummit();
 
   // shapeMatching();
 }
@@ -304,50 +307,59 @@ public double[] rotV(double[] vec){
   return result;
 }
 
-public double[][] summitProj(double[] center,double[][] base){
-  double[][] summitP = new double[8][3];
-  for(int ii=0;ii<8;ii++){
-    for(int jj=0;jj<3;jj++){
-      summitP[ii][jj] = (this.summits[ii].getX()-center[0])*base[jj][0]+(this.summits[ii].getY()-center[1])*base[jj][1]+(this.summits[ii].getZ()-center[2])*base[jj][2];
+public RealMatrix summitProj(double[] center,RealMatrix base){
+  RealMatrix summitP = new BlockRealMatrix(8,3);
+  for(int i=0;i<8;i++){
+    double[][] vector={{this.summitspos[i][0]-center[0]},{this.summitspos[i][1]-center[1]},{this.summitspos[i][2]-center[2]}};
+    RealMatrix vectorm=new BlockRealMatrix(vector);
+    summitP.setRow(i,(base.multiply(vectorm)).getColumn(0));
     }
-  }
+
   return summitP;
 }
 
 public boolean checkCollision(Square square){
-  double[][] base = new double[3][3];
+  double[][] basetab = new double[3][3];
   for(int j=0;j<3;j++){
-    base[0][j] = (this.summits[1].pos0[j]-this.summits[0].pos0[j])/this.side;
-    base[1][j] = (this.summits[2].pos0[j]-this.summits[0].pos0[j])/this.side;
-    base[2][j] = (this.summits[4].pos0[j]-this.summits[0].pos0[j])/this.side;
+    basetab[0][j] = (this.summitspos[4][j]-this.summitspos[0][j])/this.side;
+    basetab[1][j] = (this.summitspos[2][j]-this.summitspos[0][j])/this.side;
+    basetab[2][j] = (this.summitspos[1][j]-this.summitspos[0][j])/this.side;
   }
-  double[][] summitP = new double[8][3];
+  RealMatrix base= new BlockRealMatrix(3,3);
+  base.setColumn(0,basetab[0]);
+  base.setColumn(1,basetab[1]);
+  base.setColumn(2,basetab[2]);
+  RealMatrix baseop= MatrixUtils.inverse(base);
+
+
+  //double[][] summitP = new double[8][3];
   // double[] centerP = {this.side/2,this.side/2,this.side/2};
 
-  summitP = square.summitProj(this.summits[0].pos, base);
+  RealMatrix summitP = square.summitProj(this.summitspos[0], baseop);
   for(int i=0;i<8;i++){
-    if((summitP[i][0]<this.side)&&(summitP[i][0]>0)){
-      if((summitP[i][1]<this.side)&&(summitP[i][1]>0)){
-        if((summitP[i][2]<this.side)&&(summitP[i][2]>0)){
-          double[] x = {this.side-summitP[i][0],0,0};
-          double[] y = {0,this.side-summitP[i][1],0};
-          double[] z = {0,0,this.side-summitP[i][2]};
+    if((summitP.getEntry(i,0)<this.side)&&(summitP.getEntry(i,0)>0)){
+      if((summitP.getEntry(i,1)<this.side)&&(summitP.getEntry(i,1)>0)){
+        if((summitP.getEntry(i,2)<this.side)&&(summitP.getEntry(i,2)>0)){
+          double[] x = {this.side-summitP.getEntry(i,0),0,0};
+          double[] y = {0,this.side-summitP.getEntry(i,1),0};
+          double[] z = {0,0,this.side-summitP.getEntry(i,2)};
+          System.out.println(true);
           int a = 0;
           int b = 0;
           int c = 0;
           for(int j=0;j<8;j++){
-            if(x[0]*(summitP[j][0]-summitP[i][0])>=0){
+            if(x[0]*(summitP.getEntry(j,0)-summitP.getEntry(i,0))>=0){
               a += 1;
             }
-            if(y[1]*(summitP[j][1]-summitP[i][1])>=0){
+            if(y[1]*(summitP.getEntry(j,1)-summitP.getEntry(i,1))>=0){
               b += 1;
             }
-            if(z[2]*(summitP[j][2]-summitP[i][2])>=0){
+            if(z[2]*(summitP.getEntry(j,2)-summitP.getEntry(i,2))>=0){
               c += 1;
             }
           }
           if(a>=7){
-            // double[] pIn = {square.summits[i].getX(),square.summits[i].getY(),square.summits[i].getZ()};
+             double[] pIn = {square.summits[i].getX(),square.summits[i].getY(),square.summits[i].getZ()};
             double[] n = rotV(x);
             //substraction for vector a faire
             double[] vRel = {square.getVel()[0]-this.getVel()[0],square.getVel()[1]-this.getVel()[1],square.getVel()[2]-this.getVel()[2]};

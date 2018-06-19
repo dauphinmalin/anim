@@ -32,7 +32,7 @@ class Task{
 			double[][] pos ={{250,50,250},{250,500,250}};
 			// double[] f = {0,0,0};
 			// double[] vel = {0,0,0};
-			double[][] vel = {{0,50,0},{0,-50,0}};
+			double[][] vel = {{0,100,0},{0,-100,0}};
 
 
 			// double[] pos ={radius+(1-9.5*radius)*rand.nextDouble(),0,radius+(1-6.5*radius)*rand.nextDouble()};
@@ -86,6 +86,7 @@ class Task{
 
 		int k=0;
 		while(true){
+			System.out.println("step");
 			canvas.display();
 			viewer.drawObject(objects);
 			for(int i=0;i<objects.length;i++){
