@@ -29,10 +29,11 @@ class Task{
 		double[] f = {0,0,0};
 		for(int i=0;i<n;i++){
 			collisiontab[i]=i;
-			double[][] pos ={{250,50,250},{250,500,250}};
+			double[][] pos ={{250,50,250},{250,500,250},{25,50,20}};
 			// double[] f = {0,0,0};
-			// double[] vel = {0,0,0};
-			double[][] vel = {{0,50,0},{0,-50,0}};
+			// double[] vel = {40*rand.nextDouble(),40*rand.nextDouble(),40*rand.nextDouble()};
+			// double[] pos = {650*rand.nextDouble(),650*rand.nextDouble(),650*rand.nextDouble()};
+			double[][] vel = {{0,80,0},{0,-80,0},{70,20,30}};
 
 
 			// double[] pos ={radius+(1-9.5*radius)*rand.nextDouble(),0,radius+(1-6.5*radius)*rand.nextDouble()};
@@ -40,17 +41,20 @@ class Task{
 
 
 
-			//double[] rotation = {90*rand.nextDouble(),90*rand.nextDouble(),90*rand.nextDouble()};
+			// double[] rotation = {Math.PI/2*rand.nextDouble(),Math.PI/2*rand.nextDouble(),Math.PI/2*rand.nextDouble()};
+			// double[] w = {100*rand.nextDouble(),100*rand.nextDouble(),100*rand.nextDouble()};
 
 			 double[] rotation={0,0,0};
+			 double[] w={0,0,0};
 			// double[] po = {3.0,0.0,3.0};
-			double m = 1*rand.nextDouble();
+			double m = 0.5+0.1*rand.nextDouble();
 			// double radius=70*m;
-			double radius=((int)(50*m));
-			double length = radius;
-			double width = radius;
-			double height = radius;
-			objects[i]=new Square(m,pos[i], vel[i],rotation, f, dt,radius);
+			// double radius=((int)(100*m));
+			double[] radius={50,100};
+			// double length = radius;
+			// double width = radius;
+			// double height = radius;
+			objects[i]=new Square(m,pos[i], vel[i],rotation, f, dt,radius[i],w);
 			// objects[0]=new Spheric(m,po, vel, f, dt,radius);
 
 		}
@@ -89,7 +93,7 @@ class Task{
 			canvas.display();
 			viewer.drawObject(objects);
 			for(int i=0;i<objects.length;i++){
-				objects[i].setF(f[0],f[1],f[2]);
+				// objects[i].setF(f[0],f[1],f[2]);
 				objects[i].calculatePos();
 			}
 			// System.out.println("rotation: "+objects[0].getRot()[0]+"  "+objects[0].getRot()[1]+"  "+objects[0].getRot()[2]);
@@ -101,7 +105,9 @@ class Task{
 				iterator = list.iterator();
 
 				while (iterator.hasNext()) {
+					// System.out.println("have collision!");
 					Integer[] col=iterator.next();
+					// System.out.println("col: "+col[0]+"  "+col[1]);
 					if(objects[col[0]].checkCollision(objects[col[1]])){
 						k+=1;
 						for(int i=0;i<objects.length;i++){
