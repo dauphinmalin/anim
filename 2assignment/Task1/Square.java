@@ -36,7 +36,7 @@ calculateSummit();
 
 
 
-this.coefI = this.m*this.side*this.side/6;
+this.coefI = 10*this.m*this.side*this.side/6;
 }
 @Override
   public void Draw(GLAutoDrawable drawable,GLU glu,GL2 gl){
@@ -169,7 +169,7 @@ private void responseForce(double[] force,double[] point){
   }
 }
 public void borderResponse(){
-  System.out.println("qd");
+  // System.out.println("qd");
   for(int j=0;j<8;j++){
     boolean bool=false;
     double[] f={0,0,0};
@@ -178,15 +178,22 @@ public void borderResponse(){
     if(this.summits[j][i]>(this.posMAX[i])){
       bool=true;
       f[i]=-(this.coefK*(this.summits[j][i]-this.posMAX[i])+this.coefB*this.vel[i]);
+      this.f[i]=-(this.coefK*(this.summits[j][i]-this.posMAX[i])+this.coefB*this.vel[i]);
+      double[] r = {this.summits[j][0]-this.pos[0],this.summits[j][1]-this.pos[1],this.summits[j][2]-this.pos[2]};
+      this.rot(r,f);
     }
     else if(this.summits[j][i]<0){
       bool=true;
       f[i]= -(this.coefK*this.summits[j][i]+this.coefB*this.vel[i]);
-
+      this.f[i]= -(this.coefK*this.summits[j][i]+this.coefB*this.vel[i]);
+      double[] r = {this.summits[j][0]-this.pos[0],this.summits[j][1]-this.pos[1],this.summits[j][2]-this.pos[2]};
+      this.rot(r,f);
     }
 
     }
-    if(bool){responseForce(f,summits[j]);}
+    if(bool){
+
+    }
 
   }
 
@@ -313,7 +320,7 @@ public boolean checkCollision(Square square){
           int indicemin=0;
           for(int k=0;k<6;k++){
             if(min>distance[k]){
-              System.out.println(k);
+              // System.out.println(k);
               indicemin=k;
               min=distance[k];
             }
@@ -329,11 +336,11 @@ public boolean checkCollision(Square square){
           speedsquare=speedsquare.subtract(speed);
           RealMatrix speedbis=baseop.multiply(speedsquare.transpose());
           force[axe]=direction*(this.coefK*distancei+direction*this.coefB*speedbis.getEntry(axe,0));
-          System.out.println(axe);
+          // System.out.println(axe);
           RealMatrix forcem=new BlockRealMatrix(3,1);
           forcem.setColumn(0,force);
           force=(base.multiply(forcem)).getColumn(0);
-          responseForce(force,this.summits[i]);
+          // responseForce(force,this.summits[i]);
           double[] possquare = new double[3];
           switch(indicemin){
             case 0: possquare[0]=0;
@@ -361,13 +368,16 @@ public boolean checkCollision(Square square){
                     possquare[2]=this.side;
             break;
           }
-          force[0]=-force[0];
-          force[1]=-force[1];
-          force[2]=-force[2];
-          square.responseForce(force,possquare);
+
+          // square.responseForce(force,possquare);
 
 
 
+          double[] r1= {square.getSummit(i)[0]-square.getX(),square.getSummit(i)[1]-square.getY(),square.getSummit(i)[2]-square.getZ()};
+          double[] r2= {square.getSummit(i)[0]-this.pos[0],square.getSummit(i)[1]-this.pos[1],square.getSummit(i)[2]-this.pos[2]};
+          double[] minusforce = {-force[0],-force[1],-force[2]};
+          square.rot(r1,minusforce);
+          this.rot(r2,force);
           bool= true;
         }
       }
@@ -538,18 +548,25 @@ public void rot(double[] r,double[] f){
   // System.out.println("f: "+f[0]+"  "+f[1]+"  "+f[2]);
   Vector3D rv = new Vector3D(r);
   // System.out.println("rv: "+rv);
-  Vector3D fv = new Vector3D(f[0],f[1],f[2]);
+  Vector3D fv = new Vector3D(f);
   // System.out.println("fv: "+fv);
-  Vector3D crossP = rv.crossProduct(rv,fv);
-  crossP.scalarMultiply(this.dt/this.coefI);
+  Vector3D crossP = rv.crossProduct(fv);
+  // System.out.println("crossP: "+crossP);
+  crossP = crossP.scalarMultiply(this.dt/this.coefI);
+
   double[] w = crossP.toArray();
-  System.out.println("w: "+ w[0]+" "+w[1]+" "+w[2]);
+  // System.out.println("w: "+ w[0]+" "+w[1]+" "+w[2]);
   for(int i=0;i<3;i++){
     this.w[i] += w[i];
-    // this.rotation[i] %= 360;
+    // this.rotation[i] += w[i];
+    // this.rotation[i] %= Math.PI/2;
   }
 
   // System.out.println("rot: "+ this.rotation[0]+" "+this.rotation[1]+" "+this.rotation[2]);
+}
+
+public double[] getSummit(int i){
+  return this.summits[i];
 }
 
 }
