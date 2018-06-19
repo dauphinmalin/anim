@@ -29,26 +29,28 @@ class Task{
 		double[] f = {0,0,0};
 		for(int i=0;i<n;i++){
 			collisiontab[i]=i;
-			double[] pos ={250,250,250};
+			double[][] pos ={{250,50,250},{250,500,250}};
 			// double[] f = {0,0,0};
 			// double[] vel = {0,0,0};
-			double[] vel = {40*rand.nextDouble(),40*rand.nextDouble(),40*rand.nextDouble()};
+			double[][] vel = {{0,50,0},{0,-50,0}};
+
+
 			// double[] pos ={radius+(1-9.5*radius)*rand.nextDouble(),0,radius+(1-6.5*radius)*rand.nextDouble()};
 
 
 
 
-			double[] rotation = {90*rand.nextDouble(),90*rand.nextDouble(),90*rand.nextDouble()};
+			//double[] rotation = {90*rand.nextDouble(),90*rand.nextDouble(),90*rand.nextDouble()};
 
-			// double[] rotation={0,0,0};
+			 double[] rotation={0,0,0};
 			// double[] po = {3.0,0.0,3.0};
 			double m = 1*rand.nextDouble();
 			// double radius=70*m;
-			double radius=((int)(200*m));
+			double radius=((int)(50*m));
 			double length = radius;
 			double width = radius;
 			double height = radius;
-			objects[i]=new Square(m,pos, vel,rotation, f, dt,radius);
+			objects[i]=new Square(m,pos[i], vel[i],rotation, f, dt,radius);
 			// objects[0]=new Spheric(m,po, vel, f, dt,radius);
 
 		}
