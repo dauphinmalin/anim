@@ -89,7 +89,7 @@ class Task{
 
 
 					else {objects[col[0]].checkCollision(objects[col[1]]);
-						System.out.println("2: "+col[0]+"  "+col[1]);
+						// System.out.println("2: "+col[0]+"  "+col[1]);
 					}
 
 
