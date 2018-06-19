@@ -28,8 +28,8 @@ class Task{
 		double[] f = {0,0,0};
 		for(int i=0;i<n;i++){
 			collisiontab[i]=i;
-			double[][] pos ={{250,250,500},{250,250,50},{25,50,20}};
-			double[][] vel = {{00,0,80},{0,0,-80},{70,20,30}};
+			double[][] pos ={{250,250,500},{250,250,50},{250,50,20}};
+			double[][] vel = {{00,0,200},{0,0,-200},{70,20,30}};
 			 double[] rotation={0,0,0};
 			 double[] w={0,0,0};
 			double[] radius={50,100};
@@ -51,7 +51,6 @@ class Task{
 
 		for(int i=0;i<objects.length;i++){
 			objects[i].calculatePos();
-			objects[i].borderResponse();
 		}
 		 list = collision.checkCollision();
 
@@ -69,6 +68,7 @@ class Task{
 			viewer.drawObject(objects);
 			for(int i=0;i<objects.length;i++){
 				objects[i].calculatePos();
+
 			}
 
 			list = collision.checkCollision();
