@@ -24,12 +24,13 @@ class Task{
 
 
 		double x = 0;
-		double dt = 0.01;
-		Wave wave = new Wave(650,650,10,10,10);
+		double dt = 0.05;
+		Wave wave = new Wave(130,130,10,10,5);
 		// wave.setBoundary();
 
 
-
+		x += dt;
+		wave.perturbation(65,65,325+100*Math.sin(x));
 
 		//Init for the viewer
 		Viewing viewer = new Viewing(wave);
@@ -39,8 +40,7 @@ class Task{
 
 		int k=0;
 		while(true){
-			x += dt;
-			wave.perturbation(250,250,325+100*Math.sin(x));
+
 			wave.calculatePos();
 			canvas.display();
 			// viewer.drawObject(objects);

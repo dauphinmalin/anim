@@ -32,6 +32,14 @@ public Wave(int x, int y, double dt, double dx, double v){
 
 
 public void setBoundary(){
+  for(int i=0;i<this.length;i++){
+    for(int j=0;j<this.width;j++){
+      this.height.setEntry(0,j,325);
+      this.height.setEntry(i,0,325);
+      this.height.setEntry(this.length-1,j,325);
+      this.height.setEntry(i,this.width-1,325);
+    }
+  }
   this.height.setRow(0,this.height.getRow(1));
   this.height.setRow(this.length-1,this.height.getRow(this.length-2));
   this.height.setColumn(0,this.height.getColumn(1));
@@ -94,7 +102,7 @@ public void Draw(GLAutoDrawable drawable,GLU glu,GL2 gl){
     for(int j=0;j<this.width;j++){
       gl.glBegin(GL2.GL_POINTS);
       gl.glColor3f(((float)this.height.getEntry(i,j)-(325-50))/100,((float)this.height.getEntry(i,j)-(325-50))/100,1);
-      gl.glVertex3f((float)i,(float)j,(float)this.height.getEntry(i,j));
+      gl.glVertex3f((float)i*5,(float)j*5,(float)this.height.getEntry(i,j));
       gl.glEnd();
     }
   }
