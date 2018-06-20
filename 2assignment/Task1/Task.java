@@ -84,7 +84,7 @@ class Task{
 				while (iterator.hasNext()) {
 					Integer[] col=iterator.next();
 					if(objects[col[1]].checkCollision(objects[col[0]])){
-						System.out.println("1: "+col[1]+"  "+col[0]);
+						// System.out.println("1: "+col[1]+"  "+col[0]);
 					}
 
 

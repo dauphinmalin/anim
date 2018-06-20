@@ -11,7 +11,7 @@ public class Square extends PrimitiveObject{
   private double side;
   private double[][] summits;
   private double[] pos0;
-  static private double coefK = 100;
+  static private double coefK = 150;
   static private double coefB =1;
   static private double coefI;
   private double[] w;
@@ -36,7 +36,7 @@ calculateSummit();
 
 
 
-this.coefI = 10*this.m*this.side*this.side/6;
+this.coefI = 30*this.m*this.side*this.side/6;
 }
 @Override
   public void Draw(GLAutoDrawable drawable,GLU glu,GL2 gl){
@@ -163,7 +163,7 @@ public void calculatePos(){
 
 }
 
-private void responseForce(double[] force,double[] point){
+private void responseForce(double[] force){
   for(int i=0;i<3;i++){
     this.vel[i]+=force[i]*this.dt/m;
   }
@@ -178,21 +178,23 @@ public void borderResponse(){
     if(this.summits[j][i]>(this.posMAX[i])){
       bool=true;
       f[i]=-(this.coefK*(this.summits[j][i]-this.posMAX[i])+this.coefB*this.vel[i]);
-      this.f[i]=-(this.coefK*(this.summits[j][i]-this.posMAX[i])+this.coefB*this.vel[i]);
-      double[] r = {this.summits[j][0]-this.pos[0],this.summits[j][1]-this.pos[1],this.summits[j][2]-this.pos[2]};
-      this.rot(r,f);
+      // this.f[i]=-(this.coefK*(this.summits[j][i]-this.posMAX[i])+this.coefB*this.vel[i]);
+      // double[] r = {this.summits[j][0]-this.pos[0],this.summits[j][1]-this.pos[1],this.summits[j][2]-this.pos[2]};
+      // this.rot(r,f);
     }
     else if(this.summits[j][i]<0){
       bool=true;
       f[i]= -(this.coefK*this.summits[j][i]+this.coefB*this.vel[i]);
-      this.f[i]= -(this.coefK*this.summits[j][i]+this.coefB*this.vel[i]);
-      double[] r = {this.summits[j][0]-this.pos[0],this.summits[j][1]-this.pos[1],this.summits[j][2]-this.pos[2]};
-      this.rot(r,f);
+      // this.f[i]= -(this.coefK*this.summits[j][i]+this.coefB*this.vel[i]);
+      // double[] r = {this.summits[j][0]-this.pos[0],this.summits[j][1]-this.pos[1],this.summits[j][2]-this.pos[2]};
+      // this.rot(r,f);
     }
 
     }
     if(bool){
-
+      this.responseForce(f);
+      double[] r = {this.summits[j][0]-this.pos[0],this.summits[j][1]-this.pos[1],this.summits[j][2]-this.pos[2]};
+      this.rot(r,f);
     }
 
   }
@@ -340,7 +342,7 @@ public boolean checkCollision(Square square){
           RealMatrix forcem=new BlockRealMatrix(3,1);
           forcem.setColumn(0,force);
           force=(base.multiply(forcem)).getColumn(0);
-          // responseForce(force,this.summits[i]);
+
           double[] possquare = new double[3];
           switch(indicemin){
             case 0: possquare[0]=0;
@@ -377,6 +379,8 @@ public boolean checkCollision(Square square){
           double[] r2= {square.getSummit(i)[0]-this.pos[0],square.getSummit(i)[1]-this.pos[1],square.getSummit(i)[2]-this.pos[2]};
           double[] minusforce = {-force[0],-force[1],-force[2]};
           square.rot(r1,minusforce);
+          square.responseForce(minusforce);
+          this.responseForce(force);
           this.rot(r2,force);
           bool= true;
         }
