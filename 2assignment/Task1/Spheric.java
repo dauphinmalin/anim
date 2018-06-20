@@ -14,6 +14,7 @@ public class Spheric extends PrimitiveObject{
     for(int j=0;j<3;j++){
 
     }
+
     this.radius=radius;
     this.extremeInf=new double[3];
     this.extremeSup=new double[3];

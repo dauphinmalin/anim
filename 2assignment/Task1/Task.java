@@ -24,19 +24,19 @@ class Task{
 		Square[] objects = new Square[n];
 		double dt = 0.01;
 		int[] collisiontab=new int[n];
-		double m = 2*rand.nextDouble();
+		double m = 2;
 
 		double[] f = {0,0,0};
 		for(int i=0;i<n;i++){
 			collisiontab[i]=i;
 			// double[][] pos ={{250,50,250},{250,500,250},{25,50,20}};
-			double[] pos = {650*rand.nextDouble(),650*rand.nextDouble(),650*rand.nextDouble()};
-			double[] vel = {100*rand.nextDouble(),100*rand.nextDouble(),100*rand.nextDouble()};
-			double[] rotation = {0.01*rand.nextDouble(),0.01*rand.nextDouble(),0.01*rand.nextDouble()};
+			double[] pos = {500*rand.nextDouble(),500*rand.nextDouble(),500*rand.nextDouble()};
+			double[] vel = {500*rand.nextDouble(),500*rand.nextDouble(),500*rand.nextDouble()};
+			double[] rotation = {Math.PI*rand.nextDouble(),Math.PI*rand.nextDouble(),Math.PI*rand.nextDouble()};
 			double[] w = {0.1*rand.nextDouble(),0.1*rand.nextDouble(),0.1*rand.nextDouble()};
-			double radius = 50+50*rand.nextDouble();
+			double radius = 100;
 			// double[][] vel = {{0,80,0},{0,-80,0},{70,20,30}};
-			 // double[] rotation={0,0,0};
+			 //double[] rotation={0,0,0};
 			 // double[] w={0,0,0};
 			// double[] radius={50,100};
 			objects[i]=new Square(m,pos, vel,rotation, f, dt,radius,w);
@@ -48,7 +48,7 @@ class Task{
 
 		//between 0 and 10 ratio 1/100, position size of the window
 
-		//Collision
+
 		Collision collision = new Collision(objects, 650, 650, 650);
 
 
@@ -97,9 +97,10 @@ class Task{
 
 				}
 		}
+		Thread.sleep((int)(1000*dt));
 		}
 
-			// Thread.sleep((int)(1000*dt));
+
 
 		}
 

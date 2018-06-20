@@ -76,7 +76,6 @@ public class Viewing implements GLEventListener, MouseListener, MouseMotionListe
 
    @Override
    public void reshape(GLAutoDrawable drawable, int x, int y, int width, int height) {
-     System.out.println(x);
       GL2 gl = drawable.getGL().getGL2();  // get the OpenGL 2 graphics context
       if (height == 0) height = 1;   // prevent divide by zero
       float aspect = (float)width / height;
@@ -192,7 +191,7 @@ public class Viewing implements GLEventListener, MouseListener, MouseMotionListe
      @Override
      public void mouseReleased(MouseEvent e){}
        @Override
-       public void mousePressed(MouseEvent e){System.out.println("event");
+       public void mousePressed(MouseEvent e){
      this.previousX=e.getX();
      this.previousY=e.getY();
    }
@@ -217,7 +216,6 @@ public class Viewing implements GLEventListener, MouseListener, MouseMotionListe
      Vector3D xprim= new Vector3D(xprimtab);
 
      xprim=xprim.normalize();
-     System.out.println(xprim.getY());
 
      double[] zprimtab={0,0,1};
      Vector3D zprim=new Vector3D(zprimtab);

@@ -16,7 +16,7 @@ abstract class PrimitiveObject{
   protected double[] pos0;
   protected static double cr=1;
   protected static double gcst = 6.67e-3;
-  protected static double alpha=0.5;
+  protected static double alpha=1;
 
 
   PrimitiveObject(double m,double[] pos,double[] vel,double[] rotation,double[] f,double dt){

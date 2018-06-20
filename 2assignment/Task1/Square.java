@@ -15,7 +15,7 @@ public class Square extends PrimitiveObject{
   static private double coefB =1;
   static private double coefI;
   private double[] w;
-  private float[] color;
+  private float[][] color;
 
 
 public Square(double m,double[] pos,double[] vel,double[] rotation,double[] f,double dt,double side,double[] w){
@@ -24,11 +24,11 @@ public Square(double m,double[] pos,double[] vel,double[] rotation,double[] f,do
   this.side=side;
   this.extremeInf=new double[3];
   this.extremeSup=new double[3];
-  this.color=new float[3];
+  this.color=new float[6][3];
+  SwapColor();
   for(int j=0;j<3;j++){
     this.extremeInf[j]=pos[j]-this.side/2;
     this.extremeSup[j]=pos[j]+this.side/2;
-    this.color[j]=(float)0.5;
 
 }
 this.pos0=pos.clone();
@@ -44,79 +44,114 @@ this.coefI = 30*this.m*this.side*this.side/6;
 public void SwapColor(){
   Random rand = new Random();
 
-  for(int j=0;j<3;j++){
-    this.color[j]=rand.nextFloat();
+  for(int j=0;j<6;j++){
+    this.color[j][0]=rand.nextFloat();
+    this.color[j][1]=rand.nextFloat();
+    this.color[j][2]=rand.nextFloat();
+
 
 }
 }
 @Override
   public void Draw(GLAutoDrawable drawable,GLU glu,GL2 gl){
     gl.glPushMatrix();
-   gl.glColor3f(this.color[0],this.color[1],this.color[2]);
+   gl.glColor3f(this.color[0][0],this.color[0][1],this.color[0][2]);
 
-    gl.glBegin(GL2.GL_LINES);
+   gl.glBegin(GL2.GL_TRIANGLES);
      gl.glVertex3f((float)this.summits[0][0],(float)this.summits[0][1],(float)this.summits[0][2]);
      gl.glVertex3f((float)this.summits[1][0],(float)this.summits[1][1],(float)this.summits[1][2]);
+     gl.glVertex3f((float)this.summits[2][0],(float)this.summits[2][1],(float)this.summits[2][2]);
+
      gl.glEnd();
 
-     gl.glBegin(GL2.GL_LINES);
-     gl.glVertex3f((float)this.summits[0][0],(float)this.summits[0][1],(float)this.summits[0][2]); // 3 units into the window
+     gl.glBegin(GL2.GL_TRIANGLES);
+     gl.glVertex3f((float)this.summits[1][0],(float)this.summits[1][1],(float)this.summits[1][2]);
      gl.glVertex3f((float)this.summits[2][0],(float)this.summits[2][1],(float)this.summits[2][2]);
+     gl.glVertex3f((float)this.summits[3][0],(float)this.summits[3][1],(float)this.summits[3][2]);
      gl.glEnd();
+     gl.glColor3f(this.color[1][0],this.color[1][1],this.color[1][2]);
 
      //top
-     gl.glBegin(GL2.GL_LINES);
+     gl.glBegin(GL2.GL_TRIANGLES);
      gl.glVertex3f((float)this.summits[0][0],(float)this.summits[0][1],(float)this.summits[0][2]);
      gl.glVertex3f((float)this.summits[4][0],(float)this.summits[4][1],(float)this.summits[4][2]);
+     gl.glVertex3f((float)this.summits[2][0],(float)this.summits[2][1],(float)this.summits[2][2]);
      gl.glEnd();
 
      // bottom
-     gl.glBegin(GL2.GL_LINES);
-     gl.glVertex3f((float)this.summits[3][0],(float)this.summits[3][1],(float)this.summits[3][2]);
-     gl.glVertex3f((float)this.summits[1][0],(float)this.summits[1][1],(float)this.summits[1][2]);
-     gl.glEnd();
-
-     // edge 2....
-     gl.glBegin(GL2.GL_LINES);
-     gl.glVertex3f((float)this.summits[3][0],(float)this.summits[3][1],(float)this.summits[3][2]);
-     gl.glVertex3f((float)this.summits[2][0],(float)this.summits[2][1],(float)this.summits[2][2]);
-     gl.glEnd();
-
-     gl.glBegin(GL2.GL_LINES);
-     gl.glVertex3f((float)this.summits[3][0],(float)this.summits[3][1],(float)this.summits[3][2]);
-     gl.glVertex3f((float)this.summits[7][0],(float)this.summits[7][1],(float)this.summits[7][2]);
-     gl.glEnd();
-
-     gl.glBegin(GL2.GL_LINES);
-     gl.glVertex3f((float)this.summits[6][0],(float)this.summits[6][1],(float)this.summits[6][2]);
-     gl.glVertex3f((float)this.summits[2][0],(float)this.summits[2][1],(float)this.summits[2][2]);
-     gl.glEnd();
-
-     gl.glBegin(GL2.GL_LINES);
-     gl.glVertex3f((float)this.summits[6][0],(float)this.summits[6][1],(float)this.summits[6][2]);
+     gl.glBegin(GL2.GL_TRIANGLES);
      gl.glVertex3f((float)this.summits[4][0],(float)this.summits[4][1],(float)this.summits[4][2]);
-     gl.glEnd();
-
-     //Edge 3.............
-     gl.glBegin(GL2.GL_LINES);
+     gl.glVertex3f((float)this.summits[2][0],(float)this.summits[2][1],(float)this.summits[2][2]);
      gl.glVertex3f((float)this.summits[6][0],(float)this.summits[6][1],(float)this.summits[6][2]);
-     gl.glVertex3f((float)this.summits[7][0],(float)this.summits[7][1],(float)this.summits[7][2]);
-     gl.glEnd();
 
-     gl.glBegin(GL2.GL_LINES);
-     gl.glVertex3f((float)this.summits[5][0],(float)this.summits[5][1],(float)this.summits[5][2]);
-     gl.glVertex3f((float)this.summits[1][0],(float)this.summits[1][1],(float)this.summits[1][2]);
      gl.glEnd();
+     gl.glColor3f(this.color[2][0],this.color[2][1],this.color[2][2]);
 
-     gl.glBegin(GL2.GL_LINES);
-     gl.glVertex3f((float)this.summits[5][0],(float)this.summits[5][1],(float)this.summits[5][2]);
+     gl.glBegin(GL2.GL_TRIANGLES);
      gl.glVertex3f((float)this.summits[4][0],(float)this.summits[4][1],(float)this.summits[4][2]);
+     gl.glVertex3f((float)this.summits[1][0],(float)this.summits[1][1],(float)this.summits[1][2]);
+     gl.glVertex3f((float)this.summits[0][0],(float)this.summits[0][1],(float)this.summits[0][2]);
+
+     gl.glEnd();
+     gl.glBegin(GL2.GL_TRIANGLES);
+     gl.glVertex3f((float)this.summits[4][0],(float)this.summits[4][1],(float)this.summits[4][2]);
+     gl.glVertex3f((float)this.summits[1][0],(float)this.summits[1][1],(float)this.summits[1][2]);
+     gl.glVertex3f((float)this.summits[5][0],(float)this.summits[5][1],(float)this.summits[5][2]);
+
      gl.glEnd();
 
-     gl.glBegin(GL2.GL_LINES);
-     gl.glVertex3f((float)this.summits[5][0],(float)this.summits[5][1],(float)this.summits[5][2]);
-     gl.glVertex3f((float)this.summits[7][0],(float)this.summits[7][1],(float)this.summits[7][2]);
+     gl.glColor3f(this.color[3][0],this.color[3][1],this.color[3][2]);
+
+
+     gl.glBegin(GL2.GL_TRIANGLES);
+     gl.glVertex3f((float)this.summits[2][0],(float)this.summits[2][1],(float)this.summits[2][2]);
+     gl.glVertex3f((float)this.summits[3][0],(float)this.summits[3][1],(float)this.summits[3][2]);
+     gl.glVertex3f((float)this.summits[6][0],(float)this.summits[6][1],(float)this.summits[6][2]);
+
      gl.glEnd();
+
+     gl.glBegin(GL2.GL_TRIANGLES);
+     gl.glVertex3f((float)this.summits[7][0],(float)this.summits[7][1],(float)this.summits[7][2]);
+     gl.glVertex3f((float)this.summits[3][0],(float)this.summits[3][1],(float)this.summits[3][2]);
+     gl.glVertex3f((float)this.summits[6][0],(float)this.summits[6][1],(float)this.summits[6][2]);
+
+     gl.glEnd();
+
+     gl.glColor3f(this.color[4][0],this.color[4][1],this.color[4][2]);
+
+
+     gl.glBegin(GL2.GL_TRIANGLES);
+     gl.glVertex3f((float)this.summits[7][0],(float)this.summits[7][1],(float)this.summits[7][2]);
+     gl.glVertex3f((float)this.summits[5][0],(float)this.summits[5][1],(float)this.summits[5][2]);
+     gl.glVertex3f((float)this.summits[6][0],(float)this.summits[6][1],(float)this.summits[6][2]);
+
+     gl.glEnd();
+
+     gl.glBegin(GL2.GL_TRIANGLES);
+     gl.glVertex3f((float)this.summits[4][0],(float)this.summits[4][1],(float)this.summits[4][2]);
+     gl.glVertex3f((float)this.summits[5][0],(float)this.summits[5][1],(float)this.summits[5][2]);
+     gl.glVertex3f((float)this.summits[6][0],(float)this.summits[6][1],(float)this.summits[6][2]);
+
+     gl.glEnd();
+
+     gl.glColor3f(this.color[5][0],this.color[5][1],this.color[5][2]);
+
+
+     gl.glBegin(GL2.GL_TRIANGLES);
+     gl.glVertex3f((float)this.summits[1][0],(float)this.summits[1][1],(float)this.summits[1][2]);
+     gl.glVertex3f((float)this.summits[5][0],(float)this.summits[5][1],(float)this.summits[5][2]);
+     gl.glVertex3f((float)this.summits[3][0],(float)this.summits[3][1],(float)this.summits[3][2]);
+
+     gl.glEnd();
+
+     gl.glBegin(GL2.GL_TRIANGLES);
+     gl.glVertex3f((float)this.summits[7][0],(float)this.summits[7][1],(float)this.summits[7][2]);
+     gl.glVertex3f((float)this.summits[5][0],(float)this.summits[5][1],(float)this.summits[5][2]);
+     gl.glVertex3f((float)this.summits[3][0],(float)this.summits[3][1],(float)this.summits[3][2]);
+
+     gl.glEnd();
+
+
      gl.glPopMatrix();
 
 }
