@@ -44,14 +44,15 @@ public class Spheric extends PrimitiveObject{
 
   public void calculatePos(){
     for(int i=0;i<3;i++){
-
+    //  System.out.println(vel[i]);
       this.vel[i]=this.vel[i]+this.dt*this.f[i]/this.m;
       this.nextpos[i] = this.pos[i]+this.vel[i]*this.dt;//Verlet for x,y,z
     }
+    borderResponse();
   }
   @Override
   public void borderResponse(){
-    for(int i=0;i<8;i++){
+    for(int i=0;i<3;i++){
 
       if(this.nextpos[i]>(this.posMAX[i]-this.radius)){
         this.vel[i]=-(this.nextpos[i]-this.pos[i])/this.dt;
@@ -65,6 +66,7 @@ public class Spheric extends PrimitiveObject{
       }
       else{
         this.pos[i]=this.nextpos[i];
+
         this.extremeInf[i]=this.pos[i]-this.radius;
         this.extremeSup[i]=this.pos[i]+this.radius;
       }
