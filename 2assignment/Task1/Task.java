@@ -1,3 +1,4 @@
+
 import java.util.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -19,7 +20,7 @@ class Task{
     frame.setVisible(true);
     frame.setSize(950,650+22);
 		Random rand = new Random();
-		int n=10;
+		int n=2;
 		Square[] objects = new Square[n];
 		double dt = 0.01;
 		int[] collisiontab=new int[n];
@@ -64,13 +65,14 @@ class Task{
 		//Init for the viewer
 		Viewing viewer = new Viewing(objects);
 		canvas.addGLEventListener(viewer);
+		canvas.addMouseListener((MouseListener)viewer);
+		canvas.addMouseMotionListener((MouseMotionListener)viewer);
 		frame.getContentPane().add(canvas);
 		SwingUtilities.updateComponentTreeUI(frame);
 
 		int k=0;
 		while(true){
 			canvas.display();
-			viewer.drawObject(objects);
 			for(int i=0;i<objects.length;i++){
 				objects[i].calculatePos();
 
