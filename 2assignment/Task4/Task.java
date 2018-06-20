@@ -35,6 +35,10 @@ class Task{
 		//Init for the viewer
 		Viewing viewer = new Viewing(wave);
 		canvas.addGLEventListener(viewer);
+		canvas.addMouseListener((MouseListener)viewer);
+	canvas.addMouseMotionListener((MouseMotionListener)viewer);
+	canvas.addMouseWheelListener((MouseWheelListener)viewer);
+
 		frame.getContentPane().add(canvas);
 		SwingUtilities.updateComponentTreeUI(frame);
 

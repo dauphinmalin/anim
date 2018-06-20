@@ -5,7 +5,7 @@ import javax.media.opengl.glu.GLUquadric;
 import java.util.*;
 public class Spheric extends PrimitiveObject{
 
-
+  
   private double radius;//radius to display the particle
 
 
@@ -25,13 +25,13 @@ public class Spheric extends PrimitiveObject{
 
   }
   @Override
-    public void Draw(GLAutoDrawable drawable,GLU glu,GL2 gl){
-      gl.glPushMatrix();
-      gl.glTranslatef((float)pos[0],(float)pos[1],(float)pos[2]  );
-      GLUquadric quad = glu.gluNewQuadric();
-      glu.gluSphere(quad,this.radius, 10, 15);
-      glu.gluDeleteQuadric(quad);
-      gl.glPopMatrix();
+  public void Draw(GLAutoDrawable drawable,GLU glu,GL2 gl){
+    gl.glPushMatrix();
+    gl.glTranslatef((float)pos[0],(float)pos[1],(float)pos[2]  );
+    GLUquadric quad = glu.gluNewQuadric();
+    glu.gluSphere(quad,this.radius, 10, 15);
+    glu.gluDeleteQuadric(quad);
+    gl.glPopMatrix();
   }
 
   public void calculateBoundingVolume(){
@@ -45,7 +45,7 @@ public class Spheric extends PrimitiveObject{
 
   public void calculatePos(){
     for(int i=0;i<3;i++){
-    //  System.out.println(vel[i]);
+      //  System.out.println(vel[i]);
       this.vel[i]=this.vel[i]+this.dt*this.f[i]/this.m;
       this.nextpos[i] = this.pos[i]+this.vel[i]*this.dt;//Verlet for x,y,z
     }

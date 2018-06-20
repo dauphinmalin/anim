@@ -5,13 +5,13 @@ D= -d
 DIR=classes/
 JAR = ../lib/commons-math3-3.6.1/*:../lib/jogamp-all-platforms/jar/*:
 
-default: clean
+Task: clean
 	$(JCC) $(D) $(DIR) $(JFLAGS) $(JAR). Task.java
-
-run:
-	$(JCR) $(JFLAGS) $(JAR)$(DIR) Task
 
 clean:
 	$(RM) $(DIR)*.class
 
-run all:default run
+run:
+	$(JCR) $(JFLAGS) $(JAR)$(DIR) Task
+
+do: Task run

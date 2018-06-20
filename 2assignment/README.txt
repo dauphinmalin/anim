@@ -18,7 +18,7 @@ make run
 
 /////COMPILE AND RUN
 
-make run all
+make do
 
 
 /////CLEAN CLASS FILES

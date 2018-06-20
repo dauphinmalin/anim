@@ -37,19 +37,16 @@ abstract class PrimitiveObject{
 
   }
 
-  abstract void calculateBoundingVolume();
-  abstract void borderResponse();
   abstract void calculateForce(double m,double[] cm);
   abstract void calculatePos();
+
   abstract void Draw(GLAutoDrawable drawable,GLU glu,GL2 gl);
 
   public void setPos(double[] pos,double[] rotation){
     this.pos=pos;
     this.rotation=rotation;
   }
-  /*abstract void draw();
 
-  abstract void Collision();*/
 
   public double[] getExtremeInf(){
     return this.extremeInf;
@@ -146,7 +143,5 @@ abstract class PrimitiveObject{
 
 
 
-  /*abstract void draw();
 
-  abstract void Collision();*/
 }

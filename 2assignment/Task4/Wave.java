@@ -98,14 +98,63 @@ public void perturbation(int i, int j, double h){
 }
 
 public void Draw(GLAutoDrawable drawable,GLU glu,GL2 gl){
-  for(int i=0;i<this.length;i++){
+  /*for(int i=0;i<this.length;i++){
     for(int j=0;j<this.width;j++){
       gl.glBegin(GL2.GL_POINTS);
       gl.glColor3f(((float)this.height.getEntry(i,j)-(325-50))/100,((float)this.height.getEntry(i,j)-(325-50))/100,1);
       gl.glVertex3f((float)i*5,(float)j*5,(float)this.height.getEntry(i,j));
       gl.glEnd();
     }
+  }*/
+  for(int i=0;i<this.length-1;i++){
+    for(int j=0;j<this.width-1;j++){
+      gl.glBegin(GL2.GL_TRIANGLES);
+      gl.glColor3f(((float)this.height.getEntry(i,j)-(325-50))/100,((float)this.height.getEntry(i,j)-(325-50))/100,1);
+      gl.glVertex3f((float)i*5,(float)j*5,(float)this.height.getEntry(i,j));
+      gl.glColor3f(((float)this.height.getEntry(i+1,j)-(325-50))/100,((float)this.height.getEntry(i+1,j)-(325-50))/100,1);
+      gl.glVertex3f((float)(i+1)*5,(float)j*5,(float)this.height.getEntry(i+1,j));
+      gl.glColor3f(((float)this.height.getEntry(i,j+1)-(325-50))/100,((float)this.height.getEntry(i,j+1)-(325-50))/100,1);
+      gl.glVertex3f((float)i*5,(float)(j+1)*5,(float)this.height.getEntry(i,j+1));
+      gl.glEnd();
+        gl.glBegin(GL2.GL_TRIANGLES);
+        gl.glColor3f(((float)this.height.getEntry(i+1,j+1)-(325-50))/100,((float)this.height.getEntry(i+1,j+1)-(325-50))/100,1);
+        gl.glVertex3f((float)(i+1)*5,(float)(j+1)*5,(float)this.height.getEntry(i,j));
+        gl.glColor3f(((float)this.height.getEntry(i+1,j)-(325-50))/100,((float)this.height.getEntry(i+1,j)-(325-50))/100,1);
+        gl.glVertex3f((float)(i+1)*5,(float)j*5,(float)this.height.getEntry(i+1,j));
+        gl.glColor3f(((float)this.height.getEntry(i,j+1)-(325-50))/100,((float)this.height.getEntry(i,j+1)-(325-50))/100,1);
+        gl.glVertex3f((float)i*5,(float)(j+1)*5,(float)this.height.getEntry(i,j+1));
+        gl.glEnd();
+    }
+  }/*
+  for(int i=0;i<this.length-1;i++){
+    for(int j=0;j<this.width-1;j++){
+  if(this.height.getEntry(i,j)!=325){
+  gl.glPushMatrix();
+  gl.glColor3f(((float)this.height.getEntry(i,j)-(325-50))/100,((float)this.height.getEntry(i,j)-(325-50))/100,1);
+
+  gl.glTranslatef((float)i*5,(float)j*5,(float)this.height.getEntry(i,j) );
+  GLUquadric quad = glu.gluNewQuadric();
+  glu.gluSphere(quad,5, 10, 15);
+  glu.gluDeleteQuadric(quad);
+  gl.glPopMatrix();
+}
+else{gl.glBegin(GL2.GL_POINTS);
+  gl.glColor3f(((float)this.height.getEntry(i,j)-(325-50))/100,((float)this.height.getEntry(i,j)-(325-50))/100,1);
+gl.glVertex3f((float)i*5,(float)j*5,(float)this.height.getEntry(i,j));
+gl.glEnd();
+
+gl.glBegin(GL2.GL_TRIANGLES);
+gl.glVertex3f((float)i*5,(float)j*5,(float)this.height.getEntry(i,j));
+gl.glVertex3f((float)(i+1)*5,(float)j*5,(float)this.height.getEntry(i+1,j));
+gl.glVertex3f((float)i*5,(float)(j+1)*5,(float)this.height.getEntry(i,j+1));
+gl.glEnd();
+  gl.glBegin(GL2.GL_TRIANGLES);
+  gl.glVertex3f((float)(i+1)*5,(float)(j+1)*5,(float)this.height.getEntry(i,j));
+  gl.glVertex3f((float)(i+1)*5,(float)j*5,(float)this.height.getEntry(i+1,j));
+  gl.glVertex3f((float)i*5,(float)(j+1)*5,(float)this.height.getEntry(i,j+1));
+  gl.glEnd();}
   }
+}*/
 
 }
 }
