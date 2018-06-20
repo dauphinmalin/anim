@@ -15,7 +15,7 @@ public class Square extends PrimitiveObject{
   static private double coefB =1;
   static private double coefI;
   private double[] w;
-
+  private float[] color;
 
 
 public Square(double m,double[] pos,double[] vel,double[] rotation,double[] f,double dt,double side,double[] w){
@@ -24,9 +24,11 @@ public Square(double m,double[] pos,double[] vel,double[] rotation,double[] f,do
   this.side=side;
   this.extremeInf=new double[3];
   this.extremeSup=new double[3];
+  this.color=new float[3];
   for(int j=0;j<3;j++){
     this.extremeInf[j]=pos[j]-this.side/2;
     this.extremeSup[j]=pos[j]+this.side/2;
+    this.color[j]=(float)0.5;
 
 }
 this.pos0=pos.clone();
@@ -38,9 +40,21 @@ calculateSummit();
 
 this.coefI = 30*this.m*this.side*this.side/6;
 }
+
+public void SwapColor(){
+  Random rand = new Random();
+
+  for(int j=0;j<3;j++){
+    this.color[j]=rand.nextFloat();
+
+}
+}
 @Override
   public void Draw(GLAutoDrawable drawable,GLU glu,GL2 gl){
-      gl.glBegin(GL2.GL_LINES);
+    gl.glPushMatrix();
+   gl.glColor3f(this.color[0],this.color[1],this.color[2]);
+
+    gl.glBegin(GL2.GL_LINES);
      gl.glVertex3f((float)this.summits[0][0],(float)this.summits[0][1],(float)this.summits[0][2]);
      gl.glVertex3f((float)this.summits[1][0],(float)this.summits[1][1],(float)this.summits[1][2]);
      gl.glEnd();
@@ -103,6 +117,8 @@ this.coefI = 30*this.m*this.side*this.side/6;
      gl.glVertex3f((float)this.summits[5][0],(float)this.summits[5][1],(float)this.summits[5][2]);
      gl.glVertex3f((float)this.summits[7][0],(float)this.summits[7][1],(float)this.summits[7][2]);
      gl.glEnd();
+     gl.glPopMatrix();
+
 }
 
 public void calculateBoundingVolume(){
@@ -387,6 +403,10 @@ public boolean checkCollision(Square square){
       }
     }
 
+  }
+  if(bool){
+    this.SwapColor();
+    square.SwapColor();
   }
   return bool;
 }

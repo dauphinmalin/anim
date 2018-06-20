@@ -103,6 +103,7 @@ public class Viewing implements GLEventListener, MouseListener, MouseMotionListe
      gl.glMatrixMode(GL2.GL_PROJECTION);  // choose projection matrix
      gl.glLoadIdentity();             // reset projection matrix
      this.glu.gluPerspective(45, aspect,1, 2500); // fovy, aspect, zNear, zFar
+     gl.glColor3f(1,1,1);
 
      this.glu.gluLookAt(view[0],view[1],view[2],325,325,325,0,0,1);
 
