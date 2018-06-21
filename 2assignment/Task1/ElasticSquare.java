@@ -42,7 +42,8 @@ public class ElasticSquare extends PrimitiveObject{
     this.summits=new Spheric[n*n*n];
     double[][] tab=calculateSummit(side,n);
     for(int i=0;i<this.n*this.n*this.n;i++){
-      summits[i]=new Spheric(m/this.n*this.n*this.n,tab[i],vel,rotation,f,dt,0);
+      summits[i]=new Spheric(m/n/n/n,tab[i],vel,rotation,f,dt,0);
+      summits[i].f[2]=-9.81*m/n/n/n;
 
     }
     Precompute();
