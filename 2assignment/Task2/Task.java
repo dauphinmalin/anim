@@ -29,6 +29,11 @@ class Task{
 			double[] pos = {500*rand.nextDouble(),500*rand.nextDouble(),500*rand.nextDouble()};
 			double[] vel = {500*rand.nextDouble(),500*rand.nextDouble(),500*rand.nextDouble()};
 			double[] rotation = {Math.PI*rand.nextDouble(),Math.PI*rand.nextDouble(),Math.PI*rand.nextDouble()};
+
+			// double[][] pos = {{325,500,325},{325,100,325}};
+			// double[] vel = {0,0,0};
+			// double[] rotation = {0,0,0};
+			// double[] w = {0,0,0};
 			double[] w = {0.1*rand.nextDouble(),0.1*rand.nextDouble(),0.1*rand.nextDouble()};
 			double radius = 100;
 
@@ -73,7 +78,7 @@ class Task{
 					}
 				}
 			}
-			Thread.sleep((int)(1000*dt));
+			// Thread.sleep((int)(1000*dt));
 		}
 	}
 }
