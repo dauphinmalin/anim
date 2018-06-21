@@ -18,7 +18,7 @@ public class ElasticSquare extends PrimitiveObject{
   RealMatrix Q;
   RealMatrix qu;
   private  int n;
-  private static double beta=00;
+  private static double beta=0.99;
   float[][] color;
 
 
@@ -34,7 +34,7 @@ public class ElasticSquare extends PrimitiveObject{
       this.extremeSup[j]=pos[j]+this.side/2;
 
     }
-    this.n=9;
+    this.n=12;
     this.color=new float[(n-1)*(n-1)][3];
     SetColor();
     this.pos0=pos.clone();
