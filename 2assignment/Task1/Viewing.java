@@ -14,10 +14,12 @@ import javax.media.opengl.awt.GLCanvas;
 import javax.media.opengl.glu.GLU;
 import java.awt.event.MouseWheelListener;
 import java.awt.event.MouseWheelEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.KeyEvent;
 
 import java.awt.Robot;
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
-public class Viewing implements GLEventListener, MouseListener, MouseMotionListener, MouseWheelListener{
+public class Viewing implements GLEventListener, MouseListener, MouseMotionListener, MouseWheelListener, KeyListener{
   PrimitiveObject[] objects;
   private GLU glu;
   private double view[];
@@ -137,33 +139,61 @@ public class Viewing implements GLEventListener, MouseListener, MouseMotionListe
     }
   }
 
+
+
+
+private void Zoom(int i){
+  double[] tab={view[0]-325,view[1]-325,view[2]-325};
+  Vector3D vectorView=new Vector3D(tab);
+  vectorView=vectorView.normalize().scalarMultiply(vectorView.getNorm()+i*50);
+  this.view[0]=vectorView.getX()+325;
+  this.view[1]=vectorView.getY()+325;
+  this.view[2]=vectorView.getZ()+325;
+
+}
+
+
+
+private void RotateX(double x){
+  double theta=-(x)/360*2*Math.PI;
+  double view0=view[0];
+  this.view[0]=(this.view[0]-325)*Math.cos(theta)-(this.view[1]-325)*Math.sin(theta)+325;
+  this.view[1]=(view0-325)*Math.sin(theta)+(this.view[1]-325)*Math.cos(theta)+325;
+
+
+
+}
+
+
+private void RotateY(double y){
+  double alpha=(y)/360*2*Math.PI;
+  double[] xprimtab={325-view[0],325-view[1],0};
+  Vector3D xprim= new Vector3D(xprimtab);
+  xprim=xprim.normalize();
+  double[] zprimtab={0,0,1};
+  Vector3D zprim=new Vector3D(zprimtab);
+  double[] vieww={this.view[0]-325,this.view[1]-325,this.view[2]-325};
+  Vector3D view=new Vector3D(vieww);
+  double norm=view.dotProduct(xprim);
+  double view0=(norm)*Math.cos(alpha)+(this.view[2]-325)*Math.sin(alpha);
+  xprim=xprim.scalarMultiply(view0);
+  double view2=-(norm)*Math.sin(alpha)+(this.view[2]-325)*Math.cos(alpha)+325;
+  if(view2<1500 && view2>-200){
+    this.view[0]=xprim.getX()+325;
+    this.view[1]=xprim.getY()+325;
+    this.view[2]=view2;
+  }
+
+}
+
   @Override
 
   //function to move Camera
   public void mouseDragged(MouseEvent e){
     double x=e.getX();
     double y=e.getY();
-    double view0=this.view[0];
-    double theta=-(x-this.previousX)/360*2*Math.PI;
-    double alpha=(y-this.previousY)/360*2*Math.PI;
-    this.view[0]=(this.view[0]-325)*Math.cos(theta)-(this.view[1]-325)*Math.sin(theta)+325;
-    this.view[1]=(view0-325)*Math.sin(theta)+(this.view[1]-325)*Math.cos(theta)+325;
-    double[] xprimtab={325-view[0],325-view[1],0};
-    Vector3D xprim= new Vector3D(xprimtab);
-    xprim=xprim.normalize();
-    double[] zprimtab={0,0,1};
-    Vector3D zprim=new Vector3D(zprimtab);
-    double[] vieww={this.view[0]-325,this.view[1]-325,this.view[2]-325};
-    Vector3D view=new Vector3D(vieww);
-    double norm=view.dotProduct(xprim);
-    view0=(norm)*Math.cos(alpha)+(this.view[2]-325)*Math.sin(alpha);
-    xprim=xprim.scalarMultiply(view0);
-    double view2=-(norm)*Math.sin(alpha)+(this.view[2]-325)*Math.cos(alpha)+325;
-    if(view2<1500 && view2>-200){
-      this.view[0]=xprim.getX()+325;
-      this.view[1]=xprim.getY()+325;
-      this.view[2]=view2;
-    }
+    RotateX(x-this.previousX);
+    RotateY(y-this.previousY);
     this.previousX=x;
     this.previousY=y;
   }
@@ -171,20 +201,50 @@ public class Viewing implements GLEventListener, MouseListener, MouseMotionListe
   @Override
 
   public void mouseWheelMoved(MouseWheelEvent e) {
-    double[] tab={view[0]-325,view[1]-325,view[2]-325};
-    Vector3D vectorView=new Vector3D(tab);
-
     int notches = e.getWheelRotation();
 
     if (notches < 0) {
-      vectorView=vectorView.normalize().scalarMultiply(vectorView.getNorm()-50);
+      Zoom(-1);
     }
     else{
-      vectorView=vectorView.normalize().scalarMultiply(vectorView.getNorm()+50);
+      Zoom(1);
     }
-    this.view[0]=vectorView.getX()+325;
-    this.view[1]=vectorView.getY()+325;
-    this.view[2]=vectorView.getZ()+325;
+  }
+
+
+  @Override public void keyPressed(KeyEvent e){
+    int keyCode=e.getKeyCode();
+    switch( keyCode ) {
+        case KeyEvent.VK_BACK_SPACE:
+          Zoom(-1);
+        break;
+        case KeyEvent.VK_ENTER:
+          Zoom(1);
+        break;
+        case KeyEvent.VK_UP:
+          RotateY(3);
+        break;
+        case KeyEvent.VK_DOWN:
+          RotateY(-3);
+        break;
+
+        case KeyEvent.VK_LEFT:
+          RotateX(3);
+
+        break;
+        case KeyEvent.VK_RIGHT :
+          RotateX(-3);
+
+        break;
+     }
+
+  }
+
+  @Override public void keyReleased(KeyEvent e){
+
+  }
+
+  @Override public void keyTyped(KeyEvent e){
 
   }
 

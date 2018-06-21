@@ -38,6 +38,8 @@ class Task{
 		canvas.addMouseListener((MouseListener)viewer);
 	canvas.addMouseMotionListener((MouseMotionListener)viewer);
 	canvas.addMouseWheelListener((MouseWheelListener)viewer);
+	canvas.addKeyListener((KeyListener)viewer);
+
 
 		frame.getContentPane().add(canvas);
 		SwingUtilities.updateComponentTreeUI(frame);
