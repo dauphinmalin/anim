@@ -5,7 +5,7 @@ import javax.media.opengl.glu.GLUquadric;
 import java.util.*;
 public class Spheric extends PrimitiveObject{
 
-  
+
   private double radius;//radius to display the particle
 
 
@@ -51,8 +51,7 @@ public class Spheric extends PrimitiveObject{
     }
     borderResponse();
   }
-  @Override
-  public void borderResponse(){
+  private void borderResponse(){
     for(int i=0;i<3;i++){
 
       if(this.nextpos[i]>(this.posMAX[i]-this.radius)){

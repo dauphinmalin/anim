@@ -50,7 +50,8 @@ public class Spheric extends PrimitiveObject{
     }
     borderResponse();
   }
-  @Override
+
+  
   public void borderResponse(){
     for(int i=0;i<3;i++){
 

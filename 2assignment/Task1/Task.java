@@ -17,8 +17,8 @@ class Task{
 		frame.setVisible(true);
 		frame.setSize(950,650+22);
 		Random rand = new Random();
-		int n=10;
-		Square[] objects = new Square[n];
+		int n=1;
+		ElasticSquare[] objects = new ElasticSquare[n];
 		double dt = 0.01;
 		int[] collisiontab=new int[n];
 		double m = 2;
@@ -36,17 +36,17 @@ class Task{
 			//double[] rotation={0,0,0};
 			// double[] w={0,0,0};
 			// double[] radius={50,100};
-			objects[i]=new Square(m,pos, vel,rotation, f, dt,radius,w);
+			objects[i]=new ElasticSquare(m,pos, vel,rotation, f, dt,radius,w);
 		}
 
-		Collision collision = new Collision(objects, 650, 650, 650);
+		/*Collision collision = new Collision(objects, 650, 650, 650);
 		ArrayList<Integer[]> list = collision.checkCollision();
 		Iterator<Integer[]> iterator;
-
+*/
 		for(int i=0;i<objects.length;i++){
 			objects[i].calculatePos();
 		}
-		list = collision.checkCollision();
+		/*list = collision.checkCollision();*/
 
 		//Init for the viewer
 		Viewing viewer = new Viewing(objects);
@@ -66,7 +66,7 @@ class Task{
 			for(int i=0;i<objects.length;i++){
 				objects[i].calculatePos();
 			}
-			list = collision.checkCollision();
+			/*list = collision.checkCollision();
 			if(list!=null){
 				iterator = list.iterator();
 				while (iterator.hasNext()) {
@@ -76,7 +76,7 @@ class Task{
 					else {objects[col[0]].checkCollision(objects[col[1]]);
 					}
 				}
-			}
+			}*/
 			Thread.sleep((int)(1000*dt));
 		}
 	}
