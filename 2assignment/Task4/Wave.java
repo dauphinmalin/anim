@@ -40,10 +40,10 @@ public void setBoundary(){
       this.height.setEntry(i,this.width-1,325);
     }
   }
-  this.height.setRow(0,this.height.getRow(1));
-  this.height.setRow(this.length-1,this.height.getRow(this.length-2));
-  this.height.setColumn(0,this.height.getColumn(1));
-  this.height.setColumn(this.width-1,this.height.getColumn(this.width-2));
+  this.height.setRow(1,this.height.getRow(0));
+  this.height.setRow(this.length-2,this.height.getRow(this.length-1));
+  this.height.setColumn(1,this.height.getColumn(0));
+  this.height.setColumn(this.width-2,this.height.getColumn(this.width-1));
 }
 public void init(){
   for(int i=0;i<this.length;i++){
@@ -116,6 +116,7 @@ public void Draw(GLAutoDrawable drawable,GLU glu,GL2 gl){
       gl.glColor3f(((float)this.height.getEntry(i,j+1)-(325-50))/100,((float)this.height.getEntry(i,j+1)-(325-50))/100,1);
       gl.glVertex3f((float)i*5,(float)(j+1)*5,(float)this.height.getEntry(i,j+1));
       gl.glEnd();
+
         gl.glBegin(GL2.GL_TRIANGLES);
         gl.glColor3f(((float)this.height.getEntry(i+1,j+1)-(325-50))/100,((float)this.height.getEntry(i+1,j+1)-(325-50))/100,1);
         gl.glVertex3f((float)(i+1)*5,(float)(j+1)*5,(float)this.height.getEntry(i,j));
@@ -125,19 +126,22 @@ public void Draw(GLAutoDrawable drawable,GLU glu,GL2 gl){
         gl.glVertex3f((float)i*5,(float)(j+1)*5,(float)this.height.getEntry(i,j+1));
         gl.glEnd();
     }
-  }/*
-  for(int i=0;i<this.length-1;i++){
-    for(int j=0;j<this.width-1;j++){
-  if(this.height.getEntry(i,j)!=325){
-  gl.glPushMatrix();
-  gl.glColor3f(((float)this.height.getEntry(i,j)-(325-50))/100,((float)this.height.getEntry(i,j)-(325-50))/100,1);
-
-  gl.glTranslatef((float)i*5,(float)j*5,(float)this.height.getEntry(i,j) );
-  GLUquadric quad = glu.gluNewQuadric();
-  glu.gluSphere(quad,5, 10, 15);
-  glu.gluDeleteQuadric(quad);
-  gl.glPopMatrix();
-}
+  }
+  // for(int i=0;i<this.length-1;i++){
+  //   for(int j=0;j<this.width-1;j++){
+  //     if(this.height.getEntry(i,j)!=325){
+  //     gl.glPushMatrix();
+  //     gl.glColor3f(((float)this.height.getEntry(i,j)-(325-50))/100,((float)this.height.getEntry(i,j)-(325-50))/100,1);
+  //
+  //     gl.glTranslatef((float)i*5,(float)j*5,(float)this.height.getEntry(i,j) );
+  //     GLUquadric quad = glu.gluNewQuadric();
+  //     glu.gluSphere(quad,5, 10, 15);
+  //     glu.gluDeleteQuadric(quad);
+  //     gl.glPopMatrix();
+  //     }
+  //   }
+  // }
+/*
 else{gl.glBegin(GL2.GL_POINTS);
   gl.glColor3f(((float)this.height.getEntry(i,j)-(325-50))/100,((float)this.height.getEntry(i,j)-(325-50))/100,1);
 gl.glVertex3f((float)i*5,(float)j*5,(float)this.height.getEntry(i,j));

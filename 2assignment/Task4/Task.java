@@ -30,7 +30,7 @@ class Task{
 
 
 		x += dt;
-		wave.perturbation(65,65,325+100*Math.sin(x));
+		wave.perturbation(65,65,325+200*Math.sin(x));
 
 		//Init for the viewer
 		Viewing viewer = new Viewing(wave);

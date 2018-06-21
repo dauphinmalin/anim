@@ -45,7 +45,7 @@ public class Viewing implements GLEventListener, MouseListener, MouseMotionListe
   public void init(GLAutoDrawable drawable) {
     GL2 gl = drawable.getGL().getGL2();
     this.glu = new GLU();
-    gl.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+    gl.glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
     gl.glClearDepth(1.0f);
     gl.glEnable(GL2.GL_DEPTH_TEST);
     gl.glDepthFunc(GL2.GL_LEQUAL);
@@ -75,7 +75,7 @@ public class Viewing implements GLEventListener, MouseListener, MouseMotionListe
     gl.glMatrixMode(GL2.GL_PROJECTION);
     gl.glLoadIdentity();
     this.glu.gluPerspective(45, aspect,1, 2500);
-    gl.glColor3f(1,1,1);
+    gl.glColor3f(0,0,0);
     this.glu.gluLookAt(view[0],view[1],view[2],325,325,325,0,0,1);
     gl.glMatrixMode(GL2.GL_MODELVIEW);
     gl.glLoadIdentity();
@@ -188,12 +188,12 @@ public class Viewing implements GLEventListener, MouseListener, MouseMotionListe
       Vector3D vectorView=new Vector3D(tab);
 
       int notches = e.getWheelRotation();
-
-      if (notches < 0) {
-        vectorView=vectorView.normalize().scalarMultiply(vectorView.getNorm()-50);
+      System.out.println(notches);
+      if (notches <0) {
+        // vectorView=vectorView.normalize().scalarMultiply(vectorView.getNorm()-50);
       }
       else{
-        vectorView=vectorView.normalize().scalarMultiply(vectorView.getNorm()+50);
+        // vectorView=vectorView.normalize().scalarMultiply(vectorView.getNorm()+50);
       }
       this.view[0]=vectorView.getX()+325;
       this.view[1]=vectorView.getY()+325;
