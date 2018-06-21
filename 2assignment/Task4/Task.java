@@ -24,13 +24,13 @@ class Task{
 
 
 		double x = 0;
+		double lambda = 10.0;
 		double dt = 0.05;
 		Wave wave = new Wave(130,130,10,10,5);
 		// wave.setBoundary();
 
 
-		x += dt;
-		wave.perturbation(65,65,325+200*Math.sin(x));
+
 
 		//Init for the viewer
 		Viewing viewer = new Viewing(wave);
@@ -46,6 +46,8 @@ class Task{
 
 		int k=0;
 		while(true){
+			x += dt;
+			wave.perturbation(65,65,325+200*Math.exp(-lambda*x)*Math.cos(x));
 
 			wave.calculatePos();
 			canvas.display();
