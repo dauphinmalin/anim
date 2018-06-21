@@ -25,3 +25,8 @@ make do
 
 
 make clean
+
+
+//You can zoom using backslash and dezoom using enter. Move around using the arrows of the keyboard
+
+//You can also zoom and dezoom using the mouse wheel. And moving around by dragging on the window.
