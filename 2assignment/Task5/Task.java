@@ -17,9 +17,9 @@ class Task{
 		frame.setVisible(true);
 		frame.setSize(950,650+22);
 		Random rand = new Random();
-		int n=2;
+		int n=1;
 
-		Square[] objects = new Square[n];
+		Deformable[] objects = new Deformable[n];
 		double dt = 0.01;
 		int[] collisiontab=new int[n];
 		double m = 2;
@@ -27,25 +27,19 @@ class Task{
 
 		for(int i=0;i<n;i++){
 			collisiontab[i]=i;
-			// double[][] pos ={{250,50,250},{250,500,250},{25,50,20}};
-			double[] pos = {500*rand.nextDouble(),500*rand.nextDouble(),500*rand.nextDouble()};
+			 double[] pos ={100,325,325	};
+			//double[] pos = {500*rand.nextDouble(),500*rand.nextDouble(),500*rand.nextDouble()};
 			double[] vel = {500*rand.nextDouble(),500*rand.nextDouble(),500*rand.nextDouble()};
-			double[] rotation = {Math.PI*rand.nextDouble(),Math.PI*rand.nextDouble(),Math.PI*rand.nextDouble()};
+		//	double[] rotation = {Math.PI*rand.nextDouble(),Math.PI*rand.nextDouble(),Math.PI*rand.nextDouble()};
 			double[] w = {0.1*rand.nextDouble(),0.1*rand.nextDouble(),0.1*rand.nextDouble()};
-			double radius = 100;
-			// double[][] vel = {{0,80,0},{0,-80,0},{70,20,30}};
-			//double[] rotation={0,0,0};
+			double radius = 5;
+			 //double[] vel = {80,0,0};
+			double[] rotation={0,0,0};
 			// double[] w={0,0,0};
 			// double[] radius={50,100};
-			objects[i]=new Square(m,pos, vel,rotation, f, dt,radius,w);
+			objects[i]=new Deformable(m,pos, vel,rotation, f, dt,radius,w);
 		}
-		double[] pos = {500*rand.nextDouble(),500*rand.nextDouble(),500*rand.nextDouble()};
-		double[] vel = {500*rand.nextDouble(),500*rand.nextDouble(),500*rand.nextDouble()};
-		double[] rotation = {Math.PI*rand.nextDouble(),Math.PI*rand.nextDouble(),Math.PI*rand.nextDouble()};
-		double[] w = {0.1*rand.nextDouble(),0.1*rand.nextDouble(),0.1*rand.nextDouble()};
-		double radius = 100;
-		f = {-9.8,-9.8,-9.8};
-		Rope rope = new Rope(m,pos, vel,rotation,f, dt,radius,w);
+
 
 		//
 		// Collision collision = new Collision(objects, 650, 650, 650);

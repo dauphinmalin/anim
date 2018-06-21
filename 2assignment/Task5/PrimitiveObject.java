@@ -40,6 +40,8 @@ abstract class PrimitiveObject{
   abstract void calculateForce(double m,double[] cm);
   abstract void calculatePos();
 
+  public boolean checkCollision(PrimitiveObject o){System.out.println("hey"); return true;}
+
   abstract void Draw(GLAutoDrawable drawable,GLU glu,GL2 gl);
 
   public void setPos(double[] pos,double[] rotation){

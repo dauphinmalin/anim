@@ -118,7 +118,7 @@ public class Square extends PrimitiveObject{
     gl.glEnd();
 
     gl.glColor3f(this.color[4][0],this.color[4][1],this.color[4][2]);
-    
+
 
     gl.glBegin(GL2.GL_TRIANGLES);
     gl.glVertex3f((float)this.summits[7][0],(float)this.summits[7][1],(float)this.summits[7][2]);
@@ -277,7 +277,6 @@ public class Square extends PrimitiveObject{
 
     return summitP;
   }
-
   public boolean checkCollision(Square square){
     boolean bool=false;
     double[][] basetab = new double[3][3];
