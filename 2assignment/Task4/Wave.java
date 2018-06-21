@@ -19,11 +19,11 @@ public class Wave{
 
 
 public Wave(int x, int y, double dt, double dx, double v){
-  this.length = x;
-  this.width = y;
-  this.height = new BlockRealMatrix(x,y);
-  this.prevheight = new BlockRealMatrix(x,y);
-  this.nextheight = new BlockRealMatrix(x,y);
+  this.length = x+1;
+  this.width = y+1;
+  this.height = new BlockRealMatrix(x+1,y+1);
+  this.prevheight = new BlockRealMatrix(x+1,y+1);
+  this.nextheight = new BlockRealMatrix(x+1,y+1);
   this.dt = dt;
   this.dx = dx;
   this.v = v;
@@ -33,17 +33,20 @@ public Wave(int x, int y, double dt, double dx, double v){
 
 public void setBoundary(){
   for(int i=0;i<this.length;i++){
+    this.height.setEntry(i,0,325);
+    this.height.setEntry(i,0,325);
+    this.height.setEntry(i,this.width-1,325);
+  }
     for(int j=0;j<this.width;j++){
       this.height.setEntry(0,j,325);
-      this.height.setEntry(i,0,325);
+
       this.height.setEntry(this.length-1,j,325);
-      this.height.setEntry(i,this.width-1,325);
     }
-  }
-  this.height.setRow(1,this.height.getRow(0));
-  this.height.setRow(this.length-2,this.height.getRow(this.length-1));
-  this.height.setColumn(1,this.height.getColumn(0));
-  this.height.setColumn(this.width-2,this.height.getColumn(this.width-1));
+
+  // this.height.setRow(1,this.height.getRow(0));
+  // this.height.setRow(this.length-2,this.height.getRow(this.length-1));
+  // this.height.setColumn(1,this.height.getColumn(0));
+  // this.height.setColumn(this.width-2,this.height.getColumn(this.width-1));
 }
 public void init(){
   for(int i=0;i<this.length;i++){
@@ -98,6 +101,7 @@ public void perturbation(int i, int j, double h){
 }
 
 public void Draw(GLAutoDrawable drawable,GLU glu,GL2 gl){
+
   /*for(int i=0;i<this.length;i++){
     for(int j=0;j<this.width;j++){
       gl.glBegin(GL2.GL_POINTS);
@@ -106,25 +110,80 @@ public void Draw(GLAutoDrawable drawable,GLU glu,GL2 gl){
       gl.glEnd();
     }
   }*/
+  float transparency=(float)0.5;
+  gl.glEnable(GL2.GL_BLEND);
+  gl.glBlendFunc(GL2.GL_SRC_ALPHA,GL2.GL_ONE_MINUS_SRC_ALPHA);
+  for(int j=0;j<this.width-1;j++){
+    gl.glBegin(GL2.GL_TRIANGLES);
+    gl.glColor4f(0,0,1,transparency/2);
+    gl.glVertex3f(0,(float)j*5,0);
+    gl.glVertex3f(0,(float)(j+1)*5,0);
+    gl.glVertex3f(0,(float)j*5,(float)this.height.getEntry(0,j));
+    gl.glEnd();
+    gl.glBegin(GL2.GL_TRIANGLES);
+    gl.glColor4f(0,0,1,transparency/2);
+    gl.glVertex3f(0,(float)(j+1)*5,(float)this.height.getEntry(0,j+1));
+    gl.glVertex3f(0,(float)(j+1)*5,0);
+    gl.glVertex3f(0,(float)j*5,(float)this.height.getEntry(0,j));
+    gl.glEnd();
+    gl.glBegin(GL2.GL_TRIANGLES);
+    gl.glColor4f(0,0,1,transparency/2);
+    gl.glVertex3f((this.length-1)*5,(float)j*5,0);
+    gl.glVertex3f((this.length-1)*5,(float)(j+1)*5,0);
+    gl.glVertex3f((this.length-1)*5,(float)j*5,(float)this.height.getEntry(this.length-1,j));
+    gl.glEnd();
+    gl.glBegin(GL2.GL_TRIANGLES);
+    gl.glColor4f(0,0,1,transparency/2);
+    gl.glVertex3f((this.length-1)*5,(float)(j+1)*5,(float)this.height.getEntry(this.length-1,j+1));
+    gl.glVertex3f((this.length-1)*5,(float)(j+1)*5,0);
+    gl.glVertex3f((this.length-1)*5,(float)j*5,(float)this.height.getEntry(this.length-1,j));
+    gl.glEnd();
+  }
   for(int i=0;i<this.length-1;i++){
+    gl.glBegin(GL2.GL_TRIANGLES);
+    gl.glColor4f(0,0,1,transparency/2);
+    gl.glVertex3f((float)i*5,0,0);
+    gl.glVertex3f((float)(i+1)*5,0,0);
+    gl.glVertex3f((float)i*5,0,(float)this.height.getEntry(i,0));
+    gl.glEnd();
+    gl.glBegin(GL2.GL_TRIANGLES);
+    gl.glColor4f(0,0,1,transparency/2);
+    gl.glVertex3f((float)(i+1)*5,0,(float)this.height.getEntry(i+1,0));
+    gl.glVertex3f((float)(i+1)*5,0,0);
+    gl.glVertex3f((float)i*5,0,(float)this.height.getEntry(i,0));
+    gl.glEnd();
+    gl.glBegin(GL2.GL_TRIANGLES);
+    gl.glColor4f(0,0,1,transparency/2);
+    gl.glVertex3f((float)i*5,(this.width-1)*5,0);
+    gl.glVertex3f((float)(i+1)*5,(this.width-1)*5,0);
+    gl.glVertex3f((float)i*5,(this.width-1)*5,(float)this.height.getEntry(i,this.width-1));
+    gl.glEnd();
+    gl.glBegin(GL2.GL_TRIANGLES);
+    gl.glColor4f(0,0,1,transparency/2);
+    gl.glVertex3f((float)(i+1)*5,(this.width-1)*5,(float)this.height.getEntry(i+1,this.width-1));
+    gl.glVertex3f((float)(i+1)*5,(this.width-1)*5,0);
+    gl.glVertex3f((float)i*5,(this.width-1)*5,(float)this.height.getEntry(i,this.width-1));
+    gl.glEnd();
     for(int j=0;j<this.width-1;j++){
       gl.glBegin(GL2.GL_TRIANGLES);
-      gl.glColor3f(((float)this.height.getEntry(i,j)-(325-50))/100,((float)this.height.getEntry(i,j)-(325-50))/100,1);
+      gl.glColor4f(((float)this.height.getEntry(i,j)-(325-50))/100,((float)this.height.getEntry(i,j)-(325-50))/100,1,transparency);
       gl.glVertex3f((float)i*5,(float)j*5,(float)this.height.getEntry(i,j));
-      gl.glColor3f(((float)this.height.getEntry(i+1,j)-(325-50))/100,((float)this.height.getEntry(i+1,j)-(325-50))/100,1);
+      gl.glColor4f(((float)this.height.getEntry(i+1,j)-(325-50))/100,((float)this.height.getEntry(i+1,j)-(325-50))/100,1,transparency);
       gl.glVertex3f((float)(i+1)*5,(float)j*5,(float)this.height.getEntry(i+1,j));
-      gl.glColor3f(((float)this.height.getEntry(i,j+1)-(325-50))/100,((float)this.height.getEntry(i,j+1)-(325-50))/100,1);
+      gl.glColor4f(((float)this.height.getEntry(i,j+1)-(325-50))/100,((float)this.height.getEntry(i,j+1)-(325-50))/100,1,transparency);
       gl.glVertex3f((float)i*5,(float)(j+1)*5,(float)this.height.getEntry(i,j+1));
       gl.glEnd();
 
         gl.glBegin(GL2.GL_TRIANGLES);
-        gl.glColor3f(((float)this.height.getEntry(i+1,j+1)-(325-50))/100,((float)this.height.getEntry(i+1,j+1)-(325-50))/100,1);
+        gl.glColor4f(((float)this.height.getEntry(i+1,j+1)-(325-50))/100,((float)this.height.getEntry(i+1,j+1)-(325-50))/100,1,transparency);
         gl.glVertex3f((float)(i+1)*5,(float)(j+1)*5,(float)this.height.getEntry(i+1,j+1));
-        gl.glColor3f(((float)this.height.getEntry(i+1,j)-(325-50))/100,((float)this.height.getEntry(i+1,j)-(325-50))/100,1);
+        gl.glColor4f(((float)this.height.getEntry(i+1,j)-(325-50))/100,((float)this.height.getEntry(i+1,j)-(325-50))/100,1,transparency);
         gl.glVertex3f((float)(i+1)*5,(float)j*5,(float)this.height.getEntry(i+1,j));
-        gl.glColor3f(((float)this.height.getEntry(i,j+1)-(325-50))/100,((float)this.height.getEntry(i,j+1)-(325-50))/100,1);
+        gl.glColor4f(((float)this.height.getEntry(i,j+1)-(325-50))/100,((float)this.height.getEntry(i,j+1)-(325-50))/100,1,transparency);
         gl.glVertex3f((float)i*5,(float)(j+1)*5,(float)this.height.getEntry(i,j+1));
         gl.glEnd();
+        gl.glEnable(GL2.GL_BLEND);
+
     }
   }
   // for(int i=0;i<this.length-1;i++){

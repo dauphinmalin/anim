@@ -178,7 +178,7 @@ private void RotateY(double y){
   double view0=(norm)*Math.cos(alpha)+(this.view[2]-325)*Math.sin(alpha);
   xprim=xprim.scalarMultiply(view0);
   double view2=-(norm)*Math.sin(alpha)+(this.view[2]-325)*Math.cos(alpha)+325;
-  if(view2<1500 && view2>-200){
+  if(view2<1475 && view2>-200){
     this.view[0]=xprim.getX()+325;
     this.view[1]=xprim.getY()+325;
     this.view[2]=view2;

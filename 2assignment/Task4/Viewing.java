@@ -83,6 +83,18 @@ public class Viewing implements GLEventListener, MouseListener, MouseMotionListe
     gl.glLoadIdentity();
     gl.glClear(GL2.GL_COLOR_BUFFER_BIT | GL2.GL_DEPTH_BUFFER_BIT);
 
+    gl.glBegin(GL2.GL_TRIANGLES);
+    gl.glVertex3f(0,0f,0);
+    gl.glVertex3f(650,0, 0);
+    gl.glVertex3f(0,650, 0);
+    gl.glEnd();
+    gl.glBegin(GL2.GL_TRIANGLES);
+    gl.glVertex3f(650,650,0);
+    gl.glVertex3f(650,0, 0);
+    gl.glVertex3f(0,650, 0);
+
+    gl.glEnd();
+
     //Draw Borders
     gl.glBegin(GL2.GL_LINES);
     gl.glVertex3f(0,0f,0);
@@ -190,7 +202,7 @@ public class Viewing implements GLEventListener, MouseListener, MouseMotionListe
     double view0=(norm)*Math.cos(alpha)+(this.view[2]-325)*Math.sin(alpha);
     xprim=xprim.scalarMultiply(view0);
     double view2=-(norm)*Math.sin(alpha)+(this.view[2]-325)*Math.cos(alpha)+325;
-    if(view2<1500 && view2>-200){
+    if(view2<1475 && view2>-200){
       this.view[0]=xprim.getX()+325;
       this.view[1]=xprim.getY()+325;
       this.view[2]=view2;
