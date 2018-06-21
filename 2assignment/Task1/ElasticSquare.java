@@ -34,7 +34,7 @@ public class ElasticSquare extends PrimitiveObject{
       this.extremeSup[j]=pos[j]+this.side/2;
 
     }
-    this.n=6;
+    this.n=9;
     this.color=new float[(n-1)*(n-1)][3];
     SetColor();
     this.pos0=pos.clone();

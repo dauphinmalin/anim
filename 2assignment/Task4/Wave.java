@@ -119,7 +119,7 @@ public void Draw(GLAutoDrawable drawable,GLU glu,GL2 gl){
 
         gl.glBegin(GL2.GL_TRIANGLES);
         gl.glColor3f(((float)this.height.getEntry(i+1,j+1)-(325-50))/100,((float)this.height.getEntry(i+1,j+1)-(325-50))/100,1);
-        gl.glVertex3f((float)(i+1)*5,(float)(j+1)*5,(float)this.height.getEntry(i,j));
+        gl.glVertex3f((float)(i+1)*5,(float)(j+1)*5,(float)this.height.getEntry(i+1,j+1));
         gl.glColor3f(((float)this.height.getEntry(i+1,j)-(325-50))/100,((float)this.height.getEntry(i+1,j)-(325-50))/100,1);
         gl.glVertex3f((float)(i+1)*5,(float)j*5,(float)this.height.getEntry(i+1,j));
         gl.glColor3f(((float)this.height.getEntry(i,j+1)-(325-50))/100,((float)this.height.getEntry(i,j+1)-(325-50))/100,1);
