@@ -8,7 +8,6 @@ import org.apache.commons.math3.geometry.euclidean.threed.*;
 
 
 public class Wave{
-  private Spheric[] spheres;
   private RealMatrix height;
   private RealMatrix prevheight;
   private RealMatrix nextheight;
@@ -29,11 +28,6 @@ public Wave(int x, int y, double dt, double dx, double v){
   this.dx = dx;
   this.v = v;
   this.init();
-  for(int i=0;i<this.length;i++){
-    for(int j=0;j<this.width;j++){
-      this.spheres[i*this.length+j]
-    }
-  }
 }
 
 

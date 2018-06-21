@@ -11,7 +11,7 @@ public class Square extends PrimitiveObject{
   private double side;
   private double[][] summits;
   private double[] pos0;
-  static private double coefK = 150;
+  static private double coefK = 1000;
   static private double coefB =1;
   static private double coefI;
   private double[] w;
@@ -118,7 +118,7 @@ public class Square extends PrimitiveObject{
     gl.glEnd();
 
     gl.glColor3f(this.color[4][0],this.color[4][1],this.color[4][2]);
-    
+
 
     gl.glBegin(GL2.GL_TRIANGLES);
     gl.glVertex3f((float)this.summits[7][0],(float)this.summits[7][1],(float)this.summits[7][2]);
