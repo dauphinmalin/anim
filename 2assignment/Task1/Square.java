@@ -11,8 +11,8 @@ public class Square extends PrimitiveObject{
   private double side;
   private double[][] summits;
   private double[] pos0;
-  static private double coefK = 10000;
-  static private double coefB =80;
+  static private double coefK = 1000;
+  static private double coefB =1;
   static private double coefI;
   private double[] w;
   private float[][] color;
@@ -38,7 +38,7 @@ public class Square extends PrimitiveObject{
 
 
 
-    this.coefI = 60*this.m*this.side*this.side/6;
+    this.coefI = 30*this.m*this.side*this.side/6;
   }
 
   public void SwapColor(){
@@ -169,7 +169,7 @@ public class Square extends PrimitiveObject{
     calculateSummit();
     borderResponse();
   }
-  private void responseForce(double[] force, double[] point){
+  private void responseForce(double[] force){
     for(int i=0;i<3;i++){
       this.vel[i]+=force[i]*this.dt/m;
     }
@@ -190,8 +190,9 @@ public class Square extends PrimitiveObject{
         }
       }
       if(bool){
-        this.responseForce(f,this.summits[j]);
-        this.rot(this.summits[j],f);
+        this.responseForce(f);
+        double[] r = {this.summits[j][0]-this.pos[0],this.summits[j][1]-this.pos[1],this.summits[j][2]-this.pos[2]};
+        this.rot(r,f);
       }
     }
   }
@@ -332,8 +333,7 @@ public class Square extends PrimitiveObject{
             RealMatrix forcem=new BlockRealMatrix(3,1);
             forcem.setColumn(0,force);
             force=(base.multiply(forcem)).getColumn(0);
-            this.responseForce(force,this.summits[i]);
-            // System.out.println("cllision force: "+force[0]+"  "+force[1]+"  "+force[2]);
+
             double[] possquare = new double[3];
             switch(indicemin){
               case 0: possquare[0]=0;
@@ -361,16 +361,14 @@ public class Square extends PrimitiveObject{
               possquare[2]=this.side;
               break;
             }
-            double[] minusforce = {-force[0],-force[1],-force[2]};
-            square.responseForce(minusforce, possquare);
-
 
             double[] r1= {square.getSummit(i)[0]-square.getX(),square.getSummit(i)[1]-square.getY(),square.getSummit(i)[2]-square.getZ()};
             double[] r2= {square.getSummit(i)[0]-this.pos[0],square.getSummit(i)[1]-this.pos[1],square.getSummit(i)[2]-this.pos[2]};
-            square.rot(possquare,minusforce);
-            // square.responseForce(minusforce);
-            // this.responseForce(force);
-            this.rot(this.summits[i],force);
+            double[] minusforce = {-force[0],-force[1],-force[2]};
+            square.rot(r1,minusforce);
+            square.responseForce(minusforce);
+            this.responseForce(force);
+            this.rot(r2,force);
             bool= true;
           }
         }
@@ -387,11 +385,7 @@ public class Square extends PrimitiveObject{
 
 
   public void rot(double[] r,double[] f){
-    double[] point = r.clone();
-    for(int i=0;i<3;i++){
-      point[i] -= this.pos[i];
-    }
-    Vector3D rv = new Vector3D(point);
+    Vector3D rv = new Vector3D(r);
     Vector3D fv = new Vector3D(f);
     Vector3D crossP = rv.crossProduct(fv);
     crossP = crossP.scalarMultiply(this.dt/this.coefI);
