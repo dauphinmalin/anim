@@ -18,7 +18,7 @@ public class ElasticSquare extends PrimitiveObject{
   RealMatrix Q;
   RealMatrix qu;
   private  int n;
-  private static double beta=0.99;
+  private static double beta=0.95;
   float[][] color;
 
 

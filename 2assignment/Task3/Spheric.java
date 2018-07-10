@@ -55,12 +55,12 @@ public class Spheric extends PrimitiveObject{
     for(int i=0;i<3;i++){
 
       if(this.nextpos[i]>(this.posMAX[i]-this.radius)){
-        this.vel[i]=-(this.nextpos[i]-this.pos[i])/this.dt;
+        this.vel[i]=-0.75*(this.nextpos[i]-this.pos[i])/this.dt;
         this.pos[i]=this.posMAX[i]-this.radius;
         this.extremeSup[i]=this.posMAX[i];
       }
       else if(this.nextpos[i]<this.radius){
-        this.vel[i]=-(this.nextpos[i]-this.pos[i])/this.dt;
+        this.vel[i]=-0.75*(this.nextpos[i]-this.pos[i])/this.dt;
         this.pos[i]=this.radius;
         this.extremeInf[i]=0;
       }

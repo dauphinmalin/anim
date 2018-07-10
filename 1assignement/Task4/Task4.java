@@ -7,7 +7,7 @@ class Task4{
 		//Init for the particle
 
 		Random rand = new Random();
-		int n=10;
+		int n=100;
 		Particle[] particles = new Particle[n];
 		// double m = 1;
 		double dt = 0.01;
